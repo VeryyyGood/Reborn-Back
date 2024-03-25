@@ -66,17 +66,17 @@ jobs:
 
 #추가적 환경변수 -> github action에 등록 완료
 
-  aws.db.password: ${{ secrets.AWS_DB_PASSWORD }}
-  aws.db.url: ${{ secrets.AWS_DB_URL }}
-  aws.db.username: ${{ secrets.AWS_DB_USERNAME }}
-
-  local.db.password: ${{ secrets.LOCAL_DB_PASSWORD }}
-  local.db.url: ${{ secrets.LOCAL_DB_URL }}
-  local.db.username: ${{ secrets.LOCAL_DB_USERNAME }}
-
-  jwt.accessExpirationTime : ${{ secrets.JWT_EXPIRATION }}
-  jwt.refreshExpirationTime : ${{ secrets.JWT_REFRESH_EXPIRATION }}
-  jwt.secret: ${{ secrets.JWT_SECRET }}
+#  aws.db.password: ${{ secrets.AWS_DB_PASSWORD }}
+#  aws.db.url: ${{ secrets.AWS_DB_URL }}
+#  aws.db.username: ${{ secrets.AWS_DB_USERNAME }}
+#
+#  local.db.password: ${{ secrets.LOCAL_DB_PASSWORD }}
+#  local.db.url: ${{ secrets.LOCAL_DB_URL }}
+#  local.db.username: ${{ secrets.LOCAL_DB_USERNAME }}
+#
+#  jwt.accessExpirationTime : ${{ secrets.JWT_EXPIRATION }}
+#  jwt.refreshExpirationTime : ${{ secrets.JWT_REFRESH_EXPIRATION }}
+#  jwt.secret: ${{ secrets.JWT_SECRET }}
 
   #${{ secrets.CLIENT_ID }}
   #${{ secrets.CLIENT_SECRET }}
