@@ -1,12 +1,10 @@
 package reborn.backend.board.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import reborn.backend.global.entity.BaseEntity;
 import reborn.backend.user.domain.User;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

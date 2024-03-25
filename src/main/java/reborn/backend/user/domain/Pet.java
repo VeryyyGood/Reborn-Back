@@ -1,9 +1,7 @@
 package reborn.backend.user.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import reborn.backend.global.entity.BaseEntity;
 
 import java.time.LocalDateTime;
 
@@ -23,23 +21,20 @@ public class Pet{
     @JoinColumn(name = "user_id")
     private User user;
 
-    @NotNull
     @Column(nullable = false)
     private String petname;
 
-    @NotNull
     @Column(nullable = false)
     private LocalDateTime anniversary;
 
-    @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PetType petType;
 
-    @NotNull
     @Column(nullable = false)
     private String detailPetType;
 
-    @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PetColor petColor;
 
