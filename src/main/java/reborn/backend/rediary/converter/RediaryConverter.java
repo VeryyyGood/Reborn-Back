@@ -21,7 +21,7 @@ public class RediaryConverter {
 
     public static SimpleRediaryDto toSimpleRediaryDto(Rediary rediary) {
         return SimpleRediaryDto.builder()
-                .id(rediary.getId())
+                .rediaryId(rediary.getRediaryId())
                 .rediaryTitle(rediary.getRediaryTitle())
                 .rediaryContents(rediary.getRediaryContents())
                 .rediaryCreatedAt(rediary.getCreatedAt())
@@ -31,7 +31,7 @@ public class RediaryConverter {
 
     public static DetailRediaryDto toDetailRediaryDto(Rediary rediary) {
         return DetailRediaryDto.builder()
-                .id(rediary.getId())
+                .rediaryId(rediary.getRediaryId())
                 .rediaryTitle(rediary.getRediaryTitle())
                 .rediaryContents(rediary.getRediaryContents())
                 .rediaryCreatedAt(rediary.getCreatedAt())
