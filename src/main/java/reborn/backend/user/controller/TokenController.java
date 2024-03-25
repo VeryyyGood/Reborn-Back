@@ -15,7 +15,7 @@ import java.util.Map;
 public class TokenController {
 
     @GetMapping("/token/token")
-    public ResponseEntity<Map<String, String>> tokenPagge(
+    public ResponseEntity<Map<String, String>> tokenPage(
             @RequestParam(name = "access-token") String accessToken,
             @RequestParam(name = "refresh-token") String refreshToken
     ) {
