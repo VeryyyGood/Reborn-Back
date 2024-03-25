@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "pet")
 public class Pet{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,15 +26,15 @@ public class Pet{
     @Column(nullable = false)
     private LocalDateTime anniversary;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PetType petType;
 
     @Column(nullable = false)
     private String detailPetType;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PetColor petColor;
 
     @Column
