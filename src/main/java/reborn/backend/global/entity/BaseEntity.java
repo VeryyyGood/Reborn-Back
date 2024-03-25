@@ -17,12 +17,10 @@ import java.time.LocalDateTime;
 @Getter
 public abstract class BaseEntity {
 
-    //@CreatedDate
     @CreationTimestamp
     @Column(updatable = false) // 수정시 관여x
     private LocalDateTime createdAt;
 
-    //@LastModifiedDate
     @UpdateTimestamp
     @Column(insertable = false) // 삽입시 관여x
     private LocalDateTime updatedAt;
