@@ -1,6 +1,7 @@
 package reborn.backend.rediary.converter;
 
 import lombok.NoArgsConstructor;
+import reborn.backend.rediary.domain.EmotionStatus;
 import reborn.backend.rediary.domain.Rediary;
 import reborn.backend.rediary.dto.RediaryRequestDto.RediaryReqDto;
 import reborn.backend.rediary.dto.RediaryResponseDto.DetailRediaryDto;
@@ -14,8 +15,7 @@ public class RediaryConverter {
         return Rediary.builder()
                 .rediaryTitle(reqDto.getRediaryTitle())
                 .rediaryContents(reqDto.getRediaryContents())
-                .rediaryCreatedAt(reqDto.getRediaryCreatedAt())
-                .emotionStatus(reqDto.getEmotionStatus())
+                .emotionStatus(EmotionStatus.valueOf(reqDto.getEmotionStatus()))
                 .build();
     }
 
@@ -25,7 +25,7 @@ public class RediaryConverter {
                 .rediaryTitle(rediary.getRediaryTitle())
                 .rediaryContents(rediary.getRediaryContents())
                 .rediaryCreatedAt(rediary.getCreatedAt())
-                .emotionStatus(rediary.getEmotionStatus())
+                .emotionStatus(String.valueOf(rediary.getEmotionStatus()))
                 .build();
     }
 
@@ -35,7 +35,7 @@ public class RediaryConverter {
                 .rediaryTitle(rediary.getRediaryTitle())
                 .rediaryContents(rediary.getRediaryContents())
                 .rediaryCreatedAt(rediary.getCreatedAt())
-                .emotionStatus(rediary.getEmotionStatus())
+                .emotionStatus(String.valueOf(rediary.getEmotionStatus()))
                 .build();
     }
 }

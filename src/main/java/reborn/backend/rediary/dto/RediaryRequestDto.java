@@ -3,7 +3,6 @@ package reborn.backend.rediary.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import reborn.backend.rediary.domain.Rediary.EmotionStatus;
 
 import java.time.LocalDateTime;
 
@@ -31,7 +30,7 @@ public class RediaryRequestDto {
         private LocalDateTime rediaryCreatedAt;
 
         @Schema(description = "감정 상태(SUNNY, CLOUDY, RAINY)")
-        private EmotionStatus emotionStatus; // 감정 상태를 추가합니다.
+        private String emotionStatus; // 감정 상태를 추가합니다.
     }
 
     @Schema(description = "DetailRediaryReqDto")
@@ -41,7 +40,7 @@ public class RediaryRequestDto {
     @NoArgsConstructor
     public static class DetailRediaryReqDto {
         @Schema(description = "감정 일기 id")
-        private Long id;
+        private Long rediaryId;
 
         @Schema(description = "감정 일기 제목")
         private String rediaryTitle;
@@ -57,7 +56,7 @@ public class RediaryRequestDto {
         private int photoAttached;
 
         @Schema(description = "감정 상태(SUNNY, CLOUDY, RAINY)")
-        private EmotionStatus emotionStatus; // 감정 상태를 추가합니다.
+        private String emotionStatus; // 감정 상태를 추가합니다.
     }
 
 }

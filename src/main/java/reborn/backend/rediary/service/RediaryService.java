@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.rediary.converter.RediaryConverter;
+import reborn.backend.rediary.domain.EmotionStatus;
 import reborn.backend.rediary.domain.Rediary;
 import reborn.backend.rediary.dto.RediaryRequestDto.DetailRediaryReqDto;
 import reborn.backend.rediary.dto.RediaryRequestDto.RediaryReqDto;
@@ -35,8 +36,7 @@ public class RediaryService {
 
         rediary.setRediaryTitle(detailRediaryReqDto.getRediaryTitle());
         rediary.setRediaryContents(detailRediaryReqDto.getRediaryContents());
-        rediary.setRediaryCreatedAt(detailRediaryReqDto.getRediaryCreatedAt());
-        rediary.setEmotionStatus(detailRediaryReqDto.getEmotionStatus());
+        rediary.setEmotionStatus(EmotionStatus.valueOf(detailRediaryReqDto.getEmotionStatus()));
 
         rediaryRepository.save(rediary);
 

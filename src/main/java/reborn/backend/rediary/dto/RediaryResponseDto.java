@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import reborn.backend.rediary.domain.Rediary;
-import reborn.backend.rediary.domain.Rediary.EmotionStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +19,7 @@ public class RediaryResponseDto {
     @AllArgsConstructor
     public static class SimpleRediaryDto{
         @Schema(description = "감정 일기 id")
-        private Long id;
+        private Long rediaryId;
 
         @Schema(description = "감정 일기 제목")
         private String rediaryTitle;
@@ -37,7 +35,7 @@ public class RediaryResponseDto {
         private LocalDateTime rediaryCreatedAt;
 
         @Schema(description = "감정 상태(SUNNY, CLOUDY, RAINY)")
-        private EmotionStatus emotionStatus; // 감정 상태를 추가합니다.
+        private String emotionStatus; // 감정 상태를 추가합니다.
     }
 
     @Schema(description = "RediaryListDto")
@@ -57,7 +55,7 @@ public class RediaryResponseDto {
     @AllArgsConstructor
     public static class DetailRediaryDto{
         @Schema(description = "감정 일기 id")
-        private Long id;
+        private Long rediaryId;
 
         @Schema(description = "감정 일기 제목")
         private String rediaryTitle;
@@ -73,6 +71,6 @@ public class RediaryResponseDto {
         private LocalDateTime rediaryCreatedAt;
 
         @Schema(description = "감정 상태(SUNNY, CLOUDY, RAINY)")
-        private EmotionStatus emotionStatus; // 감정 상태를 추가합니다.
+        private String emotionStatus; // 감정 상태를 추가합니다.
     }
 }
