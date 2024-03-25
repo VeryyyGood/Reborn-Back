@@ -46,7 +46,7 @@ public class RediaryController {
     })
     @GetMapping("/list")
     public ApiResponse<List<DetailRediaryDto>> getAllRediary() {
-        List<Rediary> rediaries = rediaryService.findAll();
+        List<Rediary> rediaries = rediaryService.findAllSortedByCreatedAt();
         List<DetailRediaryDto> rediaryDtos = rediaries.stream()
                 .map(RediaryConverter::toDetailRediaryDto)
                 .collect(Collectors.toList());

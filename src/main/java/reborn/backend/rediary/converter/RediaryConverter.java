@@ -15,6 +15,7 @@ public class RediaryConverter {
                 .rediaryTitle(reqDto.getRediaryTitle())
                 .rediaryContents(reqDto.getRediaryContents())
                 .rediaryCreatedAt(reqDto.getRediaryCreatedAt())
+                .emotionStatus(reqDto.getEmotionStatus())
                 .build();
     }
 
@@ -24,6 +25,7 @@ public class RediaryConverter {
                 .rediaryTitle(rediary.getRediaryTitle())
                 .rediaryContents(rediary.getRediaryContents())
                 .rediaryCreatedAt(rediary.getCreatedAt())
+                .emotionStatus(rediary.getEmotionStatus())
                 .build();
     }
 
@@ -33,6 +35,7 @@ public class RediaryConverter {
                 .rediaryTitle(rediary.getRediaryTitle())
                 .rediaryContents(rediary.getRediaryContents())
                 .rediaryCreatedAt(rediary.getCreatedAt())
+                .emotionStatus(rediary.getEmotionStatus())
                 .build();
     }
 }

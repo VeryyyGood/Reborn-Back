@@ -44,7 +44,10 @@ public class RediaryService {
     }
 
     @Transactional
-    public List<Rediary> findAll() { return rediaryRepository.findAll(); }
+    public List<Rediary> findAllSortedByCreatedAt() {
+        return rediaryRepository.findAllByOrderByCreatedAtDesc();
+    }
+
 
     @Transactional
     public Rediary findById(Long id){
