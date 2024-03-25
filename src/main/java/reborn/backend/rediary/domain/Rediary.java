@@ -16,10 +16,13 @@ public class Rediary extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rediaryId;
 
+    @Column
     private String rediaryTitle;
 
+    @Column
     private String rediaryContents;
 
     @Enumerated(EnumType.STRING)
+    @Column
     private EmotionStatus emotionStatus;
 }
