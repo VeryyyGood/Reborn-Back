@@ -86,13 +86,13 @@ public class RediaryController {
     })
      */
     @PostMapping("/update/{id}")
-    public ApiResponse<DetailRediaryReqDto> update(
+    public ApiResponse<DetailRediaryDto> update(
             @PathVariable(name = "id") Long id,
             @RequestBody DetailRediaryReqDto detailRediaryReqDto
     ){
+        Rediary rediary = rediaryService.updateRediary(id, detailRediaryReqDto);
 
-        rediaryService.updateRediary(id, detailRediaryReqDto);
-        return ApiResponse.onSuccess(SuccessCode.REDIARY_UPDATED, detailRediaryReqDto);
+        return ApiResponse.onSuccess(SuccessCode.REDIARY_UPDATED, RediaryConverter.toDetailRediaryDto(rediary));
     }
 
 

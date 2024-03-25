@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@NoArgsConstructor
 public class RediaryResponseDto {
 
     @Schema(description = "SimpleRediaryDto")
@@ -26,9 +27,6 @@ public class RediaryResponseDto {
 
         @Schema(description = "감정 일기 내용")
         private String rediaryContents;
-
-        @Schema(description = "감정 일기 사진 첨부 여부(첨부1, 미첨부 0)")
-        private int photoAttached;
 
         @Schema(description = "감정 일기 작성일", example = "2024-03-21", pattern = "yyyy-MM-dd")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -62,9 +60,6 @@ public class RediaryResponseDto {
 
         @Schema(description = "감정 일기 내용")
         private String rediaryContents;
-
-        @Schema(description = "감정 일기 사진 첨부 여부(첨부1, 미첨부 0)")
-        private int photoAttached;
 
         @Schema(description = "감정 일기 작성일", example = "2024-03-21", pattern = "yyyy-MM-dd")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
