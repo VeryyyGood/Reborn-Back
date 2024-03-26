@@ -101,9 +101,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // 목적지 URL 설정 - 토큰 던짐
         String targetUrl = String.format(
-                "http://reborn.persi0815.site:8080/oauth/callback?access-token=%s&refresh-token=%s", jwt.getAccessToken(), jwt.getRefreshToken()
+                "http://reborn.persi0815.site:8080/token/token?access-token=%s&refresh-token=%s", jwt.getAccessToken(), jwt.getRefreshToken()
 //                "http://프론트 배포 주소:8080/oauth/callback?access-token=%s&refresh-token=%s", jwt.getAccessToken(), jwt.getRefreshToken()
-//                "http://localhost:8080/token/token?access-token=%s&refresh-token=%s", jwt.getAccessToken(), jwt.getRefreshToken()
+//                http://localhost:8080/token/token?access-token=%s&refresh-token=%s, jwt.getAccessToken(), jwt.getRefreshToken()
         );
         // 실제 Redirect 응답 생성
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
