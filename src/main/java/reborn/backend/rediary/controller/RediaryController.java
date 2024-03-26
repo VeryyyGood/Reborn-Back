@@ -110,5 +110,4 @@ public class RediaryController {
 
         return ApiResponse.onSuccess(SuccessCode.REDIARY_DELETED, 1);
     }
-
 }

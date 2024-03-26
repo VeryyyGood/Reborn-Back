@@ -19,8 +19,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RediaryService {
-    private final RediaryRepository rediaryRepository;
 
+    private final RediaryRepository rediaryRepository;
     @Transactional
     public Rediary createRediary(RediaryReqDto rediaryReqDto) {
         Rediary rediary = RediaryConverter.toRediary(rediaryReqDto);
@@ -61,5 +61,4 @@ public class RediaryService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REDIARY_NOT_FOUND));
         rediaryRepository.delete(rediary);
     }
-
 }
