@@ -12,7 +12,9 @@ import reborn.backend.rediary.domain.Rediary;
 import reborn.backend.rediary.dto.RediaryRequestDto.DetailRediaryReqDto;
 import reborn.backend.rediary.dto.RediaryRequestDto.RediaryReqDto;
 import reborn.backend.rediary.repository.RediaryRepository;
+import reborn.backend.user.domain.User;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -21,9 +23,14 @@ import java.util.List;
 public class RediaryService {
 
     private final RediaryRepository rediaryRepository;
+
     @Transactional
-    public Rediary createRediary(RediaryReqDto rediaryReqDto) {
-        Rediary rediary = RediaryConverter.toRediary(rediaryReqDto);
+    public Rediary createRediary(RediaryReqDto rediaryReqDto, User user) {
+        Rediary rediary = RediaryConverter.toRediary(rediaryReqDto, user);
+
+        // 생성일 필드를 현재 날짜로 설정
+        rediary.setRediaryCreatedAt(LocalDate.now());
+
         rediaryRepository.save(rediary);
 
         return rediary;
@@ -44,8 +51,8 @@ public class RediaryService {
     }
 
     @Transactional
-    public List<Rediary> findAllSortedByCreatedAt() {
-        return rediaryRepository.findAllByOrderByCreatedAtDesc();
+    public List<Rediary> findAllByUserSortedByCreatedAt(User user) {
+        return rediaryRepository.findAllByRediaryWriterOrderByCreatedAtDesc(user.getUsername());
     }
 
 
@@ -60,5 +67,13 @@ public class RediaryService {
         Rediary rediary = rediaryRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REDIARY_NOT_FOUND));
         rediaryRepository.delete(rediary);
+    }
+
+    @Transactional
+    public List<Rediary> findAllByToday(Long id) {
+        Rediary rediary = rediaryRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REDIARY_NOT_FOUND));
+
+        return rediaryRepository.findAllByRediaryCreatedAt(rediary.getRediaryCreatedAt());
     }
 }

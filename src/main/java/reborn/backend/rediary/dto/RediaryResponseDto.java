@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
@@ -22,6 +22,9 @@ public class RediaryResponseDto {
         @Schema(description = "감정 일기 id")
         private Long rediaryId;
 
+        @Schema(description = "감정 일기 작성자")
+        private String rediaryWriter;
+
         @Schema(description = "감정 일기 제목")
         private String rediaryTitle;
 
@@ -30,7 +33,7 @@ public class RediaryResponseDto {
 
         @Schema(description = "감정 일기 작성일", example = "2024-03-21", pattern = "yyyy-MM-dd")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDateTime rediaryCreatedAt;
+        private LocalDate rediaryCreatedAt;
 
         @Schema(description = "감정 상태(SUNNY, CLOUDY, RAINY)")
         private String emotionStatus; // 감정 상태를 추가합니다.
@@ -55,6 +58,9 @@ public class RediaryResponseDto {
         @Schema(description = "감정 일기 id")
         private Long rediaryId;
 
+        @Schema(description = "감정 일기 작성자")
+        private String rediaryWriter;
+
         @Schema(description = "감정 일기 제목")
         private String rediaryTitle;
 
@@ -63,7 +69,7 @@ public class RediaryResponseDto {
 
         @Schema(description = "감정 일기 작성일", example = "2024-03-21", pattern = "yyyy-MM-dd")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDateTime rediaryCreatedAt;
+        private LocalDate rediaryCreatedAt;
 
         @Schema(description = "감정 상태(SUNNY, CLOUDY, RAINY)")
         private String emotionStatus; // 감정 상태를 추가합니다.

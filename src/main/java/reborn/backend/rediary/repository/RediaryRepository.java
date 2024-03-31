@@ -5,10 +5,13 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import reborn.backend.rediary.domain.Rediary;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface RediaryRepository extends JpaRepository<Rediary, Long>, JpaSpecificationExecutor<Rediary> {
 
-    List<Rediary> findAllByOrderByCreatedAtDesc();
+    List<Rediary> findAllByRediaryWriterOrderByCreatedAtDesc(String userName);
+
+    List<Rediary> findAllByRediaryCreatedAt(LocalDate date);
 }
