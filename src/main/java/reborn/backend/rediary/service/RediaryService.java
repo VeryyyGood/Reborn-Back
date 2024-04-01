@@ -16,6 +16,7 @@ import reborn.backend.user.domain.User;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -41,12 +42,16 @@ public class RediaryService {
         Rediary rediary = rediaryRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REDIARY_NOT_FOUND));
 
-        rediary.setRediaryTitle(detailRediaryReqDto.getRediaryTitle());
-        rediary.setRediaryContents(detailRediaryReqDto.getRediaryContents());
-        rediary.setEmotionStatus(EmotionStatus.valueOf(detailRediaryReqDto.getEmotionStatus()));
+        if( Objects.equals(rediary.getRediaryCreatedAt(), LocalDate.now()) )
+        {
+            rediary.setRediaryTitle(detailRediaryReqDto.getRediaryTitle());
+            rediary.setRediaryContents(detailRediaryReqDto.getRediaryContents());
+            rediary.setEmotionStatus(EmotionStatus.valueOf(detailRediaryReqDto.getEmotionStatus()));
 
-        rediaryRepository.save(rediary);
+            rediaryRepository.save(rediary);
 
+            return rediary;
+        }
         return rediary;
     }
 
@@ -75,5 +80,17 @@ public class RediaryService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REDIARY_NOT_FOUND));
 
         return rediaryRepository.findAllByRediaryCreatedAt(rediary.getRediaryCreatedAt());
+    }
+
+    @Transactional
+    public Boolean findByToday(User user) {
+        List<Rediary> todayRediaries = rediaryRepository.findAllByRediaryWriterOrderByCreatedAtDesc(user.getUsername());
+        LocalDate today = LocalDate.now();
+
+        long count = todayRediaries.stream()
+                .filter(rediary -> rediary.getRediaryCreatedAt().isEqual(today))
+                .count();
+
+        return count == 0;
     }
 }
