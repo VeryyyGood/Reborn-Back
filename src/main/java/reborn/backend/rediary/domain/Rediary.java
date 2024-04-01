@@ -21,16 +21,16 @@ public class Rediary extends BaseEntity {
     @Column(length = 20, nullable = false)
     private String rediaryWriter;
 
-    @Column
+    @Column(nullable = false)
     private String rediaryTitle;
 
-    @Column
+    @Column(nullable = false)
     private LocalDate rediaryCreatedAt;
 
-    @Column
+    @Column(nullable = false)
     private String rediaryContents;
 
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(nullable = false)
     private EmotionStatus emotionStatus;
 }
