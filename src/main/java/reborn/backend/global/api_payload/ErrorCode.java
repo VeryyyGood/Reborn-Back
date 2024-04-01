@@ -22,7 +22,7 @@ public enum ErrorCode implements BaseCode {
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "JWT_4011", "토큰 유효기간이 만료되었습니다."),
 
     // Rediary
-    REDIARY_NOT_FOUND(HttpStatus.NOT_FOUND, "REDIARY_4041", "존재하지 않는 감정 일기입니다"),
+    REDIARY_NOT_FOUND(HttpStatus.NOT_FOUND, "REDIARY_4041", "존재하지 않는 감정 일기입니다."),
 
     ;
 
