@@ -1,4 +1,4 @@
-package reborn.backend.user.domain;
+package reborn.backend.pet.domain;
 
 public enum PetColor {
     BLACK,

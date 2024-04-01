@@ -1,9 +1,10 @@
-package reborn.backend.user.domain;
+package reborn.backend.pet.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import reborn.backend.user.domain.User;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -21,10 +22,10 @@ public class Pet{
     private User user;
 
     @Column(nullable = false)
-    private String petname;
+    private String petName;
 
     @Column(nullable = false)
-    private LocalDateTime anniversary;
+    private LocalDate anniversary;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

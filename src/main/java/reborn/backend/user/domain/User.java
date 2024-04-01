@@ -5,6 +5,7 @@ import lombok.*;
 import reborn.backend.board.domain.Board;
 import reborn.backend.board.domain.Comment;
 import reborn.backend.global.entity.BaseEntity;
+import reborn.backend.pet.domain.Pet;
 
 import java.util.ArrayList;
 import java.util.List;
