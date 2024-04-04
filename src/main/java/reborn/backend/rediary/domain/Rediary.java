@@ -32,5 +32,9 @@ public class Rediary extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private EmotionStatus emotionStatus;
+    private PickEmotion pickEmotion;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ResultEmotion resultEmotion;
 }

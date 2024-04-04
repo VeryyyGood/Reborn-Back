@@ -1,8 +1,9 @@
 package reborn.backend.rediary.converter;
 
 import lombok.NoArgsConstructor;
-import reborn.backend.rediary.domain.EmotionStatus;
+import reborn.backend.rediary.domain.PickEmotion;
 import reborn.backend.rediary.domain.Rediary;
+import reborn.backend.rediary.domain.ResultEmotion;
 import reborn.backend.rediary.dto.RediaryRequestDto.RediaryReqDto;
 import reborn.backend.rediary.dto.RediaryResponseDto.DetailRediaryDto;
 import reborn.backend.user.domain.User;
@@ -15,7 +16,8 @@ public class RediaryConverter {
                 .rediaryWriter(user.getUsername()) // 작성자
                 .rediaryTitle(rediary.getRediaryTitle())
                 .rediaryContents(rediary.getRediaryContents())
-                .emotionStatus(EmotionStatus.valueOf(rediary.getEmotionStatus()))
+                .pickEmotion(PickEmotion.valueOf(rediary.getPickEmotion()))
+                .resultEmotion(ResultEmotion.valueOf(rediary.getResultEmotion()))
                 .build();
     }
 
@@ -25,7 +27,8 @@ public class RediaryConverter {
                 .rediaryWriter(rediary.getRediaryWriter())
                 .rediaryTitle(rediary.getRediaryTitle())
                 .rediaryContents(rediary.getRediaryContents())
-                .emotionStatus(String.valueOf(rediary.getEmotionStatus()))
+                .pickEmotion(String.valueOf(rediary.getPickEmotion()))
+                .resultEmotion(String.valueOf(rediary.getResultEmotion()))
                 .rediaryCreatedAt(rediary.getRediaryCreatedAt())
                 .build();
     }

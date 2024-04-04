@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.rediary.converter.RediaryConverter;
-import reborn.backend.rediary.domain.EmotionStatus;
+import reborn.backend.rediary.domain.PickEmotion;
 import reborn.backend.rediary.domain.Rediary;
+import reborn.backend.rediary.domain.ResultEmotion;
 import reborn.backend.rediary.dto.RediaryRequestDto.DetailRediaryReqDto;
 import reborn.backend.rediary.dto.RediaryRequestDto.RediaryReqDto;
 import reborn.backend.rediary.repository.RediaryRepository;
@@ -46,7 +47,8 @@ public class RediaryService {
         {
             rediary.setRediaryTitle(detailRediaryReqDto.getRediaryTitle());
             rediary.setRediaryContents(detailRediaryReqDto.getRediaryContents());
-            rediary.setEmotionStatus(EmotionStatus.valueOf(detailRediaryReqDto.getEmotionStatus()));
+            rediary.setPickEmotion(PickEmotion.valueOf(detailRediaryReqDto.getPickEmotion()));
+            rediary.setResultEmotion(ResultEmotion.valueOf(detailRediaryReqDto.getResultEmotion()));
 
             rediaryRepository.save(rediary);
 
@@ -59,7 +61,6 @@ public class RediaryService {
     public List<Rediary> findAllByUserSortedByCreatedAt(User user) {
         return rediaryRepository.findAllByRediaryWriterOrderByCreatedAtDesc(user.getUsername());
     }
-
 
     @Transactional
     public Rediary findById(Long id){
@@ -75,11 +76,27 @@ public class RediaryService {
     }
 
     @Transactional
-    public List<Rediary> findAllByToday(Long id) {
+    public List<Rediary> findAllByCreatedAt(Long id) {
         Rediary rediary = rediaryRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REDIARY_NOT_FOUND));
 
         return rediaryRepository.findAllByRediaryCreatedAt(rediary.getRediaryCreatedAt());
+    }
+
+    @Transactional
+    public Double calculateEmotionPercentage(Long id) {
+        Rediary rediary = rediaryRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REDIARY_NOT_FOUND));
+
+        List<Rediary> allRediariesByCreatedAt = findAllByCreatedAt(id);
+
+        long countSelectedEmotion = allRediariesByCreatedAt.stream()
+                .filter(r -> r.getResultEmotion() == rediary.getResultEmotion())
+                .count();
+
+        long totalTodayRediaries = allRediariesByCreatedAt.size();
+
+        return (double) countSelectedEmotion / totalTodayRediaries * 100.0;
     }
 
     @Transactional

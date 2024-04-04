@@ -45,7 +45,23 @@ public class RediaryResponseDto {
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate rediaryCreatedAt;
 
-        @Schema(description = "감정 상태(SUNNY, CLOUDY, RAINY)")
-        private String emotionStatus; // 감정 상태를 추가합니다.
+        @Schema(description = "선택한 감정 상태(SUNNY, CLOUDY, RAINY)")
+        private String pickEmotion; // 감정 상태를 추가합니다.
+
+        @Schema(description = "결과로 나온 감정 상태(RED, YELLOW, BLUE)")
+        private String resultEmotion;
+    }
+
+    @Schema(description = "EmotionPercentageRediaryDto")
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class EmotionPercentageRediaryDto{
+        @Schema(description = "작업 성공 여부")
+        private boolean success;
+
+        @Schema(description = "선택한 감정의 오늘 중 비율")
+        private double emotionPercentage;
     }
 }

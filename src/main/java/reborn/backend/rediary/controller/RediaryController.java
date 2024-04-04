@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import reborn.backend.global.api_payload.ApiResponse;
 import reborn.backend.global.api_payload.SuccessCode;
 import reborn.backend.rediary.converter.RediaryConverter;
-import reborn.backend.rediary.domain.EmotionStatus;
 import reborn.backend.rediary.domain.Rediary;
 import reborn.backend.rediary.dto.RediaryRequestDto.DetailRediaryReqDto;
 import reborn.backend.rediary.dto.RediaryRequestDto.RediaryReqDto;
@@ -53,15 +52,16 @@ public class RediaryController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REDIARY_2011", description = "감정 일기 생성이 완료되었습니다.")
     })
     @PostMapping("/create")
-    public ApiResponse<Boolean> create(
+    public ApiResponse<Double> create(
             @RequestBody RediaryReqDto rediaryReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        // writer가 username으로 들어감
-        rediaryService.createRediary(rediaryReqDto, user);
+        Rediary rediary = rediaryService.createRediary(rediaryReqDto, user);
 
-        return ApiResponse.onSuccess(SuccessCode.REDIARY_CREATED, true);
+        double emotionPercentage = rediaryService.calculateEmotionPercentage(rediary.getRediaryId());
+
+        return ApiResponse.onSuccess(SuccessCode.REDIARY_CREATED, emotionPercentage);
     }
 
     // 모든 rediary 가져오기
@@ -107,16 +107,19 @@ public class RediaryController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REDIARY_2003", description = "감정 일기 수정이 완료되었습니다.")
     })
     @PostMapping("/update/{id}")
-    public ApiResponse<Boolean> update(
+    public ApiResponse<Double> update(
             @PathVariable(name = "id") Long id,
             @RequestBody DetailRediaryReqDto detailRediaryReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
 
-        rediaryService.updateRediary(id, detailRediaryReqDto);
+        Rediary rediary = rediaryService.updateRediary(id, detailRediaryReqDto);
 
-        return ApiResponse.onSuccess(SuccessCode.REDIARY_UPDATED, true);
+        double emotionPercentage = rediaryService.calculateEmotionPercentage(rediary.getRediaryId());
+
+
+        return ApiResponse.onSuccess(SuccessCode.REDIARY_UPDATED, emotionPercentage);
     }
 
     // rediary 삭제하기
@@ -134,32 +137,5 @@ public class RediaryController {
         rediaryService.deleteRediary(id);
 
         return ApiResponse.onSuccess(SuccessCode.REDIARY_DELETED, true);
-    }
-
-    // 감정 퍼센티지 메서드
-    @Operation(summary = "감정 퍼센티지 메서드", description = "감정 퍼센티지를 가져오는 메서드입니다.")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REDIARY_2005", description = "감정 퍼센티지 조회가 완료되었습니다.")
-    })
-    @GetMapping("/emotionPercentage/{id}")
-    public ApiResponse<Double> getEmotionStatusPercentage(
-            @PathVariable(name = "id") Long id,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
-    ) {
-        User user = userService.findUserByUserName(customUserDetails.getUsername());
-
-        Rediary rediary = rediaryService.findById(id);
-
-        EmotionStatus emotionStatus = rediary.getEmotionStatus();
-
-        List<Rediary> allTodayRediaries = rediaryService.findAllByToday(id);
-
-        long countSelectedEmotion = allTodayRediaries.stream()
-                .filter(r -> r.getEmotionStatus() == emotionStatus)
-                .count();
-
-        long totalTodayRediaries = allTodayRediaries.size();
-
-        return ApiResponse.onSuccess(SuccessCode.REDIARY_EMOTION_PERCENTAGE,(double) countSelectedEmotion / totalTodayRediaries * 100.0);
     }
 }
