@@ -19,8 +19,11 @@ public class RediaryRequestDto {
         @Schema(description = "감정 일기 내용")
         private String rediaryContents;
 
-        @Schema(description = "감정 상태(SUNNY, CLOUDY, RAINY)")
-        private String emotionStatus; // 감정 상태를 추가합니다.
+        @Schema(description = "선택한 감정 상태(SUNNY, CLOUDY, RAINY)")
+        private String pickEmotion; // 감정 상태를 추가합니다.
+
+        @Schema(description = "결과로 나온 감정 상태(RED, YELLOW, BLUE)")
+        private String resultEmotion;
     }
 
     @Schema(description = "DetailRediaryReqDto")
@@ -38,8 +41,11 @@ public class RediaryRequestDto {
         @Schema(description = "감정 일기 내용")
         private String rediaryContents;
 
-        @Schema(description = "감정 상태(SUNNY, CLOUDY, RAINY)")
-        private String emotionStatus; // 감정 상태를 추가합니다.
+        @Schema(description = "선택한 감정 상태(SUNNY, CLOUDY, RAINY)")
+        private String pickEmotion; // 감정 상태를 추가합니다.
+
+        @Schema(description = "결과로 나온 감정 상태(RED, YELLOW, BLUE)")
+        private String resultEmotion;
     }
 
 }

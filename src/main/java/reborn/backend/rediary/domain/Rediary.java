@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import reborn.backend.global.entity.BaseEntity;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
@@ -16,13 +18,23 @@ public class Rediary extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rediaryId;
 
-    @Column
+    @Column(length = 20, nullable = false)
+    private String rediaryWriter;
+
+    @Column(nullable = false)
     private String rediaryTitle;
 
-    @Column
+    @Column(nullable = false)
+    private LocalDate rediaryCreatedAt;
+
+    @Column(nullable = false)
     private String rediaryContents;
 
     @Enumerated(EnumType.STRING)
-    @Column
-    private EmotionStatus emotionStatus;
+    @Column(nullable = false)
+    private PickEmotion pickEmotion;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ResultEmotion resultEmotion;
 }

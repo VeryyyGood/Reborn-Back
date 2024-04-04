@@ -1,6 +1,6 @@
 package reborn.backend.rediary.domain;
 
-public enum EmotionStatus {
+public enum PickEmotion {
     SUNNY,
     CLOUDY,
     RAINY

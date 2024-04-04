@@ -14,6 +14,9 @@ public enum ErrorCode implements BaseCode {
     // User
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_4041", "존재하지 않는 회원입니다."),
 
+    // Pet
+    PET_NOT_FOUND(HttpStatus.NOT_FOUND, "PET_4041", "존재하지 않는 반려동물입니다."),
+
     // Jwt
     WRONG_REFRESH_TOKEN(HttpStatus.NOT_FOUND, "JWT_4041", "일치하는 리프레시 토큰이 없습니다."),
     IP_NOT_MATCHED(HttpStatus.FORBIDDEN, "JWT_4042", "리프레시 토큰의 IP주소가 일치하지 않습니다."),
