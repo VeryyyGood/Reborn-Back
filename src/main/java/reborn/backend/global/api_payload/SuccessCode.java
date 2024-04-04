@@ -17,12 +17,17 @@ public enum SuccessCode implements BaseCode {
     USER_REISSUE_SUCCESS(HttpStatus.OK, "USER_2002", "토큰 재발급이 완료되었습니다."),
     USER_DELETE_SUCCESS(HttpStatus.OK, "USER_2003", "회원탈퇴가 완료되었습니다."),
 
+    // Pet
+    PET_CREATED(HttpStatus.CREATED, "PET_2011", "반려동물 정보 입력이 완료되었습니다."),
+    PET_LIST_VIEW_SUCCESS(HttpStatus.OK, "PET_2001", "반려동물 정보 목록 조회가 완료되었습니다."),
+    PET_DETAIL_VIEW_SUCCESS(HttpStatus.OK, "PET_2002", "반려동물 정보 조회가 완료되었습니다."),
+    PET_UPDATED(HttpStatus.OK, "PET_2003", "반려동물 정보 수정이 완료되었습니다."),
+
     // Board
     BOARD_CREATED(HttpStatus.CREATED, "BOARD_2011", "게시판 생성이 완료되었습니다."),
     BOARD_DETAIL_VIEW_SUCCESS(HttpStatus.OK, "BOARD_2001", "게시판 상세 조회가 완료되었습니다."),
     BOARD_UPDATED(HttpStatus.OK, "BOARD_2002", "게시판 수정이 완료되었습니다."),
     BOARD_DELETED(HttpStatus.OK, "BOARD_2003", "게시판 삭제가 완료되었습니다."),
-
     BOARD_LIST_VIEW_SUCCESS(HttpStatus.OK, "BOARD_2004", "전체 게시판 리스트 조회가 완료되었습니다."),
 
     // BoardLike
@@ -44,6 +49,7 @@ public enum SuccessCode implements BaseCode {
     REDIARY_DETAIL_VIEW_SUCCESS(HttpStatus.OK, "REDIARY_2002", "감정 일기 조회가 완료되었습니다."),
     REDIARY_UPDATED(HttpStatus.OK, "REDIARY_2003", "감정 일기 수정이 완료되었습니다."),
     REDIARY_DELETED(HttpStatus.OK, "REDIARY_2004", "감정 일기 삭제가 완료되었습니다."),
+    REDIARY_TODAY_WRITTEN_CHECKD(HttpStatus.OK, "REDIARY_2005", "당일 감정일기 작성한 여부 알려줍니다."),
 
     ;
 
