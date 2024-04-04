@@ -22,9 +22,8 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    // 대댓글
-    @Column
-    private Integer parentCommentId;
+/*    @Column
+    private Integer parentCommentId;*/
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
