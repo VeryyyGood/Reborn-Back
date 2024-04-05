@@ -24,6 +24,14 @@ public enum ErrorCode implements BaseCode {
     TOKEN_NO_AUTH(HttpStatus.FORBIDDEN, "JWT_4031", "권한 정보가 없는 토큰입니다."),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "JWT_4011", "토큰 유효기간이 만료되었습니다."),
 
+    // Board
+    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "BOARD_4041", "존재하지 않는 게시물입니다."),
+    BOARD_WRONG_TYPE(HttpStatus.BAD_REQUEST, "BOARD_4001", "존재하지 않는 게시물 종류 입니다."),
+    BOARD_WRONG_SORTING_WAY(HttpStatus.BAD_REQUEST, "BOARD_4002", "존재하지 않는 게시물 정렬 방법 입니다."),
+
+    // Comment
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "COMMENT_4041", "존재하지 않는 댓글입니다."),
+
     // Rediary
     REDIARY_NOT_FOUND(HttpStatus.NOT_FOUND, "REDIARY_4041", "존재하지 않는 감정 일기입니다."),
 

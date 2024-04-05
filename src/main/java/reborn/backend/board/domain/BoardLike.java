@@ -13,25 +13,16 @@ import reborn.backend.user.domain.User;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comment")
-public class Comment extends BaseEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BoardLike extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
-    private Board board;
-
-/*    @Column
-    private Integer parentCommentId;*/
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(length = 20, nullable = false)
-    private String commentWriter;
-
-    @Column(length = 1000, nullable = false)
-    private String commentContent;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
 }
