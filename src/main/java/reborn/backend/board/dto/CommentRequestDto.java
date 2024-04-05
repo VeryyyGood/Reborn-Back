@@ -13,9 +13,6 @@ public class CommentRequestDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class CommentDto {
-        @Schema(description = "댓글이 작성된 게시판 id")
-        private Long boardId;
-
         @Schema(description = "댓글 내용")
         private String commentContent;
     }

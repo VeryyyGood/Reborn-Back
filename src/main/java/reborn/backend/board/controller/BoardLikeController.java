@@ -17,31 +17,27 @@ import reborn.backend.user.domain.User;
 import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.service.UserService;
 
-@Tag(name = "여행 계획 좋아요", description = "여행 계획 좋아요 관련 api 입니다.")
+@Tag(name = "게시물 좋아요", description = "게시물 좋아요 관련 api 입니다.")
 @RestController
-@RequestMapping("/board/{board-id}")
+@RequestMapping("/board/{board-id}/like")
 @RequiredArgsConstructor
 public class BoardLikeController {
     private final UserService userService;
     private final BoardService boardService;
     private final BoardLikeService boardLikeService;
 
-    @Operation(summary = "게시물 좋아요 메서드", description = "게시물을 좋아요하는 메서드입니다.")
+    @Operation(summary = "게시물 좋아요 메서드", description = "게시물 좋아요하는 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "LIKE_2001", description = "게시물 좋아요 성공")
     })
-    @PostMapping("/like")
-    public ApiResponse<Long> toggleLike(@PathVariable(name = "board-id") Long boardId,
-                                        @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    @PostMapping("/create")// ok
+    public ApiResponse<Long> toggleLike(
+            @PathVariable(name = "board-id") Long boardId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        Board board = boardService.findById(boardId);
 
-        if (board == null) {
-            throw GeneralException.of(ErrorCode.BOARD_NOT_FOUND);
-        }
-
-        // 좋아요 토글 및 좋아요 수 조회
-        Board updatedBoard = boardLikeService.toggleLikeAndRetrieveCount(board, user);
+        Board updatedBoard = boardLikeService.toggleLikeAndRetrieveCount(boardId, user);
         return ApiResponse.onSuccess(SuccessCode.BOARD_LIKE_SUCCESS, updatedBoard.getLikeCount());
     }
 
@@ -49,18 +45,13 @@ public class BoardLikeController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "LIKE_2002", description = "게시물 좋아요 취소 성공")
     })
-    @DeleteMapping("/like")
+    @DeleteMapping("/delete")// ok
     public ApiResponse<Long> cancelLike(@PathVariable(name = "board-id") Long boardId,
                                         @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        Board board = boardService.findById(boardId);
 
-        if (board == null) {
-            throw GeneralException.of(ErrorCode.BOARD_NOT_FOUND);
-        }
-
-        // 좋아요 취소 및 좋아요 수 조회
-        Board updatedBoard = boardLikeService.cancelLikeAndRetrieveCount(board, user);
+        // 좋아요 취소, 좋아요 수 조회
+        Board updatedBoard = boardLikeService.cancelLikeAndRetrieveCount(boardId, user);
 
         return ApiResponse.onSuccess(SuccessCode.BOARD_UNLIKE_SUCCESS, updatedBoard.getLikeCount());
     }
@@ -69,15 +60,11 @@ public class BoardLikeController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "LIKE_2003", description = "게시물 좋아요 개수 조회 성공")
     })
-    @GetMapping("/like/count")
+    @GetMapping("/count") //ok
     public ApiResponse<Long> getLikeCount(@PathVariable(name = "board-id") Long boardId) {
-        Board board = boardService.findById(boardId);
 
-        if (board == null) {
-            throw GeneralException.of(ErrorCode.BOARD_NOT_FOUND);
-        }
         // 좋아요 수 조회
-        Long likeCount = boardLikeService.getLikeCount(board);
+        Long likeCount = boardLikeService.getLikeCount(boardId);
 
         return ApiResponse.onSuccess(SuccessCode.BOARD_LIKE_COUNT_SUCCESS, likeCount);
     }

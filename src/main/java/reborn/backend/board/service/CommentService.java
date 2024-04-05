@@ -28,26 +28,35 @@ public class CommentService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Boolean createComment(CommentDto commentReqDto, User user) {
-        Board board = boardRepository.findById(commentReqDto.getBoardId())
+    public Boolean createComment(Long boardId, CommentDto commentReqDto, User user) {
+        Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
+
         Comment comment = CommentConverter.saveComment(commentReqDto, board, user);
         commentRepository.save(comment);
+
+        updateCommentCount(board);
+        boardRepository.save(board);
 
         return true;
     }
 
     @Transactional
-    public Boolean deleteComment(Long id, User user){
-        Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> GeneralException.of(ErrorCode.COMMENT_NOT_FOUND));
+    public Boolean deleteComment(Long boardId, Long commentID, User user){
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
-        Long assignmentId = comment.getBoard().getId();
+        Comment comment = commentRepository.findById(commentID)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.COMMENT_NOT_FOUND));
 
         log.info("CommmentWriter: " + comment.getCommentWriter());
         log.info("Username: " + user.getUsername());
         if(Objects.equals(comment.getCommentWriter(), user.getUsername())){
-            commentRepository.delete(comment);}
+            commentRepository.delete(comment);
+        }
+
+        updateCommentCount(board);
+        boardRepository.save(board);
 
         return true;
     }
@@ -63,9 +72,9 @@ public class CommentService {
         return commentRepository.countAllByBoard(board);
     }
 
-    // 좋아요 수 업데이트
-    private void updateLikeCount(Board board) {
-        Long likeCount = commentRepository.countAllByBoard(board);
-        board.updateLikeCount(likeCount);
+    // 댓글 수 업데이트
+    private void updateCommentCount(Board board) {
+        Long commentCount = commentRepository.countAllByBoard(board);
+        board.updateCommentCount(commentCount);
     }
 }

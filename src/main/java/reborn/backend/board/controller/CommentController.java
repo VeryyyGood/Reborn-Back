@@ -14,7 +14,9 @@ import reborn.backend.board.dto.CommentResponseDto;
 import reborn.backend.board.service.BoardService;
 import reborn.backend.board.service.CommentService;
 import reborn.backend.global.api_payload.ApiResponse;
+import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.api_payload.SuccessCode;
+import reborn.backend.global.exception.GeneralException;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.service.UserService;
@@ -24,7 +26,7 @@ import java.util.List;
 @Tag(name = "댓글", description = "게시판 댓글 관련 api 입니다.")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comment")
+@RequestMapping("/board/{board-id}/comment")
 public class CommentController {
 
     private final UserService userService;
@@ -35,13 +37,15 @@ public class CommentController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMENT_2011", description = "댓글 생성이 완료되었습니다.")
     })
-    @PostMapping("/create")
+    @PostMapping("/create") //ok
     public ApiResponse<Boolean> create(
-            @RequestBody CommentRequestDto.CommentDto submissionDto,
+            @PathVariable(name = "board-id") Long boardId,
+            @RequestBody CommentRequestDto.CommentDto commentDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        commentService.createComment(submissionDto, user);
+
+        commentService.createComment(boardId, commentDto, user);
 
         return ApiResponse.onSuccess(SuccessCode.COMMENT_CREATED,true);
     }
@@ -50,23 +54,24 @@ public class CommentController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMENT_2001", description = "댓글 삭제가 완료되었습니다.")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{comment-id}") //ok
     public ApiResponse<Boolean> delete(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "board-id") Long boardId,
+            @PathVariable(name = "comment-id") Long commentId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        commentService.deleteComment(id, user);
+
+        commentService.deleteComment(boardId, commentId, user);
 
         return ApiResponse.onSuccess(SuccessCode.COMMENT_DELETED,true);
     }
 
-    // 댓글 LIST
-    @Operation(summary = "댓글 작성 메서드", description = "글을 작성하는 메서드입니다.")
+    @Operation(summary = "댓글 목록 조회 메서드", description = "댓글 목록을 조회하는 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMENT_2011", description = "댓글 생성이 완료되었습니다.")
     })
-    @GetMapping("/list/{board-id}")
+    @GetMapping("/list") // ok
     public ApiResponse<CommentResponseDto.CommentListResDto> list(
             @PathVariable(name = "board-id") Long id,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
@@ -74,7 +79,7 @@ public class CommentController {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         List<Comment> comments = commentService.findAllByBoardId(id);
 
-        return ApiResponse.onSuccess(SuccessCode.COMMENT_CREATED, CommentConverter.commentListResDto(comments));
+        return ApiResponse.onSuccess(SuccessCode.COMMENT_LIST_VIEW_SUCCESS, CommentConverter.commentListResDto(comments));
     }
 
     // 대댓글은 추후 추가

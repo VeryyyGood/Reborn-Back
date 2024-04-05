@@ -20,14 +20,8 @@ public class BoardRequestDto {
     @NoArgsConstructor
     public static class BoardReqDto {
 
-        @Schema(description = "게시판 id")
-        private Long id;
-
         @Schema(description = "게시판 종류")
         private BoardType boardType;
-
-        @Schema(description = "게시판 작성자") // nickname? username?
-        private String boardWriter;
 
         @Schema(description = "게시판 내용")
         private String boardContent;

@@ -11,6 +11,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import reborn.backend.board.domain.Board;
 import reborn.backend.board.domain.BoardType;
+import reborn.backend.board.service.BoardBookmarkService;
+import reborn.backend.board.service.BoardLikeService;
 import reborn.backend.board.service.BoardService;
 import reborn.backend.board.converter.BoardConverter;
 import reborn.backend.board.service.CommentService;
@@ -33,14 +35,15 @@ public class BoardController {
 
     private final UserService userService;
     private final BoardService boardService;
-    private final CommentService commentService;
+    private final BoardLikeService boardLikeService;
+    private final BoardBookmarkService boardBookmarkService;
 
     // 추후 사진 업로드 추가
     @Operation(summary = "게시판 만들기 메서드", description = "게시판을 만드는 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2011", description = "게시판 생성이 완료되었습니다.")
     })
-    @PostMapping("/create")
+    @PostMapping("/create") //ok
     public ApiResponse<Boolean> create(
             @RequestBody BoardReqDto boardReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
@@ -54,7 +57,7 @@ public class BoardController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2001", description = "게시판 상세 조회가 완료되었습니다.")
     })
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // ok
     public ApiResponse<BoardResDto> detail(
             @PathVariable(name = "id") Long id,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
@@ -69,7 +72,7 @@ public class BoardController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2002", description = "게시판 수정이 완료되었습니다.")
     })
-    @PostMapping("/update/{id}")
+    @PostMapping("/update/{id}") //OK
     public ApiResponse<BoardResDto> update(
             @PathVariable(name = "id") Long id,
             @RequestBody BoardReqDto boardReqDto,
@@ -85,7 +88,7 @@ public class BoardController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2003", description = "게시판 삭제가 완료되었습니다.")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}") // 엮여있는 것들 다같이 삭제 되어야 함!
     public ApiResponse<Boolean> delete(
             @PathVariable(name = "id") Long id,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
@@ -111,14 +114,13 @@ public class BoardController {
             @RequestParam(name = "way") String way
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        List<Board> boards = boardService.findAll();
+        List<Board> boards  = boardService.findAll();
         List<Board> filterdBoards = boardService.filterBoardsByType(boards, boardType);
         List<Board> sortedBoards = boardService.sortBoardsByWay(filterdBoards, way);
 
         return ApiResponse.onSuccess(SuccessCode.BOARD_LIST_VIEW_SUCCESS, BoardConverter.boardListResDto(sortedBoards));
     }
 
-    // 북마크 게시판 정렬 - 전체, 각각의 게시판
     @Operation(summary = "북마크 한 전체 게시판 목록 정보 조회 메서드", description = "북마크 한 게시판 중 type, way에 따라 목록을 조회하는 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2005", description = "게시판 목록 조회가 완료되었습니다.")
@@ -141,5 +143,33 @@ public class BoardController {
         return ApiResponse.onSuccess(SuccessCode.BOARD_LIST_VIEW_SUCCESS, BoardConverter.boardListResDto(sortedBoards));
     }
 
-    // 댓글 개수
+    @Operation(summary = "게시물 좋아요 확인 메서드", description = "사용자가 게시물 좋아요 누른 여부 확인하는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2006", description = "게시물 좋아요 눌렀는지 확인 완료되었습니다")
+    })
+    @GetMapping("/{board-id}/check-like")// ok
+    public ApiResponse<Boolean> checkLike(
+            @PathVariable(name = "board-id") Long boardId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+
+        Boolean check = boardLikeService.checkLike(boardId, user);
+        return ApiResponse.onSuccess(SuccessCode.BOARD_LIKE_CHECK_SUCCESS, check);
+    }
+
+    @Operation(summary = "게시물 북마크 확인 메서드", description = "사용자가 게시물 북마크 누른 여부 확인하는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2007", description = "게시물 북마크 눌렀는지 확인 완료되었습니다")
+    })
+    @GetMapping("/{board-id}/check-bookmark")// ok
+    public ApiResponse<Boolean> checkBookmark(
+            @PathVariable(name = "board-id") Long boardId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+
+        Boolean check = boardBookmarkService.checkBookmark(boardId, user);
+        return ApiResponse.onSuccess(SuccessCode.BOARD_BOOKMARK_CHECK_SUCCESS, check);
+    }
 }

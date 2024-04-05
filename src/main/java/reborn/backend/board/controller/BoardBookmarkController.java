@@ -19,7 +19,7 @@ import reborn.backend.user.service.UserService;
 
 @Tag(name = "게시판 북마크", description = "게시판 북마크 관련 api 입니다.")
 @RestController
-@RequestMapping("/board/{board-id}")
+@RequestMapping("/board/{board-id}/bookmark") // ok
 @RequiredArgsConstructor
 public class BoardBookmarkController {
     private final UserService userService;
@@ -30,8 +30,8 @@ public class BoardBookmarkController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOOKMARK_2001", description = "게시판 북마크 성공")
     })
-    @PostMapping("/bookmark")
-    public ApiResponse<Boolean> createBookmark(@PathVariable(name = "board-id") Long boardId,
+    @PostMapping("/create") // ok
+    public ApiResponse<Integer> createBookmark(@PathVariable(name = "board-id") Long boardId,
                                         @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Board board = boardService.findById(boardId);
@@ -41,16 +41,16 @@ public class BoardBookmarkController {
         }
 
         // 북마크 생성
-        boardBookmarkService.createBookmark(board, user);
-        return ApiResponse.onSuccess(SuccessCode.BOARD_BOOKMARK_SUCCESS, true);
+        Integer is_bookmarked = boardBookmarkService.createBookmark(board, user);
+        return ApiResponse.onSuccess(SuccessCode.BOARD_BOOKMARK_SUCCESS, is_bookmarked);
     }
 
     @Operation(summary = "게시물 북마크 취소 메서드", description = "게시물의 북마크를 취소하는 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOOKMARK_2002", description = "게시판 북마크 취소 성공")
     })
-    @DeleteMapping("/bookmark")
-    public ApiResponse<Boolean> cancelBookmark(@PathVariable(name = "board-id") Long boardId,
+    @DeleteMapping("/delete") // ok
+    public ApiResponse<Integer> cancelBookmark(@PathVariable(name = "board-id") Long boardId,
                                         @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Board board = boardService.findById(boardId);
@@ -60,9 +60,8 @@ public class BoardBookmarkController {
         }
 
         // 북마크 취소
-        boardBookmarkService.cancelBookmark(board, user);
-
-        return ApiResponse.onSuccess(SuccessCode.BOARD_UNBOOKMARK_SUCCESS, true);
+        Integer is_bookmarked = boardBookmarkService.cancelBookmark(board, user);
+        return ApiResponse.onSuccess(SuccessCode.BOARD_UNBOOKMARK_SUCCESS, is_bookmarked);
     }
 
 }

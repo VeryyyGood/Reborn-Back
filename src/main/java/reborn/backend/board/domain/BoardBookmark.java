@@ -25,6 +25,6 @@ public class BoardBookmark extends BaseEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookmark_id")
+    @JoinColumn(name = "board_id")
     private Board board;
 }

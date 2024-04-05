@@ -24,11 +24,14 @@ public class BoardResponseDto {
         @Schema(description = "게시판 종류")
         private BoardType boardType;
 
-        @Schema(description = "게시판 작성자") // nickname? username?
+        @Schema(description = "게시판 작성자") // 우선 username 넣어놓음
         private String boardWriter;
 
         @Schema(description = "좋아요 수")
         private Long likeCount;
+
+        @Schema(description = "댓글 수")
+        private Long commentCount;
 
         @Schema(description = "게시판 내용")
         private String boardContent;

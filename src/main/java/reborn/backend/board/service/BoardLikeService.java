@@ -8,8 +8,13 @@ import reborn.backend.board.domain.Board;
 import reborn.backend.board.domain.BoardLike;
 import reborn.backend.board.repository.BoardLikeRepository;
 import reborn.backend.board.repository.BoardRepository;
+import reborn.backend.global.api_payload.ErrorCode;
+import reborn.backend.global.exception.GeneralException;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.repository.UserRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +26,10 @@ public class BoardLikeService {
 
     // 좋아요 토글 및 좋아요 수 조회
     @Transactional
-    public Board toggleLikeAndRetrieveCount(Board board, User user) {
+    public Board toggleLikeAndRetrieveCount(Long boardId, User user) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
+
         BoardLike existingLike = boardLikeRepository.findByUserAndBoard(user, board);
 
         if (existingLike != null) {
@@ -39,7 +47,10 @@ public class BoardLikeService {
 
     // 좋아요 취소 및 좋아요 수 조회
     @Transactional
-    public Board cancelLikeAndRetrieveCount(Board board, User user) {
+    public Board cancelLikeAndRetrieveCount(Long boardId, User user) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
+
         BoardLike existingLike = boardLikeRepository.findByUserAndBoard(user, board);
 
         if (existingLike != null) {
@@ -54,8 +65,23 @@ public class BoardLikeService {
         }
     }
 
+    public Boolean checkLike(Long boardId, User user){
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
+        Long userId = user.getId();
+        for (BoardLike like : board.getLikeList()) {
+            if (like.getUser().getId().equals(userId)) {
+                return true; // 사용자가 좋아요를 누른 상태
+            }
+        }
+        return false; // 사용자가 좋아요를 누르지 않은 상태
+    }
+
     // 좋아요 수 조회
-    public Long getLikeCount(Board board) {
+    public Long getLikeCount(Long boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
+
         return boardLikeRepository.countAllByBoard(board);
     }
 

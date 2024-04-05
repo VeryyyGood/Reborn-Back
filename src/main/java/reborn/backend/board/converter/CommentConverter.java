@@ -19,8 +19,8 @@ public class CommentConverter {
                 .build();
     }
 
-    public static CommentResponseDto.SimpleCommentDto simpleCommentDto(Comment comment) {
-        return CommentResponseDto.SimpleCommentDto.builder()
+    public static CommentResponseDto.CommentResDto commentResDto(Comment comment) {
+        return CommentResponseDto.CommentResDto.builder()
                 .id(comment.getId())
                 .commentWriter(comment.getCommentWriter())
                 .commentContent(comment.getCommentContent())
@@ -29,8 +29,8 @@ public class CommentConverter {
     }
 
     public static CommentResponseDto.CommentListResDto commentListResDto(List<Comment> comments){
-        List<CommentResponseDto.SimpleCommentDto> commentDtos
-                = comments.stream().map(CommentConverter::simpleCommentDto).toList();
+        List<CommentResponseDto.CommentResDto> commentDtos
+                = comments.stream().map(CommentConverter::commentResDto).toList();
 
         return CommentResponseDto.CommentListResDto.builder()
                 .commentList(commentDtos)

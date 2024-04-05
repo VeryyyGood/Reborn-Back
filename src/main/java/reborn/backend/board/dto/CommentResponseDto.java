@@ -10,12 +10,12 @@ import java.util.List;
 @Setter
 @ToString
 public class CommentResponseDto {
-    @Schema(description = "SimpleCommentDto")
+    @Schema(description = "CommentResDto")
     @Getter
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class SimpleCommentDto {
+    public static class CommentResDto {
         @Schema(description = "글 id")
         private Long id;
 
@@ -38,7 +38,7 @@ public class CommentResponseDto {
     public static class CommentListResDto {
 
         @Schema(description = "글 리스트")
-        private List<SimpleCommentDto> commentList;
+        private List<CommentResDto> commentList;
 
     }
 }
