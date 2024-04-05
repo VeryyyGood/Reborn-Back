@@ -1,9 +1,9 @@
 package reborn.backend.rediary.converter;
 
 import lombok.NoArgsConstructor;
-import reborn.backend.rediary.domain.PickEmotion;
+import reborn.backend.global.entity.PickEmotion;
 import reborn.backend.rediary.domain.Rediary;
-import reborn.backend.rediary.domain.ResultEmotion;
+import reborn.backend.global.entity.ResultEmotion;
 import reborn.backend.rediary.dto.RediaryRequestDto.RediaryReqDto;
 import reborn.backend.rediary.dto.RediaryResponseDto.DetailRediaryDto;
 import reborn.backend.user.domain.User;

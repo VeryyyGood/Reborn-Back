@@ -1,4 +1,4 @@
-package reborn.backend.rediary.domain;
+package reborn.backend.global.entity;
 
 public enum ResultEmotion {
     RED,
