@@ -1,9 +1,10 @@
 package reborn.backend.rediary.domain;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 import reborn.backend.global.entity.BaseEntity;
+import reborn.backend.global.entity.PickEmotion;
+import reborn.backend.global.entity.ResultEmotion;
 
 import java.time.LocalDate;
 
