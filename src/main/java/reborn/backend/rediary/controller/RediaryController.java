@@ -86,7 +86,7 @@ public class RediaryController {
     // 특정 rediary 가져오기
     @Operation(summary = "특정 감정 일기 조회 메서드", description = "특정 감정 일기를 조회하는 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REDIARY_2002", description = "감정 읽기 조회가 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REDIARY_2002", description = "감정 일기 조회가 완료되었습니다.")
     })
     @GetMapping("/{id}")
     public ApiResponse<DetailRediaryDto> getDetailRediary(
