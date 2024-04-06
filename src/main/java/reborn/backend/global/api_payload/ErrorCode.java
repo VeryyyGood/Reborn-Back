@@ -35,6 +35,8 @@ public enum ErrorCode implements BaseCode {
     // Rediary
     REDIARY_NOT_FOUND(HttpStatus.NOT_FOUND, "REDIARY_4041", "존재하지 않는 감정 일기입니다."),
 
+    // Reveal
+    REVEAL_NOT_FOUND(HttpStatus.NOT_FOUND, "REVEAL_4041", "존재하지 않는 나의 감정 들여다보기입니다.")
     ;
 
     private final HttpStatus httpStatus;
