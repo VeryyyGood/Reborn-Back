@@ -15,7 +15,7 @@ public class RediaryConverter {
         return Rediary.builder()
                 .rediaryWriter(user.getUsername()) // 작성자
                 .rediaryTitle(rediary.getRediaryTitle())
-                .rediaryContents(rediary.getRediaryContents())
+                .rediaryContent(rediary.getRediaryContent())
                 .pickEmotion(PickEmotion.valueOf(rediary.getPickEmotion()))
                 .resultEmotion(ResultEmotion.valueOf(rediary.getResultEmotion()))
                 .build();
@@ -26,7 +26,7 @@ public class RediaryConverter {
                 .rediaryId(rediary.getRediaryId())
                 .rediaryWriter(rediary.getRediaryWriter())
                 .rediaryTitle(rediary.getRediaryTitle())
-                .rediaryContents(rediary.getRediaryContents())
+                .rediaryContent(rediary.getRediaryContent())
                 .pickEmotion(String.valueOf(rediary.getPickEmotion()))
                 .resultEmotion(String.valueOf(rediary.getResultEmotion()))
                 .rediaryCreatedAt(rediary.getRediaryCreatedAt())

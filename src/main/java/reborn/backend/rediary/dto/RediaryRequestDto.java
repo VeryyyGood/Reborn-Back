@@ -17,7 +17,7 @@ public class RediaryRequestDto {
         private String rediaryTitle;
 
         @Schema(description = "감정 일기 내용")
-        private String rediaryContents;
+        private String rediaryContent;
 
         @Schema(description = "선택한 감정 상태(SUNNY, CLOUDY, RAINY)")
         private String pickEmotion; // 감정 상태를 추가합니다.
@@ -39,7 +39,7 @@ public class RediaryRequestDto {
         private String rediaryTitle;
 
         @Schema(description = "감정 일기 내용")
-        private String rediaryContents;
+        private String rediaryContent;
 
         @Schema(description = "선택한 감정 상태(SUNNY, CLOUDY, RAINY)")
         private String pickEmotion; // 감정 상태를 추가합니다.

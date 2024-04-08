@@ -42,5 +42,10 @@ public class Pet extends BaseEntity {
     private PetColor petColor;
 
     @Column
-    private String petImage;
+    private Integer rebornDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private RebornType rebornType;
+
 }
