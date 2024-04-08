@@ -33,7 +33,10 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authHttp -> authHttp
                         .requestMatchers(
-                                "/health",
+                                "/health", // health check
+
+                                "/swagger-ui/**", // swagger
+                                "/v3/api-docs/**",
 
                                 "/oauth2/authorization/naver", // 로그인
                                 "/login/oauth2/code/**", // code, state 반환

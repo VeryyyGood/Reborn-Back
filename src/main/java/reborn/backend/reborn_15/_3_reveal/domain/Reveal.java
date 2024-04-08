@@ -1,10 +1,11 @@
-package reborn.backend.reveal.domain;
+package reborn.backend.reborn_15._3_reveal.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 import reborn.backend.global.entity.BaseEntity;
 import reborn.backend.global.entity.PickEmotion;
 import reborn.backend.global.entity.ResultEmotion;
+import reborn.backend.pet.domain.Pet;
 
 @Entity
 @Getter
@@ -15,16 +16,17 @@ import reborn.backend.global.entity.ResultEmotion;
 public class Reveal extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long revealId;
+    private Long id;
 
-    @Column(length = 20, nullable = false)
-    private String revealWriter;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pet_id")
+    private Pet pet;
+
+    @Column
+    private Integer date;
 
     @Column(nullable = false)
-    private Integer revealCreatedAt;
-
-    @Column(nullable = false)
-    private String revealContents;
+    private String diaryContent;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -33,4 +35,16 @@ public class Reveal extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ResultEmotion resultEmotion;
+
+    @Column
+    private Boolean pat;
+
+    @Column
+    private Boolean feed;
+
+    @Column
+    private Boolean walk;
+
+    @Column
+    private Boolean snack;
 }

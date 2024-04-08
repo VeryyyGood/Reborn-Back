@@ -19,7 +19,6 @@ public class PetConverter {
                 .petType(PetType.valueOf(pet.getPetType()))
                 .detailPetType(pet.getDetailPetType())
                 .petColor(PetColor.valueOf(pet.getPetColor()))
-                .petImage(pet.getPetImage())
                 .build();
     }
 
@@ -31,7 +30,6 @@ public class PetConverter {
                 .petType(String.valueOf(pet.getPetType()))
                 .detailPetType(pet.getDetailPetType())
                 .petColor(String.valueOf(pet.getPetColor()))
-                .petImage(pet.getPetImage())
                 .build();
     }
 }

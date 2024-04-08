@@ -46,7 +46,7 @@ public class RediaryService {
         if( Objects.equals(rediary.getRediaryCreatedAt(), LocalDate.now()) )
         {
             rediary.setRediaryTitle(detailRediaryReqDto.getRediaryTitle());
-            rediary.setRediaryContents(detailRediaryReqDto.getRediaryContents());
+            rediary.setRediaryContent(detailRediaryReqDto.getRediaryContent());
             rediary.setPickEmotion(PickEmotion.valueOf(detailRediaryReqDto.getPickEmotion()));
             rediary.setResultEmotion(ResultEmotion.valueOf(detailRediaryReqDto.getResultEmotion()));
 

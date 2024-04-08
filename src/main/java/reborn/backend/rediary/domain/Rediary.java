@@ -29,7 +29,7 @@ public class Rediary extends BaseEntity {
     private LocalDate rediaryCreatedAt;
 
     @Column(nullable = false)
-    private String rediaryContents;
+    private String rediaryContent;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

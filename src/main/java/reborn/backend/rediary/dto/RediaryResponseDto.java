@@ -36,7 +36,7 @@ public class RediaryResponseDto {
         private String rediaryTitle;
 
         @Schema(description = "감정 일기 내용")
-        private String rediaryContents;
+        private String rediaryContent;
 
         @Schema(description = "감정 일기 작성일", example = "2024-03-21", pattern = "yyyy-MM-dd")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
