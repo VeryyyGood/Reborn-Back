@@ -59,6 +59,11 @@ public enum SuccessCode implements BaseCode {
     REVEAL_LIST_VIEW_SUCCESS(HttpStatus.OK, "REVEAL_2001", "나의 감정 들여다보기 목록 조회가 완료되었습니다."),
     REVEAL_DETAIL_VIEW_SUCCESS(HttpStatus.OK, "REVEAL_2002", "나의 감정 들여다보기 조회가 완료되었습니다."),
     REVEAL_UPDATED(HttpStatus.OK, "REVEAL_2003", "나의 감정 들여다보기 수정이 완료되었습니다."),
+    REVEAL_PAT_COMPLETED(HttpStatus.OK, "REVEAL_2004", "쓰다듬기가 완료되었습니다."),
+    REVEAL_FEED_COMPLETED(HttpStatus.OK, "REVEAL_2005", "밥주기가 완료되었습니다."),
+    REVEAL_WALK_COMPLETED(HttpStatus.OK, "REVEAL_2006", "산책하기가 완료되었습니다."),
+    REVEAL_SNACK_COMPLETED(HttpStatus.OK, "REVEAL_2007", "간식주기가 완료되었습니다."),
+    REVEAL_WRITE_COMPLETED(HttpStatus.OK, "REVEAL_2008", "일기 작성이 완료되었습니다.")
     ;
 
     private final HttpStatus httpStatus;
