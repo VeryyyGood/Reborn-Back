@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import reborn.backend.pet.domain.Pet;
 
 import java.util.List;
 
@@ -30,9 +29,6 @@ public class RevealResponseDto {
     public static class DetailRevealDto {
         @Schema(description = "나의 감정 들여다보기 id")
         private Long id;
-
-        @Schema(description = "펫")
-        private Pet pet;
 
         @Schema(description = "나의 감정 들여다보기 내용")
         private String diaryContent;

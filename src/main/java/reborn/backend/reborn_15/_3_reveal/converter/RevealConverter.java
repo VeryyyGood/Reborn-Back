@@ -23,7 +23,6 @@ public class RevealConverter {
     public static DetailRevealDto toDetailRevealDto(Reveal reveal) {
         return DetailRevealDto.builder()
                 .id(reveal.getId())
-                .pet(reveal.getPet())
                 .diaryContent(reveal.getDiaryContent())
                 .date(reveal.getDate())
                 .pickEmotion(String.valueOf(reveal.getPickEmotion()))

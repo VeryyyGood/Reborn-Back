@@ -54,8 +54,9 @@ public class RevealController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2004", description = "쓰다듬기가 완료되었습니다.")
     })
-    @GetMapping("/view/{id}")
+    @GetMapping("view/{id}")
     public ApiResponse<DetailRevealDto> getDetailReveal(
+            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         Reveal reveal = revealService.findById(id);
@@ -70,6 +71,7 @@ public class RevealController {
     })
     @PostMapping("/pat/{id}")
     public ApiResponse<Boolean> pat(
+            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         revealService.patReveal(id);
@@ -83,6 +85,7 @@ public class RevealController {
     })
     @PostMapping("/feed/{id}")
     public ApiResponse<Boolean> feed(
+            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         revealService.feedReveal(id);
@@ -96,6 +99,7 @@ public class RevealController {
     })
     @PostMapping("/walk/{id}")
     public ApiResponse<Boolean> walk(
+            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         revealService.walkReveal(id);
@@ -109,6 +113,7 @@ public class RevealController {
     })
     @PostMapping("/snack/{id}")
     public ApiResponse<Boolean> snack(
+            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         revealService.snackReveal(id);
@@ -122,6 +127,7 @@ public class RevealController {
     })
     @PostMapping("/write/{id}")
     public ApiResponse<Double> write(
+            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id,
             @RequestBody DetailRevealReqDto detailRevealReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
