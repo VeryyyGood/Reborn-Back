@@ -130,7 +130,7 @@ public class RevealController {
 
         double emotionPercentage = revealService.calculateEmotionPercentage(reveal.getId());
 
-        return ApiResponse.onSuccess(SuccessCode.REVEAL_SNACK_COMPLETED, emotionPercentage);
+        return ApiResponse.onSuccess(SuccessCode.REVEAL_WRITE_COMPLETED, emotionPercentage);
     }
 
 

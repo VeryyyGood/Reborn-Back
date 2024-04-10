@@ -113,7 +113,12 @@ public class RevealService {
                 .filter(r -> r.getResultEmotion() == reveal.getResultEmotion())
                 .count();
 
-        long totalTodayReveals = allRevealsByDate.size();
+        long totalTodayReveals = allRevealsByDate.stream()
+                .filter(r -> r.getResultEmotion() == ResultEmotion.RED ||
+                        r.getResultEmotion() == ResultEmotion.YELLOW ||
+                        r.getResultEmotion() == ResultEmotion.BLUE)
+                .count();
+
 
         return (double) countSelectedEmotion / totalTodayReveals * 100;
     }
