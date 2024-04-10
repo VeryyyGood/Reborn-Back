@@ -25,15 +25,15 @@ public class Reveal extends BaseEntity {
     @Column
     private Integer date;
 
-    @Column(nullable = false)
+    @Column
     private String diaryContent;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column
     private PickEmotion pickEmotion;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column
     private ResultEmotion resultEmotion;
 
     @Column
