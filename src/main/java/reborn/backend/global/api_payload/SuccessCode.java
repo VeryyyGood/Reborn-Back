@@ -63,7 +63,18 @@ public enum SuccessCode implements BaseCode {
     REVEAL_FEED_COMPLETED(HttpStatus.OK, "REVEAL_2005", "밥주기가 완료되었습니다."),
     REVEAL_WALK_COMPLETED(HttpStatus.OK, "REVEAL_2006", "산책하기가 완료되었습니다."),
     REVEAL_SNACK_COMPLETED(HttpStatus.OK, "REVEAL_2007", "간식주기가 완료되었습니다."),
-    REVEAL_WRITE_COMPLETED(HttpStatus.OK, "REVEAL_2008", "일기 작성이 완료되었습니다.")
+    REVEAL_WRITE_COMPLETED(HttpStatus.OK, "REVEAL_2008", "일기 작성이 완료되었습니다."),
+
+    // REMIND
+    REMIND_CREATED(HttpStatus.CREATED, "REMIND_2011", "충분한 대화 나누기 생성이 완료되었습니다."),
+    REMIND_DETAIL_VIEW_SUCCESS(HttpStatus.OK, "REMIND_2002", "충분한 대화 나누기 조회가 완료되었습니다."),
+    REMIND_PAT_COMPLETED(HttpStatus.OK, "REMIND_2004", "쓰다듬기가 완료되었습니다."),
+    REMIND_FEED_COMPLETED(HttpStatus.OK, "REMIND_2005", "밥주기가 완료되었습니다."),
+    REMIND_WALK_COMPLETED(HttpStatus.OK, "REMIND_2006", "산책하기가 완료되었습니다."),
+    REMIND_SNACK_COMPLETED(HttpStatus.OK, "REMIND_2007", "간식주기가 완료되었습니다."),
+    REMIND_WRITE_COMPLETED(HttpStatus.OK, "REMIND_2008", "답변 작성이 완료되었습니다."),
+
+
     ;
 
     private final HttpStatus httpStatus;
