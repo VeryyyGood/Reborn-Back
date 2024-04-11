@@ -121,7 +121,7 @@ public class RemindController {
         return ApiResponse.onSuccess(SuccessCode.REMIND_SNACK_COMPLETED, true);
     }
 
-    @Operation(summary = "답변 작성 메서드", description = "잡변을 작성하는 메서드입니다.")
+    @Operation(summary = "답변 작성 메서드", description = "답변을 작성하는 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2008", description = "답변 작성이 완료되었습니다.")
     })
@@ -134,6 +134,6 @@ public class RemindController {
     ){
         Remind remind = remindService.writeRemind(id, detailRemindReqDto);
 
-        return ApiResponse.onSuccess(SuccessCode.REVEAL_WRITE_COMPLETED, true);
+        return ApiResponse.onSuccess(SuccessCode.REMIND_WRITE_COMPLETED, true);
     }
 }
