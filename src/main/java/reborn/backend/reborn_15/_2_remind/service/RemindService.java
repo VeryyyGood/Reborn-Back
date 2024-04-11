@@ -55,18 +55,18 @@ public class RemindService {
 
     @Transactional
     public  Remind walkRemind(Long id) {
-        Remind reveal = remindRepository.findById(id)
+        Remind remind = remindRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
-        reveal.setWalk(true);
+        remind.setWalk(true);
 
-        remindRepository.save(reveal);
+        remindRepository.save(remind);
 
-        return reveal;
+        return remind;
     }
 
     @Transactional
-    public  Remind snackRemind(Long id) {
+    public Remind snackRemind(Long id) {
         Remind remind = remindRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
