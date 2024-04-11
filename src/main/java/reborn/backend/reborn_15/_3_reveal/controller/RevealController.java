@@ -65,6 +65,24 @@ public class RevealController {
         return ApiResponse.onSuccess(SuccessCode.REVEAL_DETAIL_VIEW_SUCCESS, detailRevealDto);
     }
 
+    @Operation(summary = "일기 작성 메서드", description = "일기를 작성하는 메서드입니다.")
+    @ApiResponses(value =  {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2003", description = "일기 작성이 완료되었습니다.")
+    })
+    @PostMapping("/write/{id}")
+    public ApiResponse<Double> write(
+            @PathVariable(name = "pet-id") Long petId,
+            @PathVariable(name = "id") Long id,
+            @RequestBody DetailRevealReqDto detailRevealReqDto,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        Reveal reveal = revealService.writeReveal(id, detailRevealReqDto);
+
+        double emotionPercentage = revealService.calculateEmotionPercentage(reveal.getId());
+
+        return ApiResponse.onSuccess(SuccessCode.REVEAL_WRITE_COMPLETED, emotionPercentage);
+    }
+
     @Operation(summary = "쓰다듬기 메서드", description = "쓰다듬기 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2004", description = "쓰다듬기가 완료되었습니다.")
@@ -120,24 +138,5 @@ public class RevealController {
 
         return ApiResponse.onSuccess(SuccessCode.REVEAL_SNACK_COMPLETED, true);
     }
-
-    @Operation(summary = "일기 작성 메서드", description = "일기를 작성하는 메서드입니다.")
-    @ApiResponses(value =  {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2008", description = "일기 작성이 완료되었습니다.")
-    })
-    @PostMapping("/write/{id}")
-    public ApiResponse<Double> write(
-            @PathVariable(name = "pet-id") Long petId,
-            @PathVariable(name = "id") Long id,
-            @RequestBody DetailRevealReqDto detailRevealReqDto,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
-    ){
-        Reveal reveal = revealService.writeReveal(id, detailRevealReqDto);
-
-        double emotionPercentage = revealService.calculateEmotionPercentage(reveal.getId());
-
-        return ApiResponse.onSuccess(SuccessCode.REVEAL_WRITE_COMPLETED, emotionPercentage);
-    }
-
 
 }
