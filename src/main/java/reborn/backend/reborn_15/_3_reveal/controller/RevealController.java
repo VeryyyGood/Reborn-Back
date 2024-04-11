@@ -52,7 +52,7 @@ public class RevealController {
 
     @Operation(summary = "특정 나의 감정 들여다보기 조회 메서드", description = "특정 나의 감정 들여다보기를 조회하는 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2004", description = "쓰다듬기가 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2002", description = "나의 감정 들여다보기 조회가 완료되었습니다.")
     })
     @GetMapping("view/{id}")
     public ApiResponse<DetailRevealDto> getDetailReveal(
@@ -93,7 +93,7 @@ public class RevealController {
         return ApiResponse.onSuccess(SuccessCode.REVEAL_FEED_COMPLETED, true);
     }
 
-    @Operation(summary = "산책하기 메서드", description = "밥주기 메서드입니다.")
+    @Operation(summary = "산책하기 메서드", description = "산책하기 메서드입니다.")
     @ApiResponses(value =  {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2006", description = "산책하기가 완료되었습니다.")
     })
