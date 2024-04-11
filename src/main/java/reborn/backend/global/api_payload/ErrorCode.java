@@ -40,6 +40,9 @@ public enum ErrorCode implements BaseCode {
 
     // Remind
     REMIND_NOT_FOUND(HttpStatus.NOT_FOUND, "REMIND_4041", "존재하지 않는 충분한 대화 나누기입니다."),
+
+    // Remember
+    REMEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "REMEMBER_4041", "존재하지 않는 건강한 작별 준비하기입니다."),
     ;
 
     private final HttpStatus httpStatus;
