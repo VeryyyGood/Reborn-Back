@@ -72,9 +72,9 @@ public class PetController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2002", description = "반려동물 정보 조회가 완료되었습니다.")
     })
-    @GetMapping("/{id}")
+    @GetMapping("/{pet-id}")
     public ApiResponse<DetailPetDto> getDetailPet(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "pet-id") Long id,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
@@ -92,9 +92,9 @@ public class PetController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2003", description = "반려동물 정보 수정이 완료되었습니다.")
     })
-    @PostMapping("/update/{id}")
+    @PostMapping("/{pet-id}/update")
     public ApiResponse<Boolean> update(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "pet-id") Long id,
             @RequestBody DetailPetReqDto detailPetReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){

@@ -16,6 +16,7 @@ import java.util.List;
 public class BoardConverter {
     public static Board saveBoard(BoardReqDto board, User user){
         return Board.builder()
+                .user(user)
                 .boardType(board.getBoardType())
                 .boardWriter(user.getUsername()) // username으로 저장
                 .likeCount(0L)
@@ -34,6 +35,7 @@ public class BoardConverter {
                 .likeCount(board.getLikeCount())
                 .commentCount(board.getCommentCount())
                 .boardContent(board.getBoardContent())
+                .boardCreatedAt(board.getCreatedAt())
                 .imageAttached(board.getImageAttached())
                 .boardImage(board.getBoardImage())
                 .build();
