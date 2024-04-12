@@ -4,16 +4,15 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import reborn.backend.board.domain.BoardType;
+import reborn.backend.board.domain.*;
+import reborn.backend.board.repository.BoardBookmarkRepository;
+import reborn.backend.board.repository.BoardLikeRepository;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.board.converter.BoardConverter;
-import reborn.backend.board.domain.Board;
-import reborn.backend.board.domain.BoardBookmark;
 import reborn.backend.board.repository.BoardRepository;
 import reborn.backend.board.repository.CommentRepository;
 import reborn.backend.board.dto.BoardRequestDto.BoardReqDto;
 import reborn.backend.global.exception.GeneralException;
-import reborn.backend.board.domain.Comment;
 import reborn.backend.user.domain.User;
 import java.util.Comparator;
 import java.util.List;
@@ -25,6 +24,8 @@ import java.util.Objects;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
+    private final BoardBookmarkRepository boardBookmarkRepository;
+    private final BoardLikeRepository boardLikeRepository;
 
     @Transactional
     public List<Board> findAll() {
@@ -79,9 +80,17 @@ public class BoardService {
         log.info("Username: " + user.getUsername());
 
         if(Objects.equals(board.getBoardWriter(), user.getUsername())){
+
             // 연관된 댓글 엔티티들 삭제
             List<Comment> comments = board.getCommentList();
             commentRepository.deleteAll(comments);
+            // 연관된 게시물 북마크 엔티티들 삭제
+            List<BoardBookmark> bookmarks = board.getBookmarkList();
+            boardBookmarkRepository.deleteAll(bookmarks);
+            // 연관된 게시물 좋아요 엔티티들 삭제
+            List<BoardLike> likes = board.getLikeList();
+            boardLikeRepository.deleteAll(likes);
+
             // 과제 삭제
             boardRepository.deleteById(id);
         }
