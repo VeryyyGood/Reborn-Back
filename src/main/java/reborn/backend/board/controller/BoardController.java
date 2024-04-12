@@ -57,9 +57,9 @@ public class BoardController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2001", description = "게시판 상세 조회가 완료되었습니다.")
     })
-    @GetMapping("/{id}") // ok
+    @GetMapping("/{board-id}") // ok
     public ApiResponse<BoardResDto> detail(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "board-id") Long id,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
@@ -72,9 +72,9 @@ public class BoardController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2002", description = "게시판 수정이 완료되었습니다.")
     })
-    @PostMapping("/update/{id}") //OK
+    @PostMapping("/{board-id}/update") //OK
     public ApiResponse<BoardResDto> update(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "board-id") Long id,
             @RequestBody BoardReqDto boardReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
@@ -88,9 +88,9 @@ public class BoardController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2003", description = "게시판 삭제가 완료되었습니다.")
     })
-    @DeleteMapping("/delete/{id}") // 엮여있는 것들 다같이 삭제 되어야 함!
+    @DeleteMapping("/{board-id}/delete") // 엮여있는 것들 다같이 삭제 되어야 함!
     public ApiResponse<Boolean> delete(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "board-id") Long id,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
@@ -113,12 +113,7 @@ public class BoardController {
             @RequestParam(name = "type") String boardType,
             @RequestParam(name = "way") String way
     ){
-        User user = userService.findUserByUserName(customUserDetails.getUsername());
-        List<Board> boards  = boardService.findAll();
-        List<Board> filterdBoards = boardService.filterBoardsByType(boards, boardType);
-        List<Board> sortedBoards = boardService.sortBoardsByWay(filterdBoards, way);
-
-        return ApiResponse.onSuccess(SuccessCode.BOARD_LIST_VIEW_SUCCESS, BoardConverter.boardListResDto(sortedBoards));
+        return searchBoardsByTypeAndWay(customUserDetails, boardType, way, false);
     }
 
     @Operation(summary = "북마크 한 전체 게시판 목록 정보 조회 메서드", description = "북마크 한 게시판 중 type, way에 따라 목록을 조회하는 메서드입니다.")
@@ -135,10 +130,19 @@ public class BoardController {
             @RequestParam(name = "type") String boardType,
             @RequestParam(name = "way") String way
     ){
+        return searchBoardsByTypeAndWay(customUserDetails, boardType, way, true);
+    }
+
+    private ApiResponse<BoardListResDto> searchBoardsByTypeAndWay(
+            CustomUserDetails customUserDetails,
+            String boardType,
+            String way,
+            boolean isBookmark
+    ) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        List<Board> bookmarkedBoard = boardService.findBookmarkedBoard(user);
-        List<Board> filterdBoards = boardService.filterBoardsByType(bookmarkedBoard, boardType);
-        List<Board> sortedBoards = boardService.sortBoardsByWay(filterdBoards, way);
+        List<Board> boards = isBookmark ? boardService.findBookmarkedBoard(user) : boardService.findAll();
+        List<Board> filteredBoards = boardService.filterBoardsByType(boards, boardType);
+        List<Board> sortedBoards = boardService.sortBoardsByWay(filteredBoards, way);
 
         return ApiResponse.onSuccess(SuccessCode.BOARD_LIST_VIEW_SUCCESS, BoardConverter.boardListResDto(sortedBoards));
     }

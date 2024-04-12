@@ -34,6 +34,7 @@ public class BoardConverter {
                 .likeCount(board.getLikeCount())
                 .commentCount(board.getCommentCount())
                 .boardContent(board.getBoardContent())
+                .boardCreatedAt(board.getCreatedAt())
                 .imageAttached(board.getImageAttached())
                 .boardImage(board.getBoardImage())
                 .build();

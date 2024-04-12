@@ -116,11 +116,11 @@ public class BoardService {
     public List<Board> sortBoardsByWay(List<Board> boards, String way) {
         if (way.equals("like")) {
             return boards.stream()
-                    .sorted(Comparator.comparingLong(Board::getLikeCount).reversed())
+                    .sorted(Comparator.comparingLong(Board::getLikeCount).reversed()) // 많은 순
                     .toList();
         } else if (way.equals("time")) {
             return boards.stream()
-                    .sorted()
+                    .sorted(Comparator.comparing(Board::getCreatedAt).reversed()) // 최신순
                     .toList();
         } else {
             throw GeneralException.of(ErrorCode.BOARD_WRONG_SORTING_WAY);
