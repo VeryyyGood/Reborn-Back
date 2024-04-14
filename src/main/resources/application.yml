@@ -34,6 +34,26 @@ spring:
               - nickname
               - email
 
+  servlet:
+    multipart:
+      maxFileSize: 10MB # 파일 하나의 최대 크기
+      maxRequestSize: 30MB  # 한 번에 최대 업로드 가능 용량
+
+# S3
+cloud:
+  aws:
+    s3:
+      bucket: reborn-image
+      path:
+        location: location
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      accessKey: ${AWS_S3_ACCESS_KEY}
+      secretKey: ${AWS_S3_SECRET_KEY}
+
 # 리프레시 토큰
 #  data:
 #    redis:
@@ -46,6 +66,7 @@ jwt:
   accessExpirationTime: ${JWT_EXPIRATION}
   refreshExpirationTime: ${JWT_REFRESH_EXPIRATION}
 
+# Swagger
 springdoc:
   swagger-ui:
     path: /swagger
@@ -76,7 +97,7 @@ spring:
 #        show_sql: true
         use_sql_comments: true
         hbm2ddl:
-          auto: update
+          auto: create
         default_batch_fetch_size: 1000
 #  data:
 #    redis:
@@ -107,7 +128,7 @@ spring:
         #        show_sql: true
         use_sql_comments: true
         hbm2ddl:
-          auto: update
+          auto: create
         default_batch_fetch_size: 1000
 #  data:
 #    redis:
@@ -137,5 +158,5 @@ spring:
         #        show_sql: true
         use_sql_comments: true
         hbm2ddl:
-          auto: update
+          auto: create
         default_batch_fetch_size: 1000

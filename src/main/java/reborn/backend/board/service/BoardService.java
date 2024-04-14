@@ -1,9 +1,20 @@
 package reborn.backend.board.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.*;
+import com.amazonaws.util.IOUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.board.domain.*;
 import reborn.backend.board.repository.BoardBookmarkRepository;
 import reborn.backend.board.repository.BoardLikeRepository;
@@ -13,19 +24,25 @@ import reborn.backend.board.repository.BoardRepository;
 import reborn.backend.board.repository.CommentRepository;
 import reborn.backend.board.dto.BoardRequestDto.BoardReqDto;
 import reborn.backend.global.exception.GeneralException;
+import reborn.backend.global.s3.AmazonS3Manager;
 import reborn.backend.user.domain.User;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class BoardService {
+    private final AmazonS3 amazonS3;
+
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
     private final BoardBookmarkRepository boardBookmarkRepository;
     private final BoardLikeRepository boardLikeRepository;
+    private final AmazonS3Manager amazonS3Manager;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     @Transactional
     public List<Board> findAll() {
@@ -44,8 +61,25 @@ public class BoardService {
     }
 
     @Transactional
-    public Board createBoard(BoardReqDto boardReqDto, User user) {
-        Board board = BoardConverter.saveBoard(boardReqDto, user);
+    public Board createBoard(BoardReqDto boardReqDto, String dirName, MultipartFile file, User user) throws IOException{
+
+        Board board = BoardConverter.saveBoard(boardReqDto, user); // 게시판 내용 저장
+
+        String uploadFileUrl = null;
+
+        if (file != null && !file.isEmpty()) {
+            String contentType = file.getContentType();
+            if (ObjectUtils.isEmpty(contentType)) { // 확장자명이 존재하지 않을 경우 취소 처리
+                throw GeneralException.of(ErrorCode.INVALID_FILE_CONTENT_TYPE);
+            }
+            java.io.File uploadFile = amazonS3Manager.convert(file)
+                    .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
+
+            String fileName = dirName + amazonS3Manager.generateFileName(file);
+            uploadFileUrl = amazonS3Manager.putS3(uploadFile, fileName);
+        }
+
+        board.setBoardImage(uploadFileUrl); // 사진 url 저장
         boardRepository.save(board);
 
         return board;
@@ -62,9 +96,7 @@ public class BoardService {
             board.setBoardWriter(user.getUsername());
             board.setLikeCount(board.getLikeCount());
             board.setBoardContent(boardReqDto.getBoardContent());
-            board.setImageAttached(boardReqDto.getImageAttached());
-            board.setBoardImage(boardReqDto.getBoardImage());
-            boardRepository.save(board);
+             boardRepository.save(board);
 
             return board;
         }
