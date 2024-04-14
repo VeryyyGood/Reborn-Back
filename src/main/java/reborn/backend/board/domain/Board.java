@@ -19,8 +19,7 @@ public class Board extends BaseEntity {
     /*
     1. EmotionShareBoard
     2. ActivityShareBoard
-    3. ProductShareBoard
-    4. ChatShareBoard
+    3. ChatShareBoard
      */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
