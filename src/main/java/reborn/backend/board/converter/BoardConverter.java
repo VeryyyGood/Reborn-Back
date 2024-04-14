@@ -23,7 +23,7 @@ public class BoardConverter {
                 .commentCount(0L)
                 .boardContent(board.getBoardContent())
                 .imageAttached(board.getImageAttached())
-                .boardImage(board.getBoardImage())
+                .boardImage("0")
                 .build();
     }
 

@@ -2,14 +2,13 @@ package reborn.backend.board.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.board.domain.BoardType;
-import reborn.backend.user.domain.User;
-
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 public class BoardRequestDto {
@@ -21,6 +20,7 @@ public class BoardRequestDto {
     public static class BoardReqDto {
 
         @Schema(description = "게시판 종류")
+        @NotBlank
         private BoardType boardType;
 
         @Schema(description = "게시판 내용")
@@ -29,8 +29,8 @@ public class BoardRequestDto {
         @Schema(description = "게시판 이미지 첨부 유무")
         private Integer imageAttached;
 
-        @Schema(description = "게시판 이미지")
-        private String boardImage;
+        /*@Schema(description = "게시판 이미지")
+        MultipartFile boardImage;*/
     }
 
 }

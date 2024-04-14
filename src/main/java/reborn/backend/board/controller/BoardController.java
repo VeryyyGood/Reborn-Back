@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.sql.ast.tree.update.Assignment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.board.domain.Board;
 import reborn.backend.board.domain.BoardType;
 import reborn.backend.board.service.BoardBookmarkService;
@@ -25,6 +26,7 @@ import reborn.backend.user.domain.User;
 import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.service.UserService;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "게시판", description = "게시판 관련 api 입니다.")
@@ -43,16 +45,20 @@ public class BoardController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2011", description = "게시판 생성이 완료되었습니다.")
     })
-    @PostMapping("/create") //ok
+    @PostMapping(value = "/create", consumes = "multipart/form-data")
     public ApiResponse<Boolean> create(
-            @RequestBody BoardReqDto boardReqDto,
+            @RequestPart("file") MultipartFile file,
+            @RequestPart("data") BoardReqDto boardReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
-    ){
+    ) throws IOException {
+        String dirName = "board";
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        Board board = boardService.createBoard(boardReqDto, user);
+        Board board = boardService.createBoard(boardReqDto, dirName, file, user);
 
         return ApiResponse.onSuccess(SuccessCode.BOARD_CREATED, true);
     }
+
+
     @Operation(summary = "게시물 상세 조회 메서드", description = "게시물 상세 정보를 조회하는 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2001", description = "게시판 상세 조회가 완료되었습니다.")
@@ -132,6 +138,8 @@ public class BoardController {
     ){
         return searchBoardsByTypeAndWay(customUserDetails, boardType, way, true);
     }
+
+    // MY 게시판 추가
 
     private ApiResponse<BoardListResDto> searchBoardsByTypeAndWay(
             CustomUserDetails customUserDetails,
