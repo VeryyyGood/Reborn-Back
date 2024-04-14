@@ -105,7 +105,7 @@ public class BoardController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2004", description = "게시판 목록 조회가 완료되었습니다.")
     })
     @Parameters({
-            @Parameter(name = "type", description = "조회하고 싶은 게시물 타입, EMOTION: 감정, ACTIVITY: 봉사, PRODUCT: 물품, CHAT: 잡담"),
+            @Parameter(name = "type", description = "조회하고 싶은 게시물 타입, EMOTION: 감정, ACTIVITY: 봉사, CHAT: 잡담"),
             @Parameter(name = "way", description = "정렬 방식,  like: 좋아요순, time: 최신순")
     })
     @GetMapping("/list")
@@ -114,7 +114,7 @@ public class BoardController {
             @RequestParam(name = "type") String boardType,
             @RequestParam(name = "way") String way
     ){
-        return searchBoardsByTypeAndWay(customUserDetails, boardType, way, false);
+        return searchBoardsByTypeAndWay(customUserDetails, boardType, way, false, false);
     }
 
     @Operation(summary = "북마크 한 전체 게시판 목록 정보 조회 메서드", description = "북마크 한 게시판 중 type, way에 따라 목록을 조회하는 메서드입니다.")
@@ -122,7 +122,7 @@ public class BoardController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2005", description = "게시판 목록 조회가 완료되었습니다.")
     })
     @Parameters({
-            @Parameter(name = "type", description = "조회하고 싶은 게시물 타입, EMOTION: 감정, ACTIVITY: 봉사, PRODUCT: 물품, CHAT: 잡담"),
+            @Parameter(name = "type", description = "조회하고 싶은 게시물 타입, EMOTION: 감정, ACTIVITY: 봉사, CHAT: 잡담"),
             @Parameter(name = "way", description = "정렬 방식,  like: 좋아요순, time: 최신순")
     })
     @GetMapping("/list/bookmark")
@@ -131,20 +131,37 @@ public class BoardController {
             @RequestParam(name = "type") String boardType,
             @RequestParam(name = "way") String way
     ){
-        return searchBoardsByTypeAndWay(customUserDetails, boardType, way, true);
+        return searchBoardsByTypeAndWay(customUserDetails, boardType, way, true, false);
     }
 
-    // MY 게시판 추가
+    @Operation(summary = "내가 작성한 전체 게시판 목록 정보 조회 메서드", description = "내가 작성한 게시판 중 type, way에 따라 목록을 조회하는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2005", description = "게시판 목록 조회가 완료되었습니다.")
+    })
+    @Parameters({
+            @Parameter(name = "type", description = "조회하고 싶은 게시물 타입, EMOTION: 감정, ACTIVITY: 봉사, CHAT: 잡담"),
+            @Parameter(name = "way", description = "정렬 방식,  like: 좋아요순, time: 최신순")
+    })
+    @GetMapping("/list/my")
+    public ApiResponse<BoardListResDto> searchMyBoardsByType(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam(name = "type") String boardType,
+            @RequestParam(name = "way") String way
+    ){
+        return searchBoardsByTypeAndWay(customUserDetails, boardType, way, false, true);
+    }
 
     private ApiResponse<BoardListResDto> searchBoardsByTypeAndWay(
             CustomUserDetails customUserDetails,
             String boardType,
             String way,
-            boolean isBookmark
+            boolean isBookmark,
+            boolean isMine
     ) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        List<Board> boards = isBookmark ? boardService.findBookmarkedBoard(user) : boardService.findAll();
-        List<Board> filteredBoards = boardService.filterBoardsByType(boards, boardType);
+        List<Board> bookmarkBoards = isBookmark ? boardService.findBookmarkedBoard(user) : boardService.findAll();
+        List<Board> myBoards =  isMine ? boardService.findByUser(user) : bookmarkBoards; // isBookmark && isMine의 경우가 없기에 가능
+        List<Board> filteredBoards = boardService.filterBoardsByType(myBoards, boardType);
         List<Board> sortedBoards = boardService.sortBoardsByWay(filteredBoards, way);
 
         return ApiResponse.onSuccess(SuccessCode.BOARD_LIST_VIEW_SUCCESS, BoardConverter.boardListResDto(sortedBoards));
