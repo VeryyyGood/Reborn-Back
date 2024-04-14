@@ -22,7 +22,6 @@ public class BoardConverter {
                 .likeCount(0L)
                 .commentCount(0L)
                 .boardContent(board.getBoardContent())
-                .imageAttached(board.getImageAttached())
                 .boardImage("0")
                 .build();
     }
@@ -36,7 +35,6 @@ public class BoardConverter {
                 .commentCount(board.getCommentCount())
                 .boardContent(board.getBoardContent())
                 .boardCreatedAt(board.getCreatedAt())
-                .imageAttached(board.getImageAttached())
                 .boardImage(board.getBoardImage())
                 .build();
     }

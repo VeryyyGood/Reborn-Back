@@ -31,6 +31,12 @@ public class User extends BaseEntity{
     @Column(nullable = false)
     private String email;
 
+    @Column
+    private String profileImage;
+
+    @Column
+    private String backgroundImage;
+
     @Column(nullable = false)
     private String password;
 

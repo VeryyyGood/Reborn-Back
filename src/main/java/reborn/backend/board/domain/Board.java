@@ -45,9 +45,6 @@ public class Board extends BaseEntity {
     @Column(length = 5000, nullable = false)
     private String boardContent;
 
-    @Column(nullable = false)
-    private Integer imageAttached;
-
     @Column
     private String boardImage;
 

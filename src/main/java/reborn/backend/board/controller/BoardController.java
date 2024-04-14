@@ -40,14 +40,13 @@ public class BoardController {
     private final BoardLikeService boardLikeService;
     private final BoardBookmarkService boardBookmarkService;
 
-    // 추후 사진 업로드 추가
     @Operation(summary = "게시판 만들기 메서드", description = "게시판을 만드는 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2011", description = "게시판 생성이 완료되었습니다.")
     })
     @PostMapping(value = "/create")
     public ApiResponse<Boolean> create(
-            @RequestPart("file") MultipartFile file,
+            @RequestPart(value = "file", required = false) MultipartFile file,
             @RequestPart("data") BoardReqDto boardReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) throws IOException {
@@ -57,7 +56,6 @@ public class BoardController {
 
         return ApiResponse.onSuccess(SuccessCode.BOARD_CREATED, true);
     }
-
 
     @Operation(summary = "게시물 상세 조회 메서드", description = "게시물 상세 정보를 조회하는 메서드입니다.")
     @ApiResponses(value = {
