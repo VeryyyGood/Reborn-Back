@@ -1,18 +1,24 @@
 package reborn.backend.global.s3;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.nimbusds.common.contenttype.ContentType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.config.AmazonConfig;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,7 +48,19 @@ public class AmazonS3Manager {
         return UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
     }
 
-    private MediaType contentType(String fileName) {
+    public void delete(String filePath) { // 잘 작동 안됨
+        try {
+            DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, filePath);
+            log.info(String.valueOf(deleteObjectRequest));
+            amazonS3.deleteObject(deleteObjectRequest);
+            log.info("Deleted object from S3 with key: {}", filePath);
+        } catch (SdkClientException e) {
+            log.error("Error occurred while deleting object from S3", e);
+            throw new RuntimeException("Failed to delete object from S3", e);
+        }
+    }
+
+    public MediaType contentType(String fileName) {
         String[] arr = fileName.split("\\.");
         String type = arr[arr.length - 1];
         return switch (type) {
