@@ -14,6 +14,9 @@ public enum ErrorCode implements BaseCode {
     // User
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_4041", "존재하지 않는 회원입니다."),
 
+    // File
+    MISMATCH_IMAGE_FILE(HttpStatus.FORBIDDEN, "FILE_4031", "첨부할 사진은 png, jpeg 유형만 가능합니다."),
+
     // Pet
     PET_NOT_FOUND(HttpStatus.NOT_FOUND, "PET_4041", "존재하지 않는 반려동물입니다."),
 
