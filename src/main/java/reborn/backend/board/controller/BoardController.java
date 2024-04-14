@@ -6,17 +6,14 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.sql.ast.tree.update.Assignment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.board.domain.Board;
-import reborn.backend.board.domain.BoardType;
 import reborn.backend.board.service.BoardBookmarkService;
 import reborn.backend.board.service.BoardLikeService;
 import reborn.backend.board.service.BoardService;
 import reborn.backend.board.converter.BoardConverter;
-import reborn.backend.board.service.CommentService;
 import reborn.backend.board.dto.BoardResponseDto.BoardResDto;
 import reborn.backend.board.dto.BoardResponseDto.BoardListResDto;
 import reborn.backend.board.dto.BoardRequestDto.BoardReqDto;
@@ -46,7 +43,7 @@ public class BoardController {
     })
     @PostMapping(value = "/create")
     public ApiResponse<Boolean> create(
-            @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart(value = "board", required = false) MultipartFile file,
             @RequestPart("data") BoardReqDto boardReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) throws IOException {
