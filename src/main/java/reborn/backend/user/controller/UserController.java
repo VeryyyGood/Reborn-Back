@@ -1,6 +1,5 @@
 package reborn.backend.user.controller;
 
-import com.oracle.svm.core.annotate.Delete;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
