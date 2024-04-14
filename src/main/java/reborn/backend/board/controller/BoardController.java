@@ -45,13 +45,13 @@ public class BoardController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2011", description = "게시판 생성이 완료되었습니다.")
     })
-    @PostMapping(value = "/create", consumes = "multipart/form-data")
+    @PostMapping(value = "/create")
     public ApiResponse<Boolean> create(
             @RequestPart("file") MultipartFile file,
             @RequestPart("data") BoardReqDto boardReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) throws IOException {
-        String dirName = "board";
+        String dirName = "board/";
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Board board = boardService.createBoard(boardReqDto, dirName, file, user);
 

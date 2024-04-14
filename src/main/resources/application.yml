@@ -43,7 +43,7 @@ spring:
 cloud:
   aws:
     s3:
-      bucket: reborn
+      bucket: reborn-image
       path:
         location: location
     region:

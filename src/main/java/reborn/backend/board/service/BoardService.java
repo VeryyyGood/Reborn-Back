@@ -43,7 +43,7 @@ public class BoardService {
     private final BoardBookmarkRepository boardBookmarkRepository;
     private final BoardLikeRepository boardLikeRepository;
 
-    @Value(("${cloud.aws.s3.bucket}"))
+    @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     @Transactional
