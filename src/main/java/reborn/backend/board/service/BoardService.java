@@ -61,6 +61,11 @@ public class BoardService {
     }
 
     @Transactional
+    public List<Board> findByUser(User user){
+        return user.getBoards().stream().toList();
+    }
+
+    @Transactional
     public Board createBoard(BoardReqDto boardReqDto, String dirName, MultipartFile file, User user) throws IOException{
 
         Board board = BoardConverter.saveBoard(boardReqDto, user); // 게시판 내용 저장
@@ -140,10 +145,6 @@ public class BoardService {
         } else if (BoardType.valueOf(boardType).equals(BoardType.ACTIVITY)) {
             return boards.stream()
                     .filter(board -> board.getBoardType() == BoardType.ACTIVITY)
-                    .toList();
-        }else if (BoardType.valueOf(boardType).equals(BoardType.PRODUCT)) {
-            return boards.stream()
-                    .filter(board -> board.getBoardType() == BoardType.PRODUCT)
                     .toList();
         }else if (BoardType.valueOf(boardType).equals(BoardType.CHAT)) {
             return boards.stream()
