@@ -1,9 +1,12 @@
 package reborn.backend.user.converter;
 
 import lombok.NoArgsConstructor;
+import reborn.backend.board.domain.Board;
+import reborn.backend.board.dto.BoardResponseDto;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.dto.JwtDto;
 import reborn.backend.user.dto.UserRequestDto;
+import reborn.backend.user.dto.UserResponseDto;
 
 @NoArgsConstructor
 public class UserConverter {
@@ -16,7 +19,7 @@ public class UserConverter {
                 .profileImage(null)
                 .backgroundImage(null)
                 .password("password")
-                .providerId("naver")
+                .providerId("providerId")
                 .build();
     }
 
@@ -24,6 +27,13 @@ public class UserConverter {
         return JwtDto.builder()
                 .accessToken(access)
                 .refreshToken(refresh)
+                .build();
+    }
+
+    public static UserResponseDto.UserInfoResDto infoDto(User user) {
+        return UserResponseDto.UserInfoResDto.builder()
+                .since(user.getCreatedAt())
+                .email(user.getEmail())
                 .build();
     }
 }
