@@ -18,7 +18,6 @@ public class BoardRequestDto {
     public static class BoardReqDto {
 
         @Schema(description = "게시판 종류")
-        @NotBlank
         private BoardType boardType;
 
         @Schema(description = "게시판 내용")
