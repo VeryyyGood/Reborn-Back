@@ -96,6 +96,14 @@ public enum SuccessCode implements BaseCode {
     REMEMBER_CLEAN5_COMPLETED(HttpStatus.OK, "REMEMBER_2012", "정리5가 완료되었습니다."),
     REMEMBER_CLEAN6_COMPLETED(HttpStatus.OK, "REMEMBER_2013", "정리6가 완료되었습니다."),
 
+    // REBORN
+    REBORN_CREATED(HttpStatus.CREATED, "REBORN_2011", "건강한 작별하기 생성이 완료되었습니다."),
+    REBORN_DETAIL_VIEW_SUCCESS(HttpStatus.OK, "REBORN_2002", "건강한 작별하기 조회가 완료되었습니다."),
+    REBORN_WRITE_COMPLETED(HttpStatus.OK, "REBORN_2003", "작별인사 작성이 완료되었습니다."),
+    REBORN_PAT_COMPLETED(HttpStatus.OK, "REBORN_2004", "쓰다듬기가 완료되었습니다."),
+    REBORN_FEED_COMPLETED(HttpStatus.OK, "REBORN_2005", "밥주기가 완료되었습니다."),
+    REBORN_WASH_COMPLETED(HttpStatus.OK, "REBORN_2006", "씻겨주기가 완료되었습니다."),
+    REBORN_BRUSH_COMPLETED(HttpStatus.OK, "REBORN_2007", "털 빗어주기가 완료되었습니다."),
     ;
 
     private final HttpStatus httpStatus;
