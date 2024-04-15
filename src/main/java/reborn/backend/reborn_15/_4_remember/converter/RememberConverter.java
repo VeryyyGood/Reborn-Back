@@ -9,10 +9,10 @@ import reborn.backend.reborn_15._4_remember.dto.RememberResponseDto.DetailRememb
 @NoArgsConstructor
 public class RememberConverter {
 
-    public static Remember toRemember(RememberReqDto remember, Pet pet) {
+    public static Remember toRemember(RememberReqDto remember, Pet pet, Integer date) {
         return Remember.builder()
                 .pet(pet)
-                .date(remember.getDate())
+                .date(date)
                 .pat(false)
                 .feed(false)
                 .walk(false)

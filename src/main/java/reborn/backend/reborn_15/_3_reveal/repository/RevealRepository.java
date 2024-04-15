@@ -7,9 +7,11 @@ import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._3_reveal.domain.Reveal;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RevealRepository extends JpaRepository<Reveal, Long>, JpaSpecificationExecutor<Reveal> {
+    Optional<Reveal> findTopByPetOrderByDateDesc(Pet pet);
 
     List<Reveal> findAllByDate(Integer date);
 

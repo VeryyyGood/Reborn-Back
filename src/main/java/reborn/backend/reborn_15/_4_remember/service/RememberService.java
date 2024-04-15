@@ -13,6 +13,8 @@ import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.DetailRemembe
 import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.RememberReqDto;
 import reborn.backend.reborn_15._4_remember.repository.RememberRepository;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -22,7 +24,11 @@ public class RememberService {
 
     @Transactional
     public Remember createRemember(RememberReqDto remberReqDto, Pet pet) {
-        Remember remember = RememberConverter.toRemember(remberReqDto, pet);
+        Optional<Remember> latestRemember = rememberRepository.findTopByPetOrderByDateDesc(pet);
+
+        Integer newDate = latestRemember.map(r -> r.getDate() + 1).orElse(12);
+
+        Remember remember = RememberConverter.toRemember(remberReqDto, pet, newDate);
 
         rememberRepository.save(remember);
 
