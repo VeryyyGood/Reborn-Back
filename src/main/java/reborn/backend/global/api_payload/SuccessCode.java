@@ -65,22 +65,36 @@ public enum SuccessCode implements BaseCode {
     REVEAL_CREATED(HttpStatus.CREATED, "REVEAL_2011", "나의 감정 들여다보기 생성이 완료되었습니다."),
     REVEAL_LIST_VIEW_SUCCESS(HttpStatus.OK, "REVEAL_2001", "나의 감정 들여다보기 목록 조회가 완료되었습니다."),
     REVEAL_DETAIL_VIEW_SUCCESS(HttpStatus.OK, "REVEAL_2002", "나의 감정 들여다보기 조회가 완료되었습니다."),
-    REVEAL_UPDATED(HttpStatus.OK, "REVEAL_2003", "나의 감정 들여다보기 수정이 완료되었습니다."),
+    REVEAL_WRITE_COMPLETED(HttpStatus.OK, "REVEAL_2003", "일기 작성이 완료되었습니다."),
     REVEAL_PAT_COMPLETED(HttpStatus.OK, "REVEAL_2004", "쓰다듬기가 완료되었습니다."),
     REVEAL_FEED_COMPLETED(HttpStatus.OK, "REVEAL_2005", "밥주기가 완료되었습니다."),
     REVEAL_WALK_COMPLETED(HttpStatus.OK, "REVEAL_2006", "산책하기가 완료되었습니다."),
     REVEAL_SNACK_COMPLETED(HttpStatus.OK, "REVEAL_2007", "간식주기가 완료되었습니다."),
-    REVEAL_WRITE_COMPLETED(HttpStatus.OK, "REVEAL_2008", "일기 작성이 완료되었습니다."),
 
     // REMIND
     REMIND_CREATED(HttpStatus.CREATED, "REMIND_2011", "충분한 대화 나누기 생성이 완료되었습니다."),
     REMIND_DETAIL_VIEW_SUCCESS(HttpStatus.OK, "REMIND_2002", "충분한 대화 나누기 조회가 완료되었습니다."),
+    REMIND_WRITE_COMPLETED(HttpStatus.OK, "REMIND_2003", "답변 작성이 완료되었습니다."),
     REMIND_PAT_COMPLETED(HttpStatus.OK, "REMIND_2004", "쓰다듬기가 완료되었습니다."),
     REMIND_FEED_COMPLETED(HttpStatus.OK, "REMIND_2005", "밥주기가 완료되었습니다."),
     REMIND_WALK_COMPLETED(HttpStatus.OK, "REMIND_2006", "산책하기가 완료되었습니다."),
     REMIND_SNACK_COMPLETED(HttpStatus.OK, "REMIND_2007", "간식주기가 완료되었습니다."),
-    REMIND_WRITE_COMPLETED(HttpStatus.OK, "REMIND_2008", "답변 작성이 완료되었습니다."),
 
+
+    // REMEMBER
+    REMEMBER_CREATED(HttpStatus.CREATED, "REMEMBER_2011", "건강한 작별 준비하기 생성이 완료되었습니다."),
+    REMEMBER_DETAIL_VIEW_SUCCESS(HttpStatus.OK, "REMEMBER_2002", "건강한 작별 준비하기 조회가 완료되었습니다."),
+    REMEMBER_WRITE_COMPLETED(HttpStatus.OK, "REMEMBER_2003", "그림일기 작성이 완료되었습니다."),
+    REMEMBER_PAT_COMPLETED(HttpStatus.OK, "REMEMBER_2004", "쓰다듬기가 완료되었습니다."),
+    REMEMBER_FEED_COMPLETED(HttpStatus.OK, "REMEMBER_2005", "밥주기가 완료되었습니다."),
+    REMEMBER_WALK_COMPLETED(HttpStatus.OK, "REMEMBER_2006", "산책하기가 완료되었습니다."),
+    REMEMBER_SNACK_COMPLETED(HttpStatus.OK, "REMEMBER_2007", "간식주기가 완료되었습니다."),
+    REMEMBER_CLEAN1_COMPLETED(HttpStatus.OK, "REMEMBER_2008", "정리1가 완료되었습니다."),
+    REMEMBER_CLEAN2_COMPLETED(HttpStatus.OK, "REMEMBER_2009", "정리2가 완료되었습니다."),
+    REMEMBER_CLEAN3_COMPLETED(HttpStatus.OK, "REMEMBER_2010", "정리3가 완료되었습니다."),
+    REMEMBER_CLEAN4_COMPLETED(HttpStatus.OK, "REMEMBER_2011", "정리4가 완료되었습니다."),
+    REMEMBER_CLEAN5_COMPLETED(HttpStatus.OK, "REMEMBER_2012", "정리5가 완료되었습니다."),
+    REMEMBER_CLEAN6_COMPLETED(HttpStatus.OK, "REMEMBER_2013", "정리6가 완료되었습니다."),
 
     ;
 

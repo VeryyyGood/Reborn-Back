@@ -14,7 +14,6 @@ import reborn.backend.reborn_15._2_remind.converter.RemindConverter;
 import reborn.backend.reborn_15._2_remind.domain.Remind;
 import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.DetailRemindReqDto;
 import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.RemindReqDto;
-import reborn.backend.reborn_15._2_remind.dto.RemindResponseDto;
 import reborn.backend.reborn_15._2_remind.dto.RemindResponseDto.DetailRemindDto;
 import reborn.backend.reborn_15._2_remind.service.RemindService;
 import reborn.backend.user.domain.User;
@@ -64,6 +63,21 @@ public class RemindController {
         return ApiResponse.onSuccess(SuccessCode.REMIND_DETAIL_VIEW_SUCCESS, detailRemindDto);
     }
 
+    @Operation(summary = "답변 작성 메서드", description = "답변을 작성하는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2003", description = "답변 작성이 완료되었습니다.")
+    })
+    @PostMapping("/write/{id}")
+    public ApiResponse<Boolean> write(
+            @PathVariable(name = "pet-id") Long petId,
+            @PathVariable(name = "id") Long id,
+            @RequestBody DetailRemindReqDto detailRemindReqDto,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        Remind remind = remindService.writeRemind(id, detailRemindReqDto);
+
+        return ApiResponse.onSuccess(SuccessCode.REMIND_WRITE_COMPLETED, true);
+    }
 
     @Operation(summary = "쓰다듬기 메서드", description = "쓰다듬기 메서드입니다.")
     @ApiResponses(value = {
@@ -119,21 +133,5 @@ public class RemindController {
         remindService.snackRemind(id);
 
         return ApiResponse.onSuccess(SuccessCode.REMIND_SNACK_COMPLETED, true);
-    }
-
-    @Operation(summary = "답변 작성 메서드", description = "답변을 작성하는 메서드입니다.")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2008", description = "답변 작성이 완료되었습니다.")
-    })
-    @PostMapping("/write/{id}")
-    public ApiResponse<Boolean> write(
-            @PathVariable(name = "pet-id") Long petId,
-            @PathVariable(name = "id") Long id,
-            @RequestBody DetailRemindReqDto detailRemindReqDto,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
-    ){
-        Remind remind = remindService.writeRemind(id, detailRemindReqDto);
-
-        return ApiResponse.onSuccess(SuccessCode.REMIND_WRITE_COMPLETED, true);
     }
 }

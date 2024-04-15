@@ -13,6 +13,8 @@ import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.DetailRemindReqDt
 import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.RemindReqDto;
 import reborn.backend.reborn_15._2_remind.repository.RemindRepository;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -22,7 +24,11 @@ public class RemindService {
 
     @Transactional
     public Remind createRemind(RemindReqDto remindReqDto, Pet pet) {
-        Remind remind = RemindConverter.toRemind(remindReqDto, pet);
+        Optional<Remind> latestRemind = remindRepository.findTopByPetOrderByDateDesc(pet);
+
+        Integer newDate = latestRemind.map(r -> r.getDate() + 1).orElse(2);
+
+        Remind remind = RemindConverter.toRemind(remindReqDto, pet, newDate);
 
         remindRepository.save(remind);
 
@@ -55,18 +61,18 @@ public class RemindService {
 
     @Transactional
     public  Remind walkRemind(Long id) {
-        Remind reveal = remindRepository.findById(id)
+        Remind remind = remindRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
-        reveal.setWalk(true);
+        remind.setWalk(true);
 
-        remindRepository.save(reveal);
+        remindRepository.save(remind);
 
-        return reveal;
+        return remind;
     }
 
     @Transactional
-    public  Remind snackRemind(Long id) {
+    public Remind snackRemind(Long id) {
         Remind remind = remindRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
