@@ -30,23 +30,6 @@ public class PetController {
     private final UserService userService;
     private final PetService petService;
 
-    // Pet 새로 만들기
-    @Operation(summary = "반려동물 정보 입력 메서드", description = "반려동물 정보를 입력하는 메서드입니다.")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2011", description = "반려동물 정보 입력이 완료되었습니다.")
-    })
-    @PostMapping("/create")
-    public ApiResponse<Boolean> create(
-            @RequestBody PetReqDto petReqDto,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
-    ){
-        User user = userService.findUserByUserName(customUserDetails.getUsername());
-
-        petService.createPet(petReqDto, user);
-
-        return ApiResponse.onSuccess(SuccessCode.PET_CREATED, true);
-    }
-
     // 모든 Pet 가져오기
     @Operation(summary = "반려동물 정보 조회 메서드", description = "반려동물 정보 목록을 조회하는 메서드입니다.")
     @ApiResponses(value = {
@@ -86,24 +69,5 @@ public class PetController {
 
 
     }
-
-    // Pet 수정하기
-    @Operation(summary = "반려동물 정보 수정 메서드", description = "반려동물 정보를 수정하는 메서드입니다.")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2003", description = "반려동물 정보 수정이 완료되었습니다.")
-    })
-    @PostMapping("/{pet-id}/update")
-    public ApiResponse<Boolean> update(
-            @PathVariable(name = "pet-id") Long id,
-            @RequestBody DetailPetReqDto detailPetReqDto,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
-    ){
-        User user = userService.findUserByUserName(customUserDetails.getUsername());
-
-        petService.updatePet(id, detailPetReqDto);
-
-        return ApiResponse.onSuccess(SuccessCode.PET_UPDATED, true);
-    }
-
 
 }
