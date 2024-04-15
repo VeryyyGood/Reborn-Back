@@ -45,6 +45,8 @@ public class RemindController {
 
         Remind remind = remindService.createRemind(remindReqDto, pet);
 
+        petService.updateDate(petId);
+
         return ApiResponse.onSuccess(SuccessCode.REMIND_CREATED, true);
     }
 

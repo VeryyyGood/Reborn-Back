@@ -10,7 +10,7 @@ import reborn.backend.pet.converter.PetConverter;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.pet.domain.PetColor;
 import reborn.backend.pet.domain.PetType;
-import reborn.backend.pet.dto.PetRequestDto;
+import reborn.backend.pet.dto.PetRequestDto.DetailPetReqDto;
 import reborn.backend.pet.dto.PetRequestDto.PetReqDto;
 import reborn.backend.pet.repository.PetRepository;
 import reborn.backend.user.domain.User;
@@ -26,16 +26,18 @@ public class PetService {
 
     @Transactional
     public Pet createPet(PetReqDto petReqDto, User user) {
-        Pet pet = PetConverter.toPet(petReqDto, user);
+        Integer newDate = 1;
+
+        Pet pet = PetConverter.toPet(petReqDto, user, newDate);
 
         petRepository.save(pet);
         return pet;
     }
 
     @Transactional
-    public Pet updatePet(Long id, PetRequestDto.DetailPetReqDto detailPetReqDto) {
+    public Pet updatePet(Long id, DetailPetReqDto detailPetReqDto) {
         Pet pet = petRepository.findById(id)
-                .orElseThrow(() -> GeneralException.of(ErrorCode.REDIARY_NOT_FOUND));
+                .orElseThrow(() -> GeneralException.of(ErrorCode.PET_NOT_FOUND));
 
         pet.setPetName(detailPetReqDto.getPetName());
         pet.setAnniversary(detailPetReqDto.getAnniversary());
@@ -44,6 +46,16 @@ public class PetService {
         pet.setPetColor(PetColor.valueOf(detailPetReqDto.getPetColor()));
 
         petRepository.save(pet);
+
+        return pet;
+    }
+
+    @Transactional
+    public Pet updateDate(Long id) {
+        Pet pet = petRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.PET_NOT_FOUND));
+
+        pet.setRebornDate(pet.getRebornDate() + 1);
 
         return pet;
     }

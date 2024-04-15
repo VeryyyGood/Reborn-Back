@@ -47,6 +47,8 @@ public class RevealController {
 
         Reveal reveal = revealService.createReveal(revealReqDto, pet);
 
+        petService.updateDate(petId);
+
         return ApiResponse.onSuccess(SuccessCode.REVEAL_CREATED, true);
     }
 
