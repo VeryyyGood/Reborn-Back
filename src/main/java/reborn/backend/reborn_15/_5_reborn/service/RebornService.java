@@ -1,11 +1,106 @@
 package reborn.backend.reborn_15._5_reborn.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reborn.backend.global.api_payload.ErrorCode;
+import reborn.backend.global.exception.GeneralException;
+import reborn.backend.pet.domain.Pet;
+import reborn.backend.reborn_15._5_reborn.converter.RebornConverter;
+import reborn.backend.reborn_15._5_reborn.domain.Reborn;
+import reborn.backend.reborn_15._5_reborn.domain.RebornType;
+import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.DetailRebornReqDto;
+import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornReqDto;
+import reborn.backend.reborn_15._5_reborn.repository.RebornRepository;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class RebornService {
+
+    private final RebornRepository rebornRepository;
+
+    @Transactional
+    public Reborn createReborn(RebornReqDto rebornReqDto, Pet pet) {
+        Optional<Reborn> latestReborn = rebornRepository.findTopByPetOrderByDateDesc(pet);
+
+        Integer newDate = latestReborn.map(r -> r.getDate() + 1).orElse(15);
+
+        Reborn reborn = RebornConverter.toReborn(rebornReqDto, pet, newDate);
+
+        rebornRepository.save(reborn);
+
+        return reborn;
+    }
+
+
+    @Transactional
+    public Reborn patReborn(Long id) {
+        Reborn reborn = rebornRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
+
+        reborn.setPat(true);
+
+        rebornRepository.save(reborn);
+
+        return reborn;
+    }
+
+    @Transactional
+    public Reborn feedReborn(Long id) {
+        Reborn reborn = rebornRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
+
+        reborn.setFeed(true);
+
+        rebornRepository.save(reborn);
+
+        return reborn;
+    }
+
+    @Transactional
+    public Reborn washReborn(Long id) {
+        Reborn reborn = rebornRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
+
+        reborn.setWash(true);
+
+        rebornRepository.save(reborn);
+
+        return reborn;
+    }
+
+    @Transactional
+    public Reborn brushReborn(Long id) {
+        Reborn reborn = rebornRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
+
+        reborn.setBrush(true);
+
+        rebornRepository.save(reborn);
+
+        return reborn;
+    }
+
+    @Transactional
+    public Reborn writeReborn(Long id, DetailRebornReqDto detailRebornReqDto) {
+        Reborn reborn = rebornRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
+
+        reborn.setRebornContent(detailRebornReqDto.getRebornContent());
+        reborn.setRebornType(RebornType.valueOf(detailRebornReqDto.getRebornType()));
+
+        rebornRepository.save(reborn);
+
+        return reborn;
+    }
+
+    @Transactional
+    public Reborn findById(Long id) {
+        return rebornRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
+    }
 }
