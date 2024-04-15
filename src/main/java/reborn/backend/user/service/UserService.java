@@ -8,36 +8,105 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.global.s3.AmazonS3Manager;
+import reborn.backend.user.converter.UserConverter;
 import reborn.backend.user.domain.User;
-import reborn.backend.user.jwt.JwtDto;
+import reborn.backend.user.dto.UserRequestDto;
+import reborn.backend.user.jwt.CustomUserDetails;
+import reborn.backend.user.dto.JwtDto;
 import reborn.backend.user.jwt.JwtTokenUtils;
 import reborn.backend.user.jwt.RefreshToken;
 import reborn.backend.user.repository.RefreshTokenRepository;
 import reborn.backend.user.repository.UserRepository;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.apache.logging.log4j.util.Strings.isEmpty;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final UserDetailsManager userDetailsManager;
+    //private final UserConverter userConverter; // 웨안돼...?????
+    private final JwtTokenUtils tokenUtils;
 
     private final PasswordEncoder passwordEncoder;
     private final JpaUserDetailsManager manager;
     private final JwtTokenUtils jwtTokenUtils;
     private final AmazonS3Manager amazonS3Manager;
 
-    // 로그인 - OAuth2SuccessHandler
+    // 로그인
+
+    // username으로 User찾기
+    public User findUserByUserName(String userName){
+        return userRepository.findByUsername(userName)
+                .orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND_BY_USERNAME));
+    }
+    public User findByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND_BY_EMAIL));;
+        return user;
+    }
+
+    public Boolean checkMemberByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public User createUser(UserRequestDto.UserReqDto userReqDto){
+        User user = userRepository.save(UserConverter.saveUser(userReqDto));
+        userDetailsManager.createUser(CustomUserDetails.builder() // 혹시 몰라서 여기에도 저장..
+                .username(userReqDto.getUsername())
+                .email(userReqDto.getEmail())
+                .nickname(userReqDto.getNickname())
+                .provider(userReqDto.getProvider())
+                .password("password")
+                .providerId("naver")
+                .build());
+
+        return user;
+    }
+
+    public JwtDto jwtMakeSave(String username){
+
+        // JWT 생성 - access & refresh
+        UserDetails details
+                = userDetailsManager.loadUserByUsername(username); // 여기서 새로 회원 정보 저장한 거를 인식 못하고 있음
+        JwtDto jwt = tokenUtils.generateToken(details); //2. access, refresh token 생성 및 발급
+        log.info("accessToken: {}", jwt.getAccessToken());
+        log.info("refreshToken: {} ", jwt.getRefreshToken());
+
+        // 유효기간 초단위 설정 후 db에 refresh token save
+        Claims refreshTokenClaims = tokenUtils.parseClaims(jwt.getRefreshToken());
+        Long validPeriod
+                = refreshTokenClaims.getExpiration().toInstant().getEpochSecond()
+                - refreshTokenClaims.getIssuedAt().toInstant().getEpochSecond();
+
+        // DB에 저장된 해당 사용자의 리프레시 토큰을 업데이트
+        Optional<RefreshToken> existingToken = refreshTokenRepository.findById(username);
+        if (existingToken.isPresent()) {
+            refreshTokenRepository.deleteById(username);
+        }
+
+        refreshTokenRepository.save(
+                RefreshToken.builder()
+                        .id(username)
+                        .ttl(validPeriod)
+                        .refreshToken(jwt.getRefreshToken())
+                        .build()
+        );
+
+        // JSON 형태로 응답
+        return jwt;
+    }
 
     // 로그아웃
     public void logout(HttpServletRequest request) {
@@ -179,12 +248,6 @@ public class UserService {
     @Transactional
     public String showBackgroundImage(User user){
         return user.getBackgroundImage();
-    }
-
-    // username으로 User찾기
-    public User findUserByUserName(String userName){
-        return userRepository.findByUsername(userName)
-                .orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND));
     }
 
 }
