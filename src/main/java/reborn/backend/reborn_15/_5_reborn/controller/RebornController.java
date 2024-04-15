@@ -46,6 +46,8 @@ public class RebornController {
 
         Reborn reborn= rebornService.createReborn(rebornReqDto, pet);
 
+        petService.updateDate(petId);
+
         return ApiResponse.onSuccess(SuccessCode.REBORN_CREATED, true);
     }
 
