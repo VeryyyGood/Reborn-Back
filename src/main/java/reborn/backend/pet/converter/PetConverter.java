@@ -11,10 +11,11 @@ import reborn.backend.user.domain.User;
 @NoArgsConstructor
 public class PetConverter {
 
-    public static Pet toPet(PetReqDto pet, User user) {
+    public static Pet toPet(PetReqDto pet, User user, Integer date) {
         return Pet.builder()
                 .user(user)
                 .petName(pet.getPetName())
+                .rebornDate(date)
                 .anniversary(pet.getAnniversary())
                 .petType(PetType.valueOf(pet.getPetType()))
                 .detailPetType(pet.getDetailPetType())
@@ -26,6 +27,7 @@ public class PetConverter {
         return DetailPetDto.builder()
                 .petId(pet.getId())
                 .petName(pet.getPetName())
+                .rebornDate(pet.getRebornDate())
                 .anniversary(pet.getAnniversary())
                 .petType(String.valueOf(pet.getPetType()))
                 .detailPetType(pet.getDetailPetType())

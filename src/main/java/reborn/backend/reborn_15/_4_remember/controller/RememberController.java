@@ -45,6 +45,8 @@ public class RememberController {
 
         Remember remember = rememberService.createRemember(rememberReqDto, pet);
 
+        petService.updateDate(petId);
+
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_CREATED, true);
     }
 

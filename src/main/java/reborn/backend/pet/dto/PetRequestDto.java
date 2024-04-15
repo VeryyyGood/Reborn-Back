@@ -50,6 +50,9 @@ public class PetRequestDto {
         @Schema(description = "반려동물 이름")
         private String petName;
 
+        @Schema(description = "컨텐츠 상 진행중인 날짜")
+        private Integer rebornDate;
+
         @Schema(description = "반려동물 기일")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate anniversary;
