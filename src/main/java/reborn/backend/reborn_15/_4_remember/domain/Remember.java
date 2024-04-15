@@ -38,6 +38,9 @@ public class Remember {
     private Boolean walk;
 
     @Column
+    private Boolean snack;
+
+    @Column
     private Boolean clean_1;
 
     @Column

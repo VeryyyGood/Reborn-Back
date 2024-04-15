@@ -9,10 +9,10 @@ import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto.DetailRevealDto;
 @NoArgsConstructor
 public class RevealConverter {
 
-    public static Reveal toReveal(RevealReqDto reveal, Pet pet) {
+    public static Reveal toReveal(RevealReqDto reveal, Pet pet, Integer date) {
         return Reveal.builder()
                 .pet(pet)
-                .date(reveal.getDate())
+                .date(date)
                 .pat(false)
                 .feed(false)
                 .walk(false)

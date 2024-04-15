@@ -16,6 +16,7 @@ import reborn.backend.reborn_15._3_reveal.dto.RevealRequestDto.RevealReqDto;
 import reborn.backend.reborn_15._3_reveal.repository.RevealRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Slf4j
@@ -27,7 +28,11 @@ public class RevealService {
 
     @Transactional
     public Reveal createReveal(RevealReqDto revealReqDto, Pet pet) {
-        Reveal reveal = RevealConverter.toReveal(revealReqDto, pet);
+        Optional<Reveal> latestReveal = revealRepository.findTopByPetOrderByDateDesc(pet);
+
+        Integer newDate = latestReveal.map(r -> r.getDate() + 1).orElse(7);
+
+        Reveal reveal = RevealConverter.toReveal(revealReqDto, pet, newDate);
 
         revealRepository.save(reveal);
 
