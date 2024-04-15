@@ -38,6 +38,9 @@ public class PetResponseDto {
         @Schema(description = "반려동물 기일")
         private LocalDate anniversary;
 
+        @Schema(description = "컨텐츠 상 진행중인 날짜")
+        private Integer rebornDate;
+
         @Schema(description = "반려동물 종류(DOG, CAT)")
         private String petType;
 
