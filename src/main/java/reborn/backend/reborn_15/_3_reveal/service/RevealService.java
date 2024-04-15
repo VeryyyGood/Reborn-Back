@@ -40,7 +40,7 @@ public class RevealService {
     }
 
     @Transactional
-    public  Reveal patReveal(Long id) {
+    public Reveal patReveal(Long id) {
         Reveal reveal = revealRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
@@ -52,7 +52,7 @@ public class RevealService {
     }
 
     @Transactional
-    public  Reveal feedReveal(Long id) {
+    public Reveal feedReveal(Long id) {
         Reveal reveal = revealRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
@@ -64,7 +64,7 @@ public class RevealService {
     }
 
     @Transactional
-    public  Reveal walkReveal(Long id) {
+    public Reveal walkReveal(Long id) {
         Reveal reveal = revealRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
@@ -76,7 +76,7 @@ public class RevealService {
     }
 
     @Transactional
-    public  Reveal snackReveal(Long id) {
+    public Reveal snackReveal(Long id) {
         Reveal reveal = revealRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 

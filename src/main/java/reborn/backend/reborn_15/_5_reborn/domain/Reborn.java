@@ -23,6 +23,10 @@ public class Reborn {
     private Integer date;
 
     @Column
+    private String rebornContent;
+
+    @Enumerated(EnumType.STRING)
+    @Column
     private RebornType rebornType;
 
     @Column
@@ -31,4 +35,9 @@ public class Reborn {
     @Column
     private Boolean feed;
 
+    @Column
+    private Boolean wash;
+
+    @Column
+    private Boolean brush;
 }
