@@ -1,4 +1,4 @@
-package reborn.backend.user.jwt;
+package reborn.backend.user.dto;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -8,36 +8,99 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.global.s3.AmazonS3Manager;
+import reborn.backend.user.converter.UserConverter;
 import reborn.backend.user.domain.User;
-import reborn.backend.user.jwt.JwtDto;
+import reborn.backend.user.dto.UserRequestDto;
+import reborn.backend.user.jwt.CustomUserDetails;
+import reborn.backend.user.dto.JwtDto;
 import reborn.backend.user.jwt.JwtTokenUtils;
 import reborn.backend.user.jwt.RefreshToken;
 import reborn.backend.user.repository.RefreshTokenRepository;
 import reborn.backend.user.repository.UserRepository;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.apache.logging.log4j.util.Strings.isEmpty;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    private final PasswordEncoder passwordEncoder;
     private final JpaUserDetailsManager manager;
-    private final JwtTokenUtils jwtTokenUtils;
     private final AmazonS3Manager amazonS3Manager;
+    private final JwtTokenUtils jwtTokenUtils;
 
-    // 로그인 - OAuth2SuccessHandler
+    // 로그인
+
+    // username으로 User찾기
+    public User findUserByUserName(String userName){
+        return userRepository.findByUsername(userName)
+                .orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND_BY_USERNAME));
+    }
+    public User findByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND_BY_EMAIL));;
+        return user;
+    }
+
+    public Boolean checkMemberByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public User createUser(UserRequestDto.UserReqDto userReqDto) {
+        // 새로운 사용자 생성
+        User newUser = userRepository.save(UserConverter.saveUser(userReqDto));
+
+        // 새로운 사용자 정보를 반환하기 전에 저장된 UserDetails를 다시 로드하여 동기화 시도
+        manager.loadUserByUsername(userReqDto.getUsername());
+
+        return newUser;
+    }
+
+
+    public JwtDto jwtMakeSave(String username){
+
+        // JWT 생성 - access & refresh
+        UserDetails details
+                = manager.loadUserByUsername(username);
+
+        JwtDto jwt = jwtTokenUtils.generateToken(details); //2. access, refresh token 생성 및 발급
+        log.info("accessToken: {}", jwt.getAccessToken());
+        log.info("refreshToken: {} ", jwt.getRefreshToken());
+
+        // 유효기간 초단위 설정 후 db에 refresh token save
+        Claims refreshTokenClaims = jwtTokenUtils.parseClaims(jwt.getRefreshToken());
+        Long validPeriod
+                = refreshTokenClaims.getExpiration().toInstant().getEpochSecond()
+                - refreshTokenClaims.getIssuedAt().toInstant().getEpochSecond();
+
+        // DB에 저장된 해당 사용자의 리프레시 토큰을 업데이트
+        Optional<RefreshToken> existingToken = refreshTokenRepository.findById(username);
+        if (existingToken.isPresent()) {
+            refreshTokenRepository.deleteById(username);
+        }
+
+        refreshTokenRepository.save(
+                RefreshToken.builder()
+                        .id(username)
+                        .ttl(validPeriod)
+                        .refreshToken(jwt.getRefreshToken())
+                        .build()
+        );
+
+        // JSON 형태로 응답
+        return jwt;
+    }
 
     // 로그아웃
     public void logout(HttpServletRequest request) {
@@ -179,12 +242,6 @@ public class UserService {
     @Transactional
     public String showBackgroundImage(User user){
         return user.getBackgroundImage();
-    }
-
-    // username으로 User찾기
-    public User findUserByUserName(String userName){
-        return userRepository.findByUsername(userName)
-                .orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND));
     }
 
 }

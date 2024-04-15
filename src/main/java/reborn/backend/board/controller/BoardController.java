@@ -22,7 +22,6 @@ import reborn.backend.global.api_payload.SuccessCode;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.service.UserService;
-
 import java.io.IOException;
 import java.util.List;
 

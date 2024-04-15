@@ -12,12 +12,10 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import reborn.backend.user.jwt.CustomUserDetails;
-import reborn.backend.user.jwt.JwtDto;
+import reborn.backend.user.dto.JwtDto;
 import reborn.backend.user.jwt.JwtTokenUtils;
 import reborn.backend.user.jwt.RefreshToken;
 import reborn.backend.user.repository.RefreshTokenRepository;
-import reborn.backend.user.utils.IpUtil;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -101,8 +99,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // 목적지 URL 설정 - 토큰 던짐
         String targetUrl = String.format(
-              "http://reborn.persi0815.site:8080/token/token?access-token=%s&refresh-token=%s", jwt.getAccessToken(), jwt.getRefreshToken()
-//              "http://localhost:8080/token/token?access-token=%s&refresh-token=%s", jwt.getAccessToken(), jwt.getRefreshToken()
+              "http://reborn.persi0815.site:8080/token/local?access-token=%s&refresh-token=%s", jwt.getAccessToken(), jwt.getRefreshToken()
+//              "http://localhost:8080/token/local?access-token=%s&refresh-token=%s", jwt.getAccessToken(), jwt.getRefreshToken()
 //              "http://프론트 배포 주소:8080/oauth/callback?access-token=%s&refresh-token=%s", jwt.getAccessToken(), jwt.getRefreshToken()
         );
         // 실제 Redirect 응답 생성

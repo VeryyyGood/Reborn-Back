@@ -13,9 +13,11 @@ import reborn.backend.global.api_payload.ApiResponse;
 import reborn.backend.global.api_payload.SuccessCode;
 import reborn.backend.global.s3.AmazonS3Manager;
 import reborn.backend.user.domain.User;
+import reborn.backend.user.dto.UserResponseDto;
 import reborn.backend.user.jwt.CustomUserDetails;
-import reborn.backend.user.jwt.JwtDto;
+import reborn.backend.user.dto.JwtDto;
 import reborn.backend.user.service.UserService;
+import reborn.backend.user.converter.UserConverter;
 import java.io.IOException;
 
 @Tag(name = "회원", description = "회원 관련 api 입니다.")
@@ -92,7 +94,7 @@ public class UserController {
 
     @Operation(summary = "사진 삭제", description = "s3에 업로드 된 사진을 삭제하는 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER_2006", description = "사진 삭제가 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "FILE_2001", description = "사진 삭제가 완료되었습니다.")
     })
     @DeleteMapping(value = "/delete-image")
     public ApiResponse<Boolean> deleteImage(
@@ -107,7 +109,7 @@ public class UserController {
 
     @Operation(summary = "프로필 사진 열람", description = "프로필 사진을 url로 열람하는 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER_2007", description = "프로필 사진 열람이 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER_2006", description = "프로필 사진 열람이 완료되었습니다.")
     })
     @GetMapping(value = "/show-profile-image")
     public ApiResponse<String> showProfileImage(
@@ -121,7 +123,7 @@ public class UserController {
 
     @Operation(summary = "배경 사진 열람", description = "배경 사진을 url로 열람하는 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER_2008", description = "배경 사진 열람이 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER_2007", description = "배경 사진 열람이 완료되었습니다.")
     })
     @GetMapping(value = "/show-background-image")
     public ApiResponse<String> showBackgroundImage(
@@ -131,6 +133,19 @@ public class UserController {
         String imageUrl = userService.showBackgroundImage(user);
 
         return ApiResponse.onSuccess(SuccessCode.USER_BACKGROUND_IMAGE_BROWSE, imageUrl);
+    }
+
+    @Operation(summary = "내 정보 열람", description = "내 정보(since, email) 열람하는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER_2008", description = "유저 정보 열람이 완료되었습니다.")
+    })
+    @GetMapping(value = "/info")
+    public ApiResponse<UserResponseDto.UserInfoResDto> showInfo(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+
+        return ApiResponse.onSuccess(SuccessCode.USER_INFO_SUCCESS, UserConverter.infoDto(user));
     }
 
 }
