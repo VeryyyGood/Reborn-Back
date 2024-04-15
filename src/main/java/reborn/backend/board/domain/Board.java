@@ -19,8 +19,7 @@ public class Board extends BaseEntity {
     /*
     1. EmotionShareBoard
     2. ActivityShareBoard
-    3. ProductShareBoard
-    4. ChatShareBoard
+    3. ChatShareBoard
      */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,9 +43,6 @@ public class Board extends BaseEntity {
 
     @Column(length = 5000, nullable = false)
     private String boardContent;
-
-    @Column(nullable = false)
-    private Integer imageAttached;
 
     @Column
     private String boardImage;

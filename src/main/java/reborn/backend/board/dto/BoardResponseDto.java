@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import reborn.backend.board.domain.BoardType;
-
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -36,8 +36,8 @@ public class BoardResponseDto {
         @Schema(description = "게시판 내용")
         private String boardContent;
 
-        @Schema(description = "게시판 이미지 첨부 유무")
-        private Integer imageAttached;
+        @Schema(description = "감정 일기 작성일", example = "2024-03-21", pattern = "yyyy-MM-dd")
+        private LocalDateTime boardCreatedAt;
 
         @Schema(description = "게시판 이미지")
         private String boardImage;

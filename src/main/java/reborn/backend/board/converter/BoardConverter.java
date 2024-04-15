@@ -16,13 +16,13 @@ import java.util.List;
 public class BoardConverter {
     public static Board saveBoard(BoardReqDto board, User user){
         return Board.builder()
+                .user(user)
                 .boardType(board.getBoardType())
                 .boardWriter(user.getUsername()) // username으로 저장
                 .likeCount(0L)
                 .commentCount(0L)
                 .boardContent(board.getBoardContent())
-                .imageAttached(board.getImageAttached())
-                .boardImage(board.getBoardImage())
+                .boardImage("0")
                 .build();
     }
 
@@ -34,7 +34,7 @@ public class BoardConverter {
                 .likeCount(board.getLikeCount())
                 .commentCount(board.getCommentCount())
                 .boardContent(board.getBoardContent())
-                .imageAttached(board.getImageAttached())
+                .boardCreatedAt(board.getCreatedAt())
                 .boardImage(board.getBoardImage())
                 .build();
     }

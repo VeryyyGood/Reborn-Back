@@ -88,9 +88,9 @@ public class RediaryController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REDIARY_2002", description = "감정 일기 조회가 완료되었습니다.")
     })
-    @GetMapping("/{id}")
+    @GetMapping("/{rediary-id}")
     public ApiResponse<DetailRediaryDto> getDetailRediary(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "rediary-id") Long id,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
@@ -106,9 +106,9 @@ public class RediaryController {
     @ApiResponses(value =  {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REDIARY_2003", description = "감정 일기 수정이 완료되었습니다.")
     })
-    @PostMapping("/update/{id}")
+    @PostMapping("/{rediary-id}/update")
     public ApiResponse<Double> update(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "rediary-id") Long id,
             @RequestBody DetailRediaryReqDto detailRediaryReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
@@ -127,9 +127,9 @@ public class RediaryController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REDIARY_2004", description = "감정 일기 삭제가 완료되었습니다.")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{rediary-id}/delete")
     public ApiResponse<Boolean> delete(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "rediary-id") Long id,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());

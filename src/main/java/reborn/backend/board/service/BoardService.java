@@ -1,30 +1,48 @@
 package reborn.backend.board.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.*;
+import com.amazonaws.util.IOUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import reborn.backend.board.domain.BoardType;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
+import reborn.backend.board.domain.*;
+import reborn.backend.board.repository.BoardBookmarkRepository;
+import reborn.backend.board.repository.BoardLikeRepository;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.board.converter.BoardConverter;
-import reborn.backend.board.domain.Board;
-import reborn.backend.board.domain.BoardBookmark;
 import reborn.backend.board.repository.BoardRepository;
 import reborn.backend.board.repository.CommentRepository;
 import reborn.backend.board.dto.BoardRequestDto.BoardReqDto;
 import reborn.backend.global.exception.GeneralException;
-import reborn.backend.board.domain.Comment;
+import reborn.backend.global.s3.AmazonS3Manager;
 import reborn.backend.user.domain.User;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class BoardService {
+    private final AmazonS3 amazonS3;
+
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
+    private final BoardBookmarkRepository boardBookmarkRepository;
+    private final BoardLikeRepository boardLikeRepository;
+    private final AmazonS3Manager amazonS3Manager;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     @Transactional
     public List<Board> findAll() {
@@ -43,8 +61,30 @@ public class BoardService {
     }
 
     @Transactional
-    public Board createBoard(BoardReqDto boardReqDto, User user) {
-        Board board = BoardConverter.saveBoard(boardReqDto, user);
+    public List<Board> findByUser(User user){
+        return user.getBoards().stream().toList();
+    }
+
+    @Transactional
+    public Board createBoard(BoardReqDto boardReqDto, String dirName, MultipartFile file, User user) throws IOException{
+
+        Board board = BoardConverter.saveBoard(boardReqDto, user); // 게시판 내용 저장
+
+        String uploadFileUrl = null;
+
+        if (file != null && !file.isEmpty()) {
+            String contentType = file.getContentType();
+            if (ObjectUtils.isEmpty(contentType)) { // 확장자명이 존재하지 않을 경우 취소 처리
+                throw GeneralException.of(ErrorCode.INVALID_FILE_CONTENT_TYPE);
+            }
+            java.io.File uploadFile = amazonS3Manager.convert(file)
+                    .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
+
+            String fileName = dirName + amazonS3Manager.generateFileName(file);
+            uploadFileUrl = amazonS3Manager.putS3(uploadFile, fileName);
+        }
+
+        board.setBoardImage(uploadFileUrl); // 사진 url 저장
         boardRepository.save(board);
 
         return board;
@@ -61,9 +101,7 @@ public class BoardService {
             board.setBoardWriter(user.getUsername());
             board.setLikeCount(board.getLikeCount());
             board.setBoardContent(boardReqDto.getBoardContent());
-            board.setImageAttached(boardReqDto.getImageAttached());
-            board.setBoardImage(boardReqDto.getBoardImage());
-            boardRepository.save(board);
+             boardRepository.save(board);
 
             return board;
         }
@@ -79,9 +117,17 @@ public class BoardService {
         log.info("Username: " + user.getUsername());
 
         if(Objects.equals(board.getBoardWriter(), user.getUsername())){
+
             // 연관된 댓글 엔티티들 삭제
             List<Comment> comments = board.getCommentList();
             commentRepository.deleteAll(comments);
+            // 연관된 게시물 북마크 엔티티들 삭제
+            List<BoardBookmark> bookmarks = board.getBookmarkList();
+            boardBookmarkRepository.deleteAll(bookmarks);
+            // 연관된 게시물 좋아요 엔티티들 삭제
+            List<BoardLike> likes = board.getLikeList();
+            boardLikeRepository.deleteAll(likes);
+
             // 과제 삭제
             boardRepository.deleteById(id);
         }
@@ -100,10 +146,6 @@ public class BoardService {
             return boards.stream()
                     .filter(board -> board.getBoardType() == BoardType.ACTIVITY)
                     .toList();
-        }else if (BoardType.valueOf(boardType).equals(BoardType.PRODUCT)) {
-            return boards.stream()
-                    .filter(board -> board.getBoardType() == BoardType.PRODUCT)
-                    .toList();
         }else if (BoardType.valueOf(boardType).equals(BoardType.CHAT)) {
             return boards.stream()
                     .filter(board -> board.getBoardType() == BoardType.CHAT)
@@ -116,11 +158,11 @@ public class BoardService {
     public List<Board> sortBoardsByWay(List<Board> boards, String way) {
         if (way.equals("like")) {
             return boards.stream()
-                    .sorted(Comparator.comparingLong(Board::getLikeCount).reversed())
+                    .sorted(Comparator.comparingLong(Board::getLikeCount).reversed()) // 많은 순
                     .toList();
         } else if (way.equals("time")) {
             return boards.stream()
-                    .sorted()
+                    .sorted(Comparator.comparing(Board::getCreatedAt).reversed()) // 최신순
                     .toList();
         } else {
             throw GeneralException.of(ErrorCode.BOARD_WRONG_SORTING_WAY);
