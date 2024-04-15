@@ -46,7 +46,7 @@ public class TokenController {
             refreshToken = jwt.getRefreshToken();
 
         } else{ // 회원 가입 이후 jwt 생성 (db 접근 해야함)
-            // db에 정보 넣기 = 회원가입
+            // db에 정보 넣기(= 회원가입)
             User user = userService.createUser(userReqDto);
             // jwt 생성
             JwtDto jwt = userService.jwtMakeSave(userReqDto.getUsername());

@@ -36,14 +36,10 @@ import static org.apache.logging.log4j.util.Strings.isEmpty;
 public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UserDetailsManager userDetailsManager;
-    //private final UserConverter userConverter; // 웨안돼...?????
-    private final JwtTokenUtils tokenUtils;
 
-    private final PasswordEncoder passwordEncoder;
     private final JpaUserDetailsManager manager;
-    private final JwtTokenUtils jwtTokenUtils;
     private final AmazonS3Manager amazonS3Manager;
+    private final JwtTokenUtils jwtTokenUtils;
 
     // 로그인
 
@@ -61,31 +57,29 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public User createUser(UserRequestDto.UserReqDto userReqDto){
-        User user = userRepository.save(UserConverter.saveUser(userReqDto));
-        userDetailsManager.createUser(CustomUserDetails.builder() // 혹시 몰라서 여기에도 저장..
-                .username(userReqDto.getUsername())
-                .email(userReqDto.getEmail())
-                .nickname(userReqDto.getNickname())
-                .provider(userReqDto.getProvider())
-                .password("password")
-                .providerId("naver")
-                .build());
+    public User createUser(UserRequestDto.UserReqDto userReqDto) {
+        // 새로운 사용자 생성
+        User newUser = userRepository.save(UserConverter.saveUser(userReqDto));
 
-        return user;
+        // 새로운 사용자 정보를 반환하기 전에 저장된 UserDetails를 다시 로드하여 동기화 시도
+        manager.loadUserByUsername(userReqDto.getUsername());
+
+        return newUser;
     }
+
 
     public JwtDto jwtMakeSave(String username){
 
         // JWT 생성 - access & refresh
         UserDetails details
-                = userDetailsManager.loadUserByUsername(username); // 여기서 새로 회원 정보 저장한 거를 인식 못하고 있음
-        JwtDto jwt = tokenUtils.generateToken(details); //2. access, refresh token 생성 및 발급
+                = manager.loadUserByUsername(username);
+
+        JwtDto jwt = jwtTokenUtils.generateToken(details); //2. access, refresh token 생성 및 발급
         log.info("accessToken: {}", jwt.getAccessToken());
         log.info("refreshToken: {} ", jwt.getRefreshToken());
 
         // 유효기간 초단위 설정 후 db에 refresh token save
-        Claims refreshTokenClaims = tokenUtils.parseClaims(jwt.getRefreshToken());
+        Claims refreshTokenClaims = jwtTokenUtils.parseClaims(jwt.getRefreshToken());
         Long validPeriod
                 = refreshTokenClaims.getExpiration().toInstant().getEpochSecond()
                 - refreshTokenClaims.getIssuedAt().toInstant().getEpochSecond();
