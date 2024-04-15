@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import reborn.backend.user.dto.JwtDto;
 import java.security.Key;
 import java.time.Instant;
 import java.util.Arrays;
