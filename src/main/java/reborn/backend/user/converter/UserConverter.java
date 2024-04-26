@@ -16,6 +16,7 @@ public class UserConverter {
                 .username(userReqDto.getUsername())
                 .provider(userReqDto.getProvider())
                 .nickname(userReqDto.getNickname())
+                .contentPetId(null)
                 .profileImage(null)
                 .backgroundImage(null)
                 .password("password")
