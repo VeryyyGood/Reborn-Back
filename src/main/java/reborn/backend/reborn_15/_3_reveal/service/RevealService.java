@@ -40,6 +40,11 @@ public class RevealService {
     }
 
     @Transactional
+    public List<Reveal> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
+        return revealRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
+    }
+
+    @Transactional
     public void patReveal(Long id) {
         Reveal reveal = revealRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));

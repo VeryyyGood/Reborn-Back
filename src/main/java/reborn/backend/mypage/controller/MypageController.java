@@ -20,6 +20,13 @@ import reborn.backend.reborn_15._2_remind.converter.RemindConverter;
 import reborn.backend.reborn_15._2_remind.domain.Remind;
 import reborn.backend.reborn_15._2_remind.dto.RemindResponseDto.SimpleRemindDto;
 import reborn.backend.reborn_15._2_remind.service.RemindService;
+import reborn.backend.reborn_15._3_reveal.converter.RevealConverter;
+import reborn.backend.reborn_15._3_reveal.domain.Reveal;
+import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto;
+import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto.SimpleRevealDto;
+import reborn.backend.reborn_15._3_reveal.service.RevealService;
+import reborn.backend.reborn_15._4_remember.service.RememberService;
+import reborn.backend.reborn_15._5_reborn.service.RebornService;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.service.UserService;
@@ -36,6 +43,9 @@ public class MypageController {
     private final UserService userService;
     private final PetService petService;
     private final RemindService remindService;
+    private final RevealService revealService;
+    private final RememberService rememberService;
+    private final RebornService rebornService;
 
     // 모든 Pet 가져오기
             @Operation(summary = "반려동물 정보 조회 메서드", description = "반려동물 정보 목록을 조회하는 메서드입니다.")
@@ -97,12 +107,33 @@ public class MypageController {
     ){
         Pet pet = petService.findById(id);
 
-        List<Remind> reminds = remindService.findAllByPetSortedByDate(pet);
+        List<Remind> reminds = remindService.findAllByPetAndDateLessThanSortedByDate(pet, pet.getRebornDate());
+
         List<SimpleRemindDto> remindDtos = reminds.stream()
                 .map(RemindConverter::toSimpleRemindDto)
                 .collect(Collectors.toList());
 
         return ApiResponse.onSuccess(SuccessCode.PET_REMIND_VIEW_SUCCESS, remindDtos);
+    }
+
+    @Operation(summary = "나의 감정 들여다보기 조회 메서드", description = "나의 감정 들여다보기 조회 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2006", description = "나의 감정 들여다보기 조회가 완료되었습니다.")
+    })
+    @GetMapping("/reveal/{pet-id}")
+    public ApiResponse<List<SimpleRevealDto>> getReveal(
+            @PathVariable(name = "pet-id") Long id
+    ){
+        Pet pet = petService.findById(id);
+
+        List<Reveal> reveals = revealService.findAllByPetAndDateLessThanSortedByDate(pet, pet.getRebornDate());
+
+        List<SimpleRevealDto> revealDtos = reveals.stream()
+                .map(RevealConverter::toSimpleRevealDto)
+                .collect(Collectors.toList());
+
+        return ApiResponse.onSuccess(SuccessCode.PET_REVEAL_VIEW_SUCCESS, revealDtos);
+
     }
 
 
