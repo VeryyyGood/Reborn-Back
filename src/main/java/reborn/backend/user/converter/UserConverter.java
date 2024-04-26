@@ -23,10 +23,11 @@ public class UserConverter {
                 .build();
     }
 
-    public static JwtDto jwtDto(String access, String refresh) {
+    public static JwtDto jwtDto(String access, String refresh, String signIn) {
         return JwtDto.builder()
                 .accessToken(access)
                 .refreshToken(refresh)
+                .signIn(signIn)
                 .build();
     }
 
