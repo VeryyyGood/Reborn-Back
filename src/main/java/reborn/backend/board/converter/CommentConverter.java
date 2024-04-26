@@ -13,7 +13,7 @@ import java.util.List;
 public class CommentConverter {
     public static Comment saveComment(CommentRequestDto.CommentDto comment, Board board, User user){
         return Comment.builder()
-                .commentWriter(user.getUsername())
+                .commentWriter(user.getNickname())
                 .commentContent(comment.getCommentContent())
                 .board(board)
                 .build();
