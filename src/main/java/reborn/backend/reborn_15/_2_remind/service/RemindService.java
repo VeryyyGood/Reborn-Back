@@ -38,8 +38,8 @@ public class RemindService {
     }
 
     @Transactional
-    public List<Remind> findAllByPetSortedByDate(Pet pet) {
-        return remindRepository.findAllByPetOrderByDateDesc(pet);
+    public List<Remind> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
+        return remindRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
     }
 
     @Transactional
