@@ -35,6 +35,7 @@ public class UserConverter {
         return UserResponseDto.UserInfoResDto.builder()
                 .since(user.getCreatedAt())
                 .email(user.getEmail())
+                .nickname(user.getNickname())
                 .build();
     }
 }

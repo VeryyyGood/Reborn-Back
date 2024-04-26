@@ -18,6 +18,7 @@ public enum SuccessCode implements BaseCode {
     USER_DELETE_SUCCESS(HttpStatus.OK, "USER_2003", "회원탈퇴가 완료되었습니다."),
 
     USER_INFO_SUCCESS(HttpStatus.OK, "USER_2008", "개인 정보 열람이 완료되었습니다."),
+    USER_NICKNAME_SUCCESS(HttpStatus.OK, "USER_2009", "닉네임 생성이 완료되었습니다."),
 
     // User - File
     USER_PROFILE_IMAGE_UPDATED(HttpStatus.OK, "USER_2004", "프로필 사진 업데이트가 완료되었습니다."),

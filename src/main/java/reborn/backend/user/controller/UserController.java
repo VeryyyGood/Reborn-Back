@@ -13,6 +13,7 @@ import reborn.backend.global.api_payload.ApiResponse;
 import reborn.backend.global.api_payload.SuccessCode;
 import reborn.backend.global.s3.AmazonS3Manager;
 import reborn.backend.user.domain.User;
+import reborn.backend.user.dto.UserRequestDto;
 import reborn.backend.user.dto.UserResponseDto;
 import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.dto.JwtDto;
@@ -146,6 +147,21 @@ public class UserController {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
 
         return ApiResponse.onSuccess(SuccessCode.USER_INFO_SUCCESS, UserConverter.infoDto(user));
+    }
+
+    @Operation(summary = "닉네임 입력", description = "중복 안되는 닉네임을 입력받는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER_2009", description = "닉네임 생성이 완료되었습니다.")
+    })
+    @PostMapping(value = "/nickname")
+    public ApiResponse<Boolean> nickname(
+            @RequestBody UserRequestDto.UserNicknameReqDto nicknameReqDto,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        userService.saveNickname(nicknameReqDto, user);
+
+        return ApiResponse.onSuccess(SuccessCode.USER_NICKNAME_SUCCESS, true);
     }
 
 }
