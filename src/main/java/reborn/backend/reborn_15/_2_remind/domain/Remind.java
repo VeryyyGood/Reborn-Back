@@ -23,9 +23,6 @@ public class Remind {
     private Integer date;
 
     @Column
-    private String question;
-
-    @Column
     private String answer;
 
     @Column
