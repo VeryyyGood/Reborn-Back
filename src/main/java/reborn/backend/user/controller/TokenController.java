@@ -36,6 +36,9 @@ public class TokenController {
         String accessToken = "";
         String refreshToken = "";
 
+        // 3. 기존 회원인지 판별 -> 튜토리얼 때문
+        String signIn = "wasUser";
+
         if(isMember){ // jwt 재생성 -> 성공
             // user 찾기
             User user = userService.findByEmail(userReqDto.getEmail());
@@ -53,11 +56,13 @@ public class TokenController {
             // 변수에 저장
             accessToken = jwt.getAccessToken();
             refreshToken = jwt.getRefreshToken();
+            // 회원이 됨
+            signIn = "newUser";
         }
 
         // 3. 생성한 토큰을 리다이렉트 필요 시 추가
 
-        return ApiResponse.onSuccess(SuccessCode.USER_LOGIN_SUCCESS, UserConverter.jwtDto(accessToken, refreshToken));
+        return ApiResponse.onSuccess(SuccessCode.USER_LOGIN_SUCCESS, UserConverter.jwtDto(accessToken, refreshToken, signIn));
     }
 
     @Operation(summary = "토큰 반환", description = "로컬에서 로그인했을때 토큰 반환하는 메서드입니다.")
