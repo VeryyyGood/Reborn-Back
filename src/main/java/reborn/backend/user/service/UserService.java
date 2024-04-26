@@ -67,6 +67,19 @@ public class UserService {
         return newUser;
     }
 
+    public void saveNickname(UserRequestDto.UserNicknameReqDto nicknameReqDto, User user) {
+        // 입력된 닉네임
+        String nickname = nicknameReqDto.getNickname();
+
+        // 중복 검사
+        if (userRepository.existsByNickname(nickname)) {
+            throw GeneralException.of(ErrorCode.ALREADY_USED_NICKNAME);
+        }
+
+        // 중복이 없는 경우 닉네임 저장
+        user.setNickname(nickname);
+        userRepository.save(user);
+    }
 
     public JwtDto jwtMakeSave(String username){
 
