@@ -12,7 +12,9 @@ import reborn.backend.reborn_15._2_remind.domain.Remind;
 import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.DetailRemindReqDto;
 import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.RemindReqDto;
 import reborn.backend.reborn_15._2_remind.repository.RemindRepository;
+import reborn.backend.user.domain.User;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -36,59 +38,54 @@ public class RemindService {
     }
 
     @Transactional
-    public Remind patRemind(Long id) {
+    public List<Remind> findAllByPetSortedByDate(Pet pet) {
+        return remindRepository.findAllByPetOrderByDateDesc(pet);
+    }
+
+    @Transactional
+    public void patRemind(Long id) {
         Remind remind = remindRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
         remind.setPat(true);
 
         remindRepository.save(remind);
-
-        return remind;
     }
 
     @Transactional
-    public  Remind feedRemind(Long id) {
+    public void feedRemind(Long id) {
         Remind remind = remindRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
         remind.setFeed(true);
 
         remindRepository.save(remind);
-
-        return remind;
     }
 
     @Transactional
-    public  Remind walkRemind(Long id) {
+    public void walkRemind(Long id) {
         Remind remind = remindRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
         remind.setWalk(true);
 
         remindRepository.save(remind);
-
-        return remind;
     }
 
     @Transactional
-    public Remind snackRemind(Long id) {
+    public void snackRemind(Long id) {
         Remind remind = remindRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
         remind.setSnack(true);
 
         remindRepository.save(remind);
-
-        return remind;
     }
 
     @Transactional
     public Remind writeRemind(Long id, DetailRemindReqDto detailRemindReqDto) {
         Remind remind = remindRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
-
-        remind.setQuestion(detailRemindReqDto.getQuestion());
         remind.setAnswer(detailRemindReqDto.getAnswer());
 
         remindRepository.save(remind);
