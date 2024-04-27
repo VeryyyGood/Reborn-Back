@@ -87,7 +87,7 @@ public class MypageController {
     // RECONNECT에 대한 REVIEW
     @Operation(summary = "특정 반려동물의 종류 조회 메서드", description = "특정 반려동물의 종류를 조회하는 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2004", description = "반려동물 정보 조회가 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVIEW_2001", description = "나의 반려동물과 만나기 조회가 완료되었습니다.")
     })
     @GetMapping("/reconnect/{pet-id}")
     public ApiResponse<PetType> getReconnect(
@@ -95,13 +95,13 @@ public class MypageController {
     ){
         Pet pet = petService.findById(id);
 
-        return ApiResponse.onSuccess(SuccessCode.PET_RECONNECT_VIEW_SUCCESS, pet.getPetType());
+        return ApiResponse.onSuccess(SuccessCode.REVIEW_RECONNECT_VIEW_SUCCESS, pet.getPetType());
     }
 
     // REMIND에 대한 REVIEW
     @Operation(summary = "충분한 대화 나누기 내용 조회 메서드", description = "충분한 대화 나누기 내용 조회 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2005", description = "충분한 대화 나누기 내용 조회가 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVIEW_2002", description = "충분한 대화 나누기 내용 조회가 완료되었습니다.")
     })
     @GetMapping("/remind/{pet-id}")
     public ApiResponse<List<SimpleRemindDto>> getRemind(
@@ -115,12 +115,13 @@ public class MypageController {
                 .map(RemindConverter::toSimpleRemindDto)
                 .collect(Collectors.toList());
 
-        return ApiResponse.onSuccess(SuccessCode.PET_REMIND_VIEW_SUCCESS, remindDtos);
+        return ApiResponse.onSuccess(SuccessCode.REVIEW_REMIND_VIEW_SUCCESS, remindDtos);
     }
 
+    // REVEAL에 대한 REVIEW
     @Operation(summary = "나의 감정 들여다보기 조회 메서드", description = "나의 감정 들여다보기 조회 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2006", description = "나의 감정 들여다보기 내용 조회가 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVIEW_2003", description = "나의 감정 들여다보기 내용 조회가 완료되었습니다.")
     })
     @GetMapping("/reveal/{pet-id}")
     public ApiResponse<List<SimpleRevealDto>> getReveal(
@@ -134,13 +135,14 @@ public class MypageController {
                 .map(RevealConverter::toSimpleRevealDto)
                 .collect(Collectors.toList());
 
-        return ApiResponse.onSuccess(SuccessCode.PET_REVEAL_VIEW_SUCCESS, revealDtos);
+        return ApiResponse.onSuccess(SuccessCode.REVIEW_REVEAL_VIEW_SUCCESS, revealDtos);
 
     }
 
+    // REMEMBER에 대한 REVIEW
     @Operation(summary = "건강한 작별 준비하기 조회 메서드", description = "건강한 작별 준비하기 조회 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2006", description = "건강한 작별 준비하기 내용 조회가 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVIEW_2004", description = "건강한 작별 준비하기 내용 조회가 완료되었습니다.")
     })
     @GetMapping("/remember/{pet-id}")
     public ApiResponse<List<SimpleRememberDto>> getRemember(
@@ -154,7 +156,7 @@ public class MypageController {
                 .map(RememberConverter::toSimpleRememberDto)
                 .collect(Collectors.toList());
 
-        return ApiResponse.onSuccess(SuccessCode.PET_REMEMBER_VIEW_SUCCESS, rememberDtos);
+        return ApiResponse.onSuccess(SuccessCode.REVIEW_REMEMBER_VIEW_SUCCESS, rememberDtos);
 
     }
 
