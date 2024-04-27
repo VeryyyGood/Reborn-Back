@@ -28,4 +28,16 @@ public class UserRequestDto {
         private String provider;
 
     }
+
+    @Schema(description = "UserNicknameReqDto")
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UserNicknameReqDto {
+
+        @Schema(description = "nickname")
+        private String nickname;
+
+    }
 }

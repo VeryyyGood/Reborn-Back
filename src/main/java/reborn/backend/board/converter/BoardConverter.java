@@ -18,7 +18,7 @@ public class BoardConverter {
         return Board.builder()
                 .user(user)
                 .boardType(board.getBoardType())
-                .boardWriter(user.getUsername()) // username으로 저장
+                .boardWriter(user.getNickname()) // username으로 저장
                 .likeCount(0L)
                 .commentCount(0L)
                 .boardContent(board.getBoardContent())
@@ -30,7 +30,7 @@ public class BoardConverter {
         return BoardResDto.builder()
                 .id(board.getId())
                 .boardType(board.getBoardType())
-                .boardWriter(board.getBoardWriter()) // username으로 저장
+                .boardWriter(board.getBoardWriter()) // nickname으로 저장
                 .likeCount(board.getLikeCount())
                 .commentCount(board.getCommentCount())
                 .boardContent(board.getBoardContent())

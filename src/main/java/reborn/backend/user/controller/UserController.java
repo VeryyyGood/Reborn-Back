@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import reborn.backend.global.api_payload.ApiResponse;
 import reborn.backend.global.api_payload.SuccessCode;
 import reborn.backend.global.s3.AmazonS3Manager;
 import reborn.backend.user.domain.User;
+import reborn.backend.user.dto.UserRequestDto;
 import reborn.backend.user.dto.UserResponseDto;
 import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.dto.JwtDto;
@@ -64,7 +66,7 @@ public class UserController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER_2004", description = "프로필 사진 첨부가 완료되었습니다.")
     })
-    @PostMapping(value = "/profile-image")
+    @PostMapping(value = "/profile-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<Boolean> createProfileImage(
             @RequestPart(value = "profile") MultipartFile file,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
@@ -80,7 +82,7 @@ public class UserController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER_2005", description = "배경 사진 첨부가 완료되었습니다.")
     })
-    @PostMapping(value = "/background-image")
+    @PostMapping(value = "/background-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<Boolean> createBackgroundImage(
             @RequestPart(value = "background") MultipartFile file,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
@@ -146,6 +148,21 @@ public class UserController {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
 
         return ApiResponse.onSuccess(SuccessCode.USER_INFO_SUCCESS, UserConverter.infoDto(user));
+    }
+
+    @Operation(summary = "닉네임 입력", description = "중복 안되는 닉네임을 입력받는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER_2009", description = "닉네임 생성이 완료되었습니다.")
+    })
+    @PostMapping(value = "/nickname")
+    public ApiResponse<Boolean> nickname(
+            @RequestBody UserRequestDto.UserNicknameReqDto nicknameReqDto,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        userService.saveNickname(nicknameReqDto, user);
+
+        return ApiResponse.onSuccess(SuccessCode.USER_NICKNAME_SUCCESS, true);
     }
 
 }
