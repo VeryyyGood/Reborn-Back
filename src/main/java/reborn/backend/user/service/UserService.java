@@ -257,4 +257,9 @@ public class UserService {
         return user.getBackgroundImage();
     }
 
+    @Transactional
+    public void setContentPetId(User user, Long id) { user.setContentPetId(id); }
+
+    @Transactional
+    public void resetContentPetId(User user) { user.setContentPetId(null); }
 }

@@ -14,7 +14,6 @@ import reborn.backend.reborn_15._5_reborn.converter.RebornConverter;
 import reborn.backend.reborn_15._5_reborn.domain.Reborn;
 import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.DetailRebornReqDto;
 import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornReqDto;
-import reborn.backend.reborn_15._5_reborn.dto.RebornResponseDto;
 import reborn.backend.reborn_15._5_reborn.dto.RebornResponseDto.DetailRebornDto;
 import reborn.backend.reborn_15._5_reborn.service.RebornService;
 import reborn.backend.user.domain.User;
@@ -24,7 +23,7 @@ import reborn.backend.user.service.UserService;
 @Tag(name = "reborn", description = "reborn 관련 api 입니다.")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reborn/{pet-id}/reborn")
+@RequestMapping("/reborn/reborn")
 public class RebornController {
 
     private final RebornService rebornService;
@@ -37,16 +36,15 @@ public class RebornController {
     })
     @PostMapping("/create")
     public ApiResponse<Boolean> create(
-            @PathVariable(name = "pet-id") Long petId,
             @RequestBody RebornReqDto rebornReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        Pet pet = petService.findById(petId);
+        Pet pet = petService.findById(user.getContentPetId());
 
         Reborn reborn= rebornService.createReborn(rebornReqDto, pet);
 
-        petService.updateDate(petId);
+        petService.updateDate(user.getContentPetId());
 
         return ApiResponse.onSuccess(SuccessCode.REBORN_CREATED, true);
     }
@@ -57,7 +55,6 @@ public class RebornController {
     })
     @GetMapping("view/{id}")
     public ApiResponse<DetailRebornDto> getDetailReBORN(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         Reborn reborn = rebornService.findById(id);
@@ -72,12 +69,11 @@ public class RebornController {
     })
     @PostMapping("/write/{id}")
     public ApiResponse<Boolean> write(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id,
             @RequestBody DetailRebornReqDto detailRebornReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        Reborn reborn = rebornService.writeReborn(id, detailRebornReqDto);
+        rebornService.writeReborn(id, detailRebornReqDto);
 
         return ApiResponse.onSuccess(SuccessCode.REBORN_WRITE_COMPLETED, true);
     }
@@ -88,7 +84,6 @@ public class RebornController {
     })
     @PostMapping("/pat/{id}")
     public ApiResponse<Boolean> pat(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rebornService.patReborn(id);
@@ -101,7 +96,6 @@ public class RebornController {
     })
     @PostMapping("/feed/{id}")
     public ApiResponse<Boolean> feed(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rebornService.feedReborn(id);
@@ -115,7 +109,6 @@ public class RebornController {
     })
     @PostMapping("/wash/{id}")
     public ApiResponse<Boolean> wash(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rebornService.washReborn(id);
@@ -128,10 +121,25 @@ public class RebornController {
     })
     @PostMapping("/brush/{id}")
     public ApiResponse<Boolean> brush(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rebornService.brushReborn(id);
         return ApiResponse.onSuccess(SuccessCode.REBORN_BRUSH_COMPLETED, true);
+    }
+
+    @Operation(summary = "15일 컨텐츠 종료 메서드", description = "15일 컨텐츠 종료하는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2008", description = "15일 콘텐츠가 완료되었습니다.")
+    })
+    @PostMapping("finish/{id}")
+    public ApiResponse<Boolean> finish(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+
+        petService.updateDate(user.getContentPetId());
+        userService.resetContentPetId(user);
+
+        return ApiResponse.onSuccess(SuccessCode.REBORN_FINISH_COMPLETED, true);
     }
 }

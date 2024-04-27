@@ -5,6 +5,7 @@ import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._2_remind.domain.Remind;
 import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.RemindReqDto;
 import reborn.backend.reborn_15._2_remind.dto.RemindResponseDto.DetailRemindDto;
+import reborn.backend.reborn_15._2_remind.dto.RemindResponseDto.SimpleRemindDto;
 
 @NoArgsConstructor
 public class RemindConverter {
@@ -17,6 +18,13 @@ public class RemindConverter {
                 .feed(false)
                 .walk(false)
                 .snack(false)
+                .build();
+    }
+
+    public static SimpleRemindDto toSimpleRemindDto(Remind remind) {
+        return SimpleRemindDto.builder()
+                .answer(remind.getAnswer())
+                .date(remind.getDate())
                 .build();
     }
 

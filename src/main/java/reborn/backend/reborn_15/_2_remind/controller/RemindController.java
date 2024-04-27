@@ -23,7 +23,7 @@ import reborn.backend.user.service.UserService;
 @Tag(name = "remind", description = "remind 관련 api 입니다.")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reborn/{pet-id}/remind")
+@RequestMapping("/reborn/remind")
 public class RemindController {
 
     private final RemindService remindService;
@@ -36,16 +36,15 @@ public class RemindController {
     })
     @PostMapping("/create")
     public ApiResponse<Boolean> create(
-            @PathVariable(name = "pet-id") Long petId,
             @RequestBody RemindReqDto remindReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        Pet pet = petService.findById(petId);
+        Pet pet = petService.findById(user.getContentPetId());
 
         Remind remind = remindService.createRemind(remindReqDto, pet);
 
-        petService.updateDate(petId);
+        petService.updateDate(user.getContentPetId());
 
         return ApiResponse.onSuccess(SuccessCode.REMIND_CREATED, true);
     }
@@ -56,7 +55,6 @@ public class RemindController {
     })
     @GetMapping("view/{id}")
     public ApiResponse<DetailRemindDto> getDetailRemind(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         Remind remind = remindService.findById(id);
@@ -71,7 +69,6 @@ public class RemindController {
     })
     @PostMapping("/write/{id}")
     public ApiResponse<Boolean> write(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id,
             @RequestBody DetailRemindReqDto detailRemindReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
@@ -87,7 +84,6 @@ public class RemindController {
     })
     @PostMapping("/pat/{id}")
     public ApiResponse<Boolean> pat(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         remindService.patRemind(id);
@@ -101,7 +97,6 @@ public class RemindController {
     })
     @PostMapping("/feed/{id}")
     public ApiResponse<Boolean> feed(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         remindService.feedRemind(id);
@@ -115,7 +110,6 @@ public class RemindController {
     })
     @PostMapping("/walk/{id}")
     public ApiResponse<Boolean> walk(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         remindService.walkRemind(id);
@@ -129,7 +123,6 @@ public class RemindController {
     })
     @PostMapping("/snack/{id}")
     public ApiResponse<Boolean> snack(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         remindService.snackRemind(id);

@@ -5,6 +5,7 @@ import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._3_reveal.domain.Reveal;
 import reborn.backend.reborn_15._3_reveal.dto.RevealRequestDto.RevealReqDto;
 import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto.DetailRevealDto;
+import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto.SimpleRevealDto;
 
 @NoArgsConstructor
 public class RevealConverter {
@@ -17,6 +18,14 @@ public class RevealConverter {
                 .feed(false)
                 .walk(false)
                 .snack(false)
+                .build();
+    }
+
+    public static SimpleRevealDto toSimpleRevealDto(Reveal reveal) {
+        return SimpleRevealDto.builder()
+                .pickEmotion(String.valueOf(reveal.getPickEmotion()))
+                .diaryContent(reveal.getDiaryContent())
+                .date(reveal.getDate())
                 .build();
     }
 

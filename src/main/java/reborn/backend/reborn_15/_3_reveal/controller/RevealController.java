@@ -24,7 +24,7 @@ import reborn.backend.user.service.UserService;
 @Tag(name = "reveal", description = "reveal 관련 api 입니다.")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reborn/{pet-id}/reveal")
+@RequestMapping("/reborn/reveal")
 public class RevealController {
 
     private final RevealService revealService;
@@ -38,16 +38,15 @@ public class RevealController {
     })
     @PostMapping("/create")
     public ApiResponse<Boolean> create(
-            @PathVariable(name = "pet-id") Long petId,
             @RequestBody RevealReqDto revealReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        Pet pet = petService.findById(petId);
+        Pet pet = petService.findById(user.getContentPetId());
 
         Reveal reveal = revealService.createReveal(revealReqDto, pet);
 
-        petService.updateDate(petId);
+        petService.updateDate(user.getContentPetId());
 
         return ApiResponse.onSuccess(SuccessCode.REVEAL_CREATED, true);
     }
@@ -58,7 +57,6 @@ public class RevealController {
     })
     @GetMapping("view/{id}")
     public ApiResponse<DetailRevealDto> getDetailReveal(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         Reveal reveal = revealService.findById(id);
@@ -73,7 +71,6 @@ public class RevealController {
     })
     @PostMapping("/write/{id}")
     public ApiResponse<Double> write(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id,
             @RequestBody DetailRevealReqDto detailRevealReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
@@ -91,7 +88,6 @@ public class RevealController {
     })
     @PostMapping("/pat/{id}")
     public ApiResponse<Boolean> pat(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         revealService.patReveal(id);
@@ -105,7 +101,6 @@ public class RevealController {
     })
     @PostMapping("/feed/{id}")
     public ApiResponse<Boolean> feed(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         revealService.feedReveal(id);
@@ -119,7 +114,6 @@ public class RevealController {
     })
     @PostMapping("/walk/{id}")
     public ApiResponse<Boolean> walk(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         revealService.walkReveal(id);
@@ -133,7 +127,6 @@ public class RevealController {
     })
     @PostMapping("/snack/{id}")
     public ApiResponse<Boolean> snack(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         revealService.snackReveal(id);

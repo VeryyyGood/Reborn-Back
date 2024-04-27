@@ -40,51 +40,48 @@ public class RevealService {
     }
 
     @Transactional
-    public Reveal patReveal(Long id) {
+    public List<Reveal> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
+        return revealRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
+    }
+
+    @Transactional
+    public void patReveal(Long id) {
         Reveal reveal = revealRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setPat(true);
 
         revealRepository.save(reveal);
-
-        return reveal;
     }
 
     @Transactional
-    public Reveal feedReveal(Long id) {
+    public void feedReveal(Long id) {
         Reveal reveal = revealRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setFeed(true);
 
         revealRepository.save(reveal);
-
-        return reveal;
     }
 
     @Transactional
-    public Reveal walkReveal(Long id) {
+    public void walkReveal(Long id) {
         Reveal reveal = revealRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setWalk(true);
 
         revealRepository.save(reveal);
-
-        return reveal;
-    }
+        }
 
     @Transactional
-    public Reveal snackReveal(Long id) {
+    public void snackReveal(Long id) {
         Reveal reveal = revealRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setSnack(true);
 
         revealRepository.save(reveal);
-
-        return reveal;
     }
 
     @Transactional
