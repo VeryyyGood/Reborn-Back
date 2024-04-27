@@ -26,9 +26,9 @@ public class ReconnectController {
     private final UserService userService;
 
     // Pet 새로 만들기
-    @Operation(summary = "반려동물 정보 입력 메서드", description = "반려동물 정보를 입력하는 메서드입니다.")
+    @Operation(summary = "나의 반려동물과 만나기 메서드", description = "나의 반려동물과 만나기를 생성하는 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2011", description = "반려동물 정보 입력이 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "RECONNECT_2011", description = "나의 반려동물과 만나기 생성이 완료되었습니다.")
     })
     @PostMapping("/create")
     public ApiResponse<Boolean> create(
@@ -40,7 +40,7 @@ public class ReconnectController {
         Pet pet = petService.createPet(petReqDto, user);
         userService.setContentPetId(user, pet.getId());
 
-        return ApiResponse.onSuccess(SuccessCode.PET_CREATED, true);
+        return ApiResponse.onSuccess(SuccessCode.RECONNECT_CREATED, true);
     }
 
 }
