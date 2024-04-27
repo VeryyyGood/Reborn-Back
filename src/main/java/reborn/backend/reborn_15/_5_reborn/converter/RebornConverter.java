@@ -23,7 +23,7 @@ public class RebornConverter {
 
     public static SimpleRebornDto toSimpleRebornDto(Reborn reborn) {
         return SimpleRebornDto.builder()
-                .rebornContent(reborn.getRebornContent())
+                .petType(String.valueOf(reborn.getPet().getPetType()))
                 .rebornType(String.valueOf(reborn.getRebornType()))
                 .build();
     }
