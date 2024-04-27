@@ -29,11 +29,21 @@ public enum SuccessCode implements BaseCode {
     // File
     FILE_DELETE_SUCCESS(HttpStatus.OK, "FILE_2001", "파일 삭제가 완료되었습니다."),
 
-    // Pet
-    PET_CREATED(HttpStatus.CREATED, "PET_2011", "반려동물 정보 입력이 완료되었습니다."),
+    // Reconnect
+    RECONNECT_CREATED(HttpStatus.CREATED, "RECONNECT_2011", "나의 반려동물과 만나기 생성이 완료되었습니다."),
+
+    // Mypage_Pet_about
     PET_LIST_VIEW_SUCCESS(HttpStatus.OK, "PET_2001", "반려동물 정보 목록 조회가 완료되었습니다."),
     PET_DETAIL_VIEW_SUCCESS(HttpStatus.OK, "PET_2002", "반려동물 정보 조회가 완료되었습니다."),
-    PET_UPDATED(HttpStatus.OK, "PET_2003", "반려동물 정보 수정이 완료되었습니다."),
+    PET_DELETED(HttpStatus.OK, "PET_2003", "반려동물 삭제가 완료되었습니다."),
+
+    // REVIEW
+    REVIEW_RECONNECT_VIEW_SUCCESS(HttpStatus.OK, "REVIEW_2001", "나의 반려동물과 만나기 조회가 완료되었습니다."),
+    REVIEW_REMIND_VIEW_SUCCESS(HttpStatus.OK, "REVIEW_2002", "충분한 대화 나누기 내용 조회가 완료되었습니다."),
+    REVIEW_REVEAL_VIEW_SUCCESS(HttpStatus.OK, "REVIEW_2003", "나의 감정 들여다보기 내용 조회가 완료되었습니다."),
+    REVIEW_REMEMBER_VIEW_SUCCESS(HttpStatus.OK, "REVIEW_2004", "건강한 작별 준비하기 내용 조회가 완료되었습니다."),
+    REVIEW_REBORN_VIEW_SUCCESS(HttpStatus.OK, "REVIEW_2005", "건강한 작별하기 내용 조회가 완료되었습니다."),
+
 
     // Board
     BOARD_CREATED(HttpStatus.CREATED, "BOARD_2011", "게시판 생성이 완료되었습니다."),
@@ -109,6 +119,7 @@ public enum SuccessCode implements BaseCode {
     REBORN_FEED_COMPLETED(HttpStatus.OK, "REBORN_2005", "밥주기가 완료되었습니다."),
     REBORN_WASH_COMPLETED(HttpStatus.OK, "REBORN_2006", "씻겨주기가 완료되었습니다."),
     REBORN_BRUSH_COMPLETED(HttpStatus.OK, "REBORN_2007", "털 빗어주기가 완료되었습니다."),
+    REBORN_FINISH_COMPLETED(HttpStatus.OK, "REBORN_2008", "15일 콘텐츠가 완료되었습니다.")
     ;
 
     private final HttpStatus httpStatus;

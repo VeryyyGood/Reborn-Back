@@ -23,7 +23,7 @@ import reborn.backend.user.service.UserService;
 @Tag(name = "remember", description = "remember 관련 api 입니다.")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reborn/{pet-id}/remember")
+@RequestMapping("/reborn/remember")
 public class RememberController {
 
     private final RememberService rememberService;
@@ -36,16 +36,15 @@ public class RememberController {
     })
     @PostMapping("/create")
     public ApiResponse<Boolean> create(
-            @PathVariable(name = "pet-id") Long petId,
             @RequestBody RememberReqDto rememberReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        Pet pet = petService.findById(petId);
+        Pet pet = petService.findById(user.getContentPetId());
 
         Remember remember = rememberService.createRemember(rememberReqDto, pet);
 
-        petService.updateDate(petId);
+        petService.updateDate(user.getContentPetId());
 
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_CREATED, true);
     }
@@ -56,7 +55,6 @@ public class RememberController {
     })
     @GetMapping("view/{id}")
     public ApiResponse<DetailRememberDto> getDetailRemember(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         Remember remember = rememberService.findById(id);
@@ -71,7 +69,6 @@ public class RememberController {
     })
     @PostMapping("/write/{id}")
     public ApiResponse<Boolean> write(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id,
             @RequestBody DetailRememberReqDto detailRememberReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
@@ -87,7 +84,6 @@ public class RememberController {
     })
     @PostMapping("/pat/{id}")
     public ApiResponse<Boolean> pat(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rememberService.patRemember(id);
@@ -101,7 +97,6 @@ public class RememberController {
     })
     @PostMapping("/feed/{id}")
     public ApiResponse<Boolean> feed(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rememberService.feedRemember(id);
@@ -115,7 +110,6 @@ public class RememberController {
     })
     @PostMapping("/walk/{id}")
     public ApiResponse<Boolean> walk(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rememberService.walkRemember(id);
@@ -129,7 +123,6 @@ public class RememberController {
     })
     @PostMapping("/snack/{id}")
     public ApiResponse<Boolean> snack(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rememberService.snackRemember(id);
@@ -143,7 +136,6 @@ public class RememberController {
     })
     @PostMapping("/clean1/{id}")
     public ApiResponse<Boolean> clean1(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rememberService.clean_Remember1(id);
@@ -157,7 +149,6 @@ public class RememberController {
     })
     @PostMapping("/clean2/{id}")
     public ApiResponse<Boolean> clean2(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rememberService.clean_Remember2(id);
@@ -171,7 +162,6 @@ public class RememberController {
     })
     @PostMapping("/clean3/{id}")
     public ApiResponse<Boolean> clean3(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rememberService.clean_Remember3(id);
@@ -185,7 +175,6 @@ public class RememberController {
     })
     @PostMapping("/clean4/{id}")
     public ApiResponse<Boolean> clean4(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rememberService.clean_Remember4(id);
@@ -199,7 +188,6 @@ public class RememberController {
     })
     @PostMapping("/clean5/{id}")
     public ApiResponse<Boolean> clean5(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rememberService.clean_Remember5(id);
@@ -213,7 +201,6 @@ public class RememberController {
     })
     @PostMapping("/clean6/{id}")
     public ApiResponse<Boolean> clean6(
-            @PathVariable(name = "pet-id") Long petId,
             @PathVariable(name = "id") Long id
     ){
         rememberService.clean_Remember6(id);

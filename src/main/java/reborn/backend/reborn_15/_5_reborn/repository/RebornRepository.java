@@ -6,9 +6,12 @@ import org.springframework.stereotype.Repository;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._5_reborn.domain.Reborn;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface RebornRepository extends JpaRepository<Reborn, Long>, JpaSpecificationExecutor<Reborn> {
     Optional<Reborn> findTopByPetOrderByDateDesc(Pet pet);
+
+    List<Reborn> findAllByPetAndDateLessThanOrderByDateDesc(Pet pet, Integer date);
 }

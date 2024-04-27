@@ -14,6 +14,7 @@ import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.DetailRebornReqDt
 import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornReqDto;
 import reborn.backend.reborn_15._5_reborn.repository.RebornRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -36,57 +37,53 @@ public class RebornService {
         return reborn;
     }
 
+    @Transactional
+    public List<Reborn> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
+        return rebornRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
+    }
 
     @Transactional
-    public Reborn patReborn(Long id) {
+    public void patReborn(Long id) {
         Reborn reborn = rebornRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setPat(true);
 
         rebornRepository.save(reborn);
-
-        return reborn;
     }
 
     @Transactional
-    public Reborn feedReborn(Long id) {
+    public void feedReborn(Long id) {
         Reborn reborn = rebornRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setFeed(true);
 
         rebornRepository.save(reborn);
-
-        return reborn;
     }
 
     @Transactional
-    public Reborn washReborn(Long id) {
+    public void washReborn(Long id) {
         Reborn reborn = rebornRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setWash(true);
 
         rebornRepository.save(reborn);
-
-        return reborn;
     }
 
     @Transactional
-    public Reborn brushReborn(Long id) {
+    public void brushReborn(Long id) {
         Reborn reborn = rebornRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setBrush(true);
 
         rebornRepository.save(reborn);
-
-        return reborn;
     }
 
     @Transactional
-    public Reborn writeReborn(Long id, DetailRebornReqDto detailRebornReqDto) {
+    public void writeReborn(Long id, DetailRebornReqDto detailRebornReqDto) {
         Reborn reborn = rebornRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
@@ -94,8 +91,6 @@ public class RebornService {
         reborn.setRebornType(RebornType.valueOf(detailRebornReqDto.getRebornType()));
 
         rebornRepository.save(reborn);
-
-        return reborn;
     }
 
     @Transactional

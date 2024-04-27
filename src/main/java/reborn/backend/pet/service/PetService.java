@@ -8,9 +8,6 @@ import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.pet.converter.PetConverter;
 import reborn.backend.pet.domain.Pet;
-import reborn.backend.pet.domain.PetColor;
-import reborn.backend.pet.domain.PetType;
-import reborn.backend.pet.dto.PetRequestDto.DetailPetReqDto;
 import reborn.backend.pet.dto.PetRequestDto.PetReqDto;
 import reborn.backend.pet.repository.PetRepository;
 import reborn.backend.user.domain.User;
@@ -35,29 +32,11 @@ public class PetService {
     }
 
     @Transactional
-    public Pet updatePet(Long id, DetailPetReqDto detailPetReqDto) {
-        Pet pet = petRepository.findById(id)
-                .orElseThrow(() -> GeneralException.of(ErrorCode.PET_NOT_FOUND));
-
-        pet.setPetName(detailPetReqDto.getPetName());
-        pet.setAnniversary(detailPetReqDto.getAnniversary());
-        pet.setPetType(PetType.valueOf(detailPetReqDto.getPetType()));
-        pet.setDetailPetType(detailPetReqDto.getDetailPetType());
-        pet.setPetColor(PetColor.valueOf(detailPetReqDto.getPetColor()));
-
-        petRepository.save(pet);
-
-        return pet;
-    }
-
-    @Transactional
-    public Pet updateDate(Long id) {
+    public void updateDate(Long id) {
         Pet pet = petRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.PET_NOT_FOUND));
 
         pet.setRebornDate(pet.getRebornDate() + 1);
-
-        return pet;
     }
 
     @Transactional
@@ -70,4 +49,7 @@ public class PetService {
         return petRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.PET_NOT_FOUND));
     }
+
+    // 유저 가지고 pet id 가져오고 리턴
+
 }

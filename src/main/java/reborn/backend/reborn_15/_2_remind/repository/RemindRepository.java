@@ -6,10 +6,13 @@ import org.springframework.stereotype.Repository;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._2_remind.domain.Remind;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface RemindRepository extends JpaRepository<Remind, Long>, JpaSpecificationExecutor<Remind> {
     Optional<Remind> findTopByPetOrderByDateDesc(Pet pet);
+
+    List<Remind> findAllByPetAndDateLessThanOrderByDateDesc(Pet pet, Integer date);
 
 }

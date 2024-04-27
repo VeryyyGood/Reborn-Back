@@ -13,6 +13,7 @@ import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.DetailRemembe
 import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.RememberReqDto;
 import reborn.backend.reborn_15._4_remember.repository.RememberRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -36,123 +37,108 @@ public class RememberService {
     }
 
     @Transactional
-    public Remember patRemember(Long id) {
+    public List<Remember> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
+        return rememberRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
+    }
+
+    @Transactional
+    public void patRemember(Long id) {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setPat(true);
 
         rememberRepository.save(remember);
-
-        return remember;
     }
 
     @Transactional
-    public Remember feedRemember(Long id) {
+    public void feedRemember(Long id) {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setFeed(true);
 
         rememberRepository.save(remember);
-
-        return remember;
     }
 
     @Transactional
-    public  Remember walkRemember(Long id) {
+    public void walkRemember(Long id) {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setWalk(true);
 
         rememberRepository.save(remember);
-
-        return remember;
     }
 
     @Transactional
-    public Remember snackRemember(Long id) {
+    public void snackRemember(Long id) {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setSnack(true);
 
         rememberRepository.save(remember);
-
-        return remember;
     }
 
     @Transactional
-    public Remember clean_Remember1(Long id) {
+    public void clean_Remember1(Long id) {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setClean_1(true);
 
         rememberRepository.save(remember);
-
-        return remember;
     }
 
     @Transactional
-    public Remember clean_Remember2(Long id) {
+    public void clean_Remember2(Long id) {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setClean_2(true);
 
         rememberRepository.save(remember);
-
-        return remember;
     }
 
     @Transactional
-    public Remember clean_Remember3(Long id) {
+    public void clean_Remember3(Long id) {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setClean_3(true);
 
         rememberRepository.save(remember);
-
-        return remember;
     }
 
     @Transactional
-    public Remember clean_Remember4(Long id) {
+    public void clean_Remember4(Long id) {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setClean_4(true);
 
         rememberRepository.save(remember);
-
-        return remember;
     }
 
     @Transactional
-    public Remember clean_Remember5(Long id) {
+    public void clean_Remember5(Long id) {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setClean_5(true);
 
         rememberRepository.save(remember);
-
-        return remember;
     }
 
     @Transactional
-    public Remember clean_Remember6(Long id) {
+    public void clean_Remember6(Long id) {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setClean_6(true);
 
         rememberRepository.save(remember);
-
-        return remember;
     }
 
     @Transactional
