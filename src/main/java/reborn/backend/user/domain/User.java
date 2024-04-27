@@ -51,14 +51,11 @@ public class User extends BaseEntity{
     @OneToMany(mappedBy = "user")
     private List<Pet> pets = new ArrayList<>();
 
+    // 내가 작성한 게시물 따로 열람해야 하기에
     @OneToMany(mappedBy = "user")
     private List<Board> boards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Comment> comments = new ArrayList<>();
-
+    // 내가 북마크한 게시물 따로 열람해야 하기에
     @OneToMany(mappedBy = "user")
     private List<BoardBookmark> boardBookmarks = new ArrayList<>();
-
-    // rediary 일대다 매핑 추가
 }
