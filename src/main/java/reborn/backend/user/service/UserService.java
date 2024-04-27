@@ -7,24 +7,30 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
+import reborn.backend.board.domain.Board;
+import reborn.backend.board.repository.BoardRepository;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.global.s3.AmazonS3Manager;
+import reborn.backend.pet.domain.Pet;
+import reborn.backend.pet.repository.PetRepository;
+import reborn.backend.reborn_15._2_remind.repository.RemindRepository;
+import reborn.backend.reborn_15._3_reveal.repository.RevealRepository;
+import reborn.backend.reborn_15._4_remember.repository.RememberRepository;
+import reborn.backend.reborn_15._5_reborn.repository.RebornRepository;
 import reborn.backend.user.converter.UserConverter;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.dto.UserRequestDto;
-import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.dto.JwtDto;
 import reborn.backend.user.jwt.JwtTokenUtils;
 import reborn.backend.user.jwt.RefreshToken;
 import reborn.backend.user.repository.RefreshTokenRepository;
 import reborn.backend.user.repository.UserRepository;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -36,6 +42,8 @@ import static org.apache.logging.log4j.util.Strings.isEmpty;
 public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final BoardRepository boardRepository;
+    private final PetRepository petRepository;
 
     private final JpaUserDetailsManager manager;
     private final AmazonS3Manager amazonS3Manager;
@@ -49,7 +57,7 @@ public class UserService {
                 .orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND_BY_USERNAME));
     }
     public User findByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND_BY_EMAIL));;
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND_BY_EMAIL));
         return user;
     }
 
@@ -173,6 +181,14 @@ public class UserService {
     public void deleteUser(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND));
+
+        // 연관된 펫 엔티티들 삭제
+        List<Pet> pets = user.getPetList();
+        petRepository.deleteAll(pets);
+        // 연관된 게시물 엔티티들 삭제 -> 관련 댓글, 좋아요, 북마크 테이블도 함께 삭제됨 -> (?)
+        List<Board> boards = user.getBoardList();
+        boardRepository.deleteAll(boards);
+
         if (refreshTokenRepository.existsById(username)) {
             refreshTokenRepository.deleteById(username);
             log.info("DB에서 리프레시 토큰 삭제 완료");

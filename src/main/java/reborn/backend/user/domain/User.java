@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import reborn.backend.board.domain.Board;
 import reborn.backend.board.domain.BoardBookmark;
-import reborn.backend.board.domain.Comment;
 import reborn.backend.global.entity.BaseEntity;
 import reborn.backend.pet.domain.Pet;
 
@@ -52,16 +51,13 @@ public class User extends BaseEntity{
     private String providerId;
 
     @OneToMany(mappedBy = "user")
-    private List<Pet> pets = new ArrayList<>();
+    private List<Pet> petList = new ArrayList<>();
 
+    // 내가 작성한 게시물 따로 열람해야 하기에
     @OneToMany(mappedBy = "user")
-    private List<Board> boards = new ArrayList<>();
+    private List<Board> boardList = new ArrayList<>();
 
+    // 내가 북마크한 게시물 따로 열람해야 하기에
     @OneToMany(mappedBy = "user")
-    private List<Comment> comments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<BoardBookmark> boardBookmarks = new ArrayList<>();
-
-    // rediary 일대다 매핑 추가
+    private List<BoardBookmark> boardBookmarkList = new ArrayList<>();
 }

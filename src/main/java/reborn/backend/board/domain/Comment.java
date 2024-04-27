@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import reborn.backend.global.entity.BaseEntity;
-import reborn.backend.user.domain.User;
 
 @Entity
 @Getter
@@ -21,13 +20,6 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
-
-/*    @Column
-    private Integer parentCommentId;*/
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @Column(length = 20, nullable = false)
     private String commentWriter;
