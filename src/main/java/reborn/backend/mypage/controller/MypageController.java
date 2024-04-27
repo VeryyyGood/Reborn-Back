@@ -5,10 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reborn.backend.global.api_payload.ApiResponse;
 import reborn.backend.global.api_payload.SuccessCode;
 import reborn.backend.pet.converter.PetConverter;
@@ -53,8 +50,8 @@ public class MypageController {
     private final RebornService rebornService;
 
     // 모든 Pet 가져오기
-            @Operation(summary = "반려동물 정보 조회 메서드", description = "반려동물 정보 목록을 조회하는 메서드입니다.")
-            @ApiResponses(value = {
+    @Operation(summary = "반려동물 정보 조회 메서드", description = "반려동물 정보 목록을 조회하는 메서드입니다.")
+    @ApiResponses(value = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2001", description = "반려동물 정보 목록 조회가 완료되었습니다.")
     })
     @GetMapping("/list")
@@ -86,6 +83,20 @@ public class MypageController {
 
         return ApiResponse.onSuccess(SuccessCode.PET_DETAIL_VIEW_SUCCESS, detailPetDto);
     }
+
+    // 펫 정보 삭제하기
+    @Operation(summary = "특정 반려동물 정보 삭제 메서드", description = "특정 반려동물 정보를 삭제하는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2003", description = "반려동물 삭제가 완료되었습니다.")
+    })
+    @DeleteMapping("/delete/{pet-id}")
+    public ApiResponse<Boolean> deletePet(
+            @PathVariable(name = "pet-id") Long id
+    ){
+        petService.deletePet(id);
+        return ApiResponse.onSuccess(SuccessCode.PET_DETAIL_VIEW_SUCCESS, true);
+    }
+
 
     // RECONNECT에 대한 REVIEW
     @Operation(summary = "특정 반려동물의 종류 조회 메서드", description = "특정 반려동물의 종류를 조회하는 메서드입니다.")

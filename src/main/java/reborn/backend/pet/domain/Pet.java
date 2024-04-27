@@ -4,9 +4,15 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import reborn.backend.global.entity.BaseEntity;
+import reborn.backend.reborn_15._2_remind.domain.Remind;
+import reborn.backend.reborn_15._3_reveal.domain.Reveal;
+import reborn.backend.reborn_15._4_remember.domain.Remember;
+import reborn.backend.reborn_15._5_reborn.domain.Reborn;
 import reborn.backend.user.domain.User;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -47,5 +53,18 @@ public class Pet extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column
     private RebornType rebornType;
+
+    // 나의 반려견 15일 컨텐츠 기록 열람시 필요
+    @OneToMany(mappedBy = "pet")
+    private List<Remind> remindList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pet")
+    private List<Reveal> revealList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pet")
+    private List<Remember> rememberList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pet")
+    private List<Reborn> rebornList = new ArrayList<>();
 
 }

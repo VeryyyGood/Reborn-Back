@@ -17,6 +17,10 @@ import reborn.backend.global.exception.GeneralException;
 import reborn.backend.global.s3.AmazonS3Manager;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.pet.repository.PetRepository;
+import reborn.backend.reborn_15._2_remind.repository.RemindRepository;
+import reborn.backend.reborn_15._3_reveal.repository.RevealRepository;
+import reborn.backend.reborn_15._4_remember.repository.RememberRepository;
+import reborn.backend.reborn_15._5_reborn.repository.RebornRepository;
 import reborn.backend.user.converter.UserConverter;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.dto.UserRequestDto;
@@ -181,7 +185,7 @@ public class UserService {
         // 연관된 펫 엔티티들 삭제
         List<Pet> pets = user.getPetList();
         petRepository.deleteAll(pets);
-        // 연관된 게시물 엔티티들 삭제 -> 관련 댓글, 좋아요, 북마크 테이블도 함께 삭제됨
+        // 연관된 게시물 엔티티들 삭제 -> 관련 댓글, 좋아요, 북마크 테이블도 함께 삭제됨 -> (?)
         List<Board> boards = user.getBoardList();
         boardRepository.deleteAll(boards);
 

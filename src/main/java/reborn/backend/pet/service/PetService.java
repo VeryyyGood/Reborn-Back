@@ -10,6 +10,14 @@ import reborn.backend.pet.converter.PetConverter;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.pet.dto.PetRequestDto.PetReqDto;
 import reborn.backend.pet.repository.PetRepository;
+import reborn.backend.reborn_15._2_remind.domain.Remind;
+import reborn.backend.reborn_15._2_remind.repository.RemindRepository;
+import reborn.backend.reborn_15._3_reveal.domain.Reveal;
+import reborn.backend.reborn_15._3_reveal.repository.RevealRepository;
+import reborn.backend.reborn_15._4_remember.domain.Remember;
+import reborn.backend.reborn_15._4_remember.repository.RememberRepository;
+import reborn.backend.reborn_15._5_reborn.domain.Reborn;
+import reborn.backend.reborn_15._5_reborn.repository.RebornRepository;
 import reborn.backend.user.domain.User;
 
 import java.util.List;
@@ -20,6 +28,10 @@ import java.util.List;
 public class PetService {
 
     private final PetRepository petRepository;
+    private final RemindRepository remindRepository;
+    private final RevealRepository revealRepository;
+    private final RememberRepository rememberRepository;
+    private final RebornRepository rebornRepository;
 
     @Transactional
     public Pet createPet(PetReqDto petReqDto, User user) {
@@ -40,6 +52,28 @@ public class PetService {
     }
 
     @Transactional
+    public void deletePet(Long id){
+        Pet pet = petRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.PET_NOT_FOUND));
+
+        // 연관된 remind 엔티티 삭제
+        List<Remind> reminds = pet.getRemindList();
+        remindRepository.deleteAll(reminds);
+        // 연관된 remind 엔티티 삭제
+        List<Reveal> reveals = pet.getRevealList();
+        revealRepository.deleteAll(reveals);
+        // 연관된 remind 엔티티 삭제
+        List<Remember> remembers = pet.getRememberList();
+        rememberRepository.deleteAll(remembers);
+        // 연관된 remind 엔티티 삭제
+        List<Reborn> reborns = pet.getRebornList();
+        rebornRepository.deleteAll(reborns);
+
+        // 마지막으로 pet 삭제
+        petRepository.delete(pet);
+    }
+
+    @Transactional
     public List<Pet> findAllByUserSortedByCreatedAt(User user) {
         return petRepository.findAllByUserOrderByCreatedAtDesc(user);
     }
@@ -49,7 +83,5 @@ public class PetService {
         return petRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.PET_NOT_FOUND));
     }
-
-    // 유저 가지고 pet id 가져오고 리턴
 
 }
