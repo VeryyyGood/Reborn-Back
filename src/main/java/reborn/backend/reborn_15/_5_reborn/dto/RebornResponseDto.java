@@ -17,7 +17,20 @@ public class RebornResponseDto {
     @NoArgsConstructor
     public static class RebornListResDto {
         @Schema(description = "나의 반려동물과 건강한 작별하기 리스트")
-        private List<DetailRebornDto> rebornList;
+        private List<SimpleRebornDto> rebornList;
+    }
+
+    @Schema(description = "SimpleRebornDto")
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SimpleRebornDto {
+        @Schema(description = "반려동물에게 하는 작별인사")
+        private String rebornContent;
+
+        @Schema(description = "리본 타입(YELLOW, BLACK)")
+        private String rebornType;
     }
 
     @Schema(description = "DetailRebornDto")

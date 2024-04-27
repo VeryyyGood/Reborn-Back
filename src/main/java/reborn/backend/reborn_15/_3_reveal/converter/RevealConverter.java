@@ -4,7 +4,6 @@ import lombok.NoArgsConstructor;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._3_reveal.domain.Reveal;
 import reborn.backend.reborn_15._3_reveal.dto.RevealRequestDto.RevealReqDto;
-import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto;
 import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto.DetailRevealDto;
 import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto.SimpleRevealDto;
 

@@ -28,6 +28,9 @@ import reborn.backend.reborn_15._4_remember.converter.RememberConverter;
 import reborn.backend.reborn_15._4_remember.domain.Remember;
 import reborn.backend.reborn_15._4_remember.dto.RememberResponseDto.SimpleRememberDto;
 import reborn.backend.reborn_15._4_remember.service.RememberService;
+import reborn.backend.reborn_15._5_reborn.converter.RebornConverter;
+import reborn.backend.reborn_15._5_reborn.domain.Reborn;
+import reborn.backend.reborn_15._5_reborn.dto.RebornResponseDto.SimpleRebornDto;
 import reborn.backend.reborn_15._5_reborn.service.RebornService;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.jwt.CustomUserDetails;
@@ -159,6 +162,27 @@ public class MypageController {
         return ApiResponse.onSuccess(SuccessCode.REVIEW_REMEMBER_VIEW_SUCCESS, rememberDtos);
 
     }
+
+    // REBORN에 대한 REVIEW
+    @Operation(summary = "건강한 작별하기 조회 메서드", description = "건강한 작별하기 조회 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVIEW_2005", description = "건강한 작별하기 내용 조회가 완료되었습니다.")
+    })
+    @GetMapping("/reborn/{pet-id}")
+    public ApiResponse<List<SimpleRebornDto>> getReborn(
+            @PathVariable(name = "pet-id") Long id
+    ){
+        Pet pet = petService.findById(id);
+
+        List<Reborn> reborns = rebornService.findAllByPetAndDateLessThanSortedByDate(pet, pet.getRebornDate());
+
+        List<SimpleRebornDto> rebornDtos = reborns.stream()
+                .map(RebornConverter::toSimpleRebornDto)
+                .collect(Collectors.toList());
+
+        return ApiResponse.onSuccess(SuccessCode.REVIEW_REBORN_VIEW_SUCCESS, rebornDtos);
+    }
+
 
 
 

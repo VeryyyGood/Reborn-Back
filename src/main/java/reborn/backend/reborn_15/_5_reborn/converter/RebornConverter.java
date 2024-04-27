@@ -5,6 +5,7 @@ import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._5_reborn.domain.Reborn;
 import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornReqDto;
 import reborn.backend.reborn_15._5_reborn.dto.RebornResponseDto.DetailRebornDto;
+import reborn.backend.reborn_15._5_reborn.dto.RebornResponseDto.SimpleRebornDto;
 
 @NoArgsConstructor
 public class RebornConverter {
@@ -17,6 +18,13 @@ public class RebornConverter {
                 .feed(false)
                 .wash(false)
                 .brush(false)
+                .build();
+    }
+
+    public static SimpleRebornDto toSimpleRebornDto(Reborn reborn) {
+        return SimpleRebornDto.builder()
+                .rebornContent(reborn.getRebornContent())
+                .rebornType(String.valueOf(reborn.getRebornType()))
                 .build();
     }
 

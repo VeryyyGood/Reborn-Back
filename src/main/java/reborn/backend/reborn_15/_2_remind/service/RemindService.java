@@ -12,7 +12,6 @@ import reborn.backend.reborn_15._2_remind.domain.Remind;
 import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.DetailRemindReqDto;
 import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.RemindReqDto;
 import reborn.backend.reborn_15._2_remind.repository.RemindRepository;
-import reborn.backend.user.domain.User;
 
 import java.util.List;
 import java.util.Optional;

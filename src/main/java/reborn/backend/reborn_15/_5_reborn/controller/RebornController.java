@@ -14,7 +14,6 @@ import reborn.backend.reborn_15._5_reborn.converter.RebornConverter;
 import reborn.backend.reborn_15._5_reborn.domain.Reborn;
 import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.DetailRebornReqDto;
 import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornReqDto;
-import reborn.backend.reborn_15._5_reborn.dto.RebornResponseDto;
 import reborn.backend.reborn_15._5_reborn.dto.RebornResponseDto.DetailRebornDto;
 import reborn.backend.reborn_15._5_reborn.service.RebornService;
 import reborn.backend.user.domain.User;
