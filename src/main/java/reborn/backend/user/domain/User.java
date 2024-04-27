@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import reborn.backend.board.domain.Board;
 import reborn.backend.board.domain.BoardBookmark;
-import reborn.backend.board.domain.Comment;
 import reborn.backend.global.entity.BaseEntity;
 import reborn.backend.pet.domain.Pet;
 

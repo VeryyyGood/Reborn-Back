@@ -1,17 +1,10 @@
 package reborn.backend.board.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
-import com.amazonaws.util.IOUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,16 +26,12 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class BoardService {
-    private final AmazonS3 amazonS3;
 
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
     private final BoardBookmarkRepository boardBookmarkRepository;
     private final BoardLikeRepository boardLikeRepository;
     private final AmazonS3Manager amazonS3Manager;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
 
     @Transactional
     public List<Board> findAll() {
