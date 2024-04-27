@@ -57,12 +57,12 @@ public class BoardService {
 
     @Transactional
     public List<Board> findBookmarkedBoard(User user) {
-        return user.getBoardBookmarks().stream().map(BoardBookmark::getBoard).toList();
+        return user.getBoardBookmarkList().stream().map(BoardBookmark::getBoard).toList();
     }
 
     @Transactional
     public List<Board> findByUser(User user){
-        return user.getBoards().stream().toList();
+        return user.getBoardList().stream().toList();
     }
 
     @Transactional

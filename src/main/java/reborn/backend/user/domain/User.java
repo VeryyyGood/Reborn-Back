@@ -49,13 +49,13 @@ public class User extends BaseEntity{
     private String providerId;
 
     @OneToMany(mappedBy = "user")
-    private List<Pet> pets = new ArrayList<>();
+    private List<Pet> petList = new ArrayList<>();
 
     // 내가 작성한 게시물 따로 열람해야 하기에
     @OneToMany(mappedBy = "user")
-    private List<Board> boards = new ArrayList<>();
+    private List<Board> boardList = new ArrayList<>();
 
     // 내가 북마크한 게시물 따로 열람해야 하기에
     @OneToMany(mappedBy = "user")
-    private List<BoardBookmark> boardBookmarks = new ArrayList<>();
+    private List<BoardBookmark> boardBookmarkList = new ArrayList<>();
 }
