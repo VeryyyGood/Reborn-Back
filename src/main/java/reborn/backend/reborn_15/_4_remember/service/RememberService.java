@@ -13,6 +13,7 @@ import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.DetailRemembe
 import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.RememberReqDto;
 import reborn.backend.reborn_15._4_remember.repository.RememberRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -33,6 +34,11 @@ public class RememberService {
         rememberRepository.save(remember);
 
         return remember;
+    }
+
+    @Transactional
+    public List<Remember> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
+        return rememberRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
     }
 
     @Transactional

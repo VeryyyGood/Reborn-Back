@@ -22,9 +22,11 @@ import reborn.backend.reborn_15._2_remind.dto.RemindResponseDto.SimpleRemindDto;
 import reborn.backend.reborn_15._2_remind.service.RemindService;
 import reborn.backend.reborn_15._3_reveal.converter.RevealConverter;
 import reborn.backend.reborn_15._3_reveal.domain.Reveal;
-import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto;
 import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto.SimpleRevealDto;
 import reborn.backend.reborn_15._3_reveal.service.RevealService;
+import reborn.backend.reborn_15._4_remember.converter.RememberConverter;
+import reborn.backend.reborn_15._4_remember.domain.Remember;
+import reborn.backend.reborn_15._4_remember.dto.RememberResponseDto.SimpleRememberDto;
 import reborn.backend.reborn_15._4_remember.service.RememberService;
 import reborn.backend.reborn_15._5_reborn.service.RebornService;
 import reborn.backend.user.domain.User;
@@ -118,7 +120,7 @@ public class MypageController {
 
     @Operation(summary = "나의 감정 들여다보기 조회 메서드", description = "나의 감정 들여다보기 조회 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2006", description = "나의 감정 들여다보기 조회가 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2006", description = "나의 감정 들여다보기 내용 조회가 완료되었습니다.")
     })
     @GetMapping("/reveal/{pet-id}")
     public ApiResponse<List<SimpleRevealDto>> getReveal(
@@ -133,6 +135,26 @@ public class MypageController {
                 .collect(Collectors.toList());
 
         return ApiResponse.onSuccess(SuccessCode.PET_REVEAL_VIEW_SUCCESS, revealDtos);
+
+    }
+
+    @Operation(summary = "건강한 작별 준비하기 조회 메서드", description = "건강한 작별 준비하기 조회 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2006", description = "건강한 작별 준비하기 내용 조회가 완료되었습니다.")
+    })
+    @GetMapping("/remember/{pet-id}")
+    public ApiResponse<List<SimpleRememberDto>> getRemember(
+            @PathVariable(name = "pet-id") Long id
+    ){
+        Pet pet = petService.findById(id);
+
+        List<Remember> remembers = rememberService.findAllByPetAndDateLessThanSortedByDate(pet, pet.getRebornDate());
+
+        List<SimpleRememberDto> rememberDtos = remembers.stream()
+                .map(RememberConverter::toSimpleRememberDto)
+                .collect(Collectors.toList());
+
+        return ApiResponse.onSuccess(SuccessCode.PET_REMEMBER_VIEW_SUCCESS, rememberDtos);
 
     }
 

@@ -18,7 +18,23 @@ public class RememberResponseDto {
     @NoArgsConstructor
     public static class RememberListResDto {
         @Schema(description = "건강한 작별 준비하기 리스트")
-        private List<DetailRememberDto> rememberList;
+        private List<SimpleRememberDto> rememberList;
+    }
+
+    @Schema(description = "SimpleRememberDto")
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SimpleRememberDto {
+        @Schema(description = "일기 내용")
+        private String content;
+
+        @Schema(description = "이미지 url")
+        private String rememberImage;
+
+        @Schema(description = "건강한 작별 준비하기 작성일")
+        private Integer date;
     }
 
     @Schema(description = "DetailRememberDto")
@@ -32,6 +48,9 @@ public class RememberResponseDto {
 
         @Schema(description = "일기 내용")
         private String content;
+
+        @Schema(description = "건강한 작별 준비하기 작성일")
+        private Integer date;
 
         @Schema(description = "이미지 url")
         private String rememberImage;
