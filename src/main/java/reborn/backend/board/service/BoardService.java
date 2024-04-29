@@ -3,6 +3,8 @@ package reborn.backend.board.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -121,6 +123,25 @@ public class BoardService {
         else throw new GeneralException(ErrorCode.BAD_REQUEST);
     }
 
+    //---------------------------------------------------------
+    public List<Board> getBoardList(BoardType boardType, String way, int scrollPosition, int fetchSize) {
+        Slice<Board> boardSlice = boardRepository.findByBoardTypeAndWay(boardType, way, PageRequest.of(scrollPosition, fetchSize));
+        return boardSlice.getContent();
+    }
+
+    public List<Board> getBookmarkBoardList(User user, BoardType boardType, String way, int scrollPosition, int fetchSize) {
+        Long userId = user.getId();
+        Slice<Board> boardSlice = boardRepository.findBookmarkByUserIdAndBoardTypeAndWay(userId, boardType, way, PageRequest.of(scrollPosition, fetchSize));
+        return boardSlice.getContent();
+    }
+
+    public List<Board> getMyBoardList(User user, BoardType boardType, String way, int scrollPosition, int fetchSize) {
+        Long userId = user.getId();
+        Slice<Board> boardSlice = boardRepository.findMyByUserIdAndBoardTypeAndWay(userId, boardType, way, PageRequest.of(scrollPosition, fetchSize));
+        return boardSlice.getContent();
+    }
+
+/*  정렬 기존 로직
     public List<Board> filterBoardsByType(List<Board> boards, String boardType) {
 
         if (boardType.equals("ALL")) {
@@ -155,5 +176,7 @@ public class BoardService {
             throw GeneralException.of(ErrorCode.BOARD_WRONG_SORTING_WAY);
         }
     }
+
+ */
 
 }
