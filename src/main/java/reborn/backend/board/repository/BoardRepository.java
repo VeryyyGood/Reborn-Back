@@ -12,7 +12,7 @@ import reborn.backend.board.domain.BoardType;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    @Query("SELECT b FROM Board b WHERE (:boardType = 'ALL' OR b.boardType = :boardType) ORDER BY " + // ALL이면 모든 게시판 전체 보이게
+    @Query("SELECT b FROM Board b WHERE (:boardType = 'ALL' OR b.boardType = :boardType) ORDER BY " + // type이 'ALL'이면 모든 게시판 보이게
             "CASE WHEN :way = 'like' THEN b.likeCount END DESC, " +
             "CASE WHEN :way = 'like' THEN b.createdAt END DESC, " + // 좋아요 수가 같을 때 시간 내림차순 정렬
             "CASE WHEN :way = 'time' THEN b.createdAt END DESC")
