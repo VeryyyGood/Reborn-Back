@@ -10,7 +10,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import reborn.backend.board.domain.Board;
+import reborn.backend.board.domain.BoardType;
 import reborn.backend.board.service.BoardBookmarkService;
 import reborn.backend.board.service.BoardLikeService;
 import reborn.backend.board.service.BoardService;
@@ -100,6 +104,82 @@ public class BoardController {
         return ApiResponse.onSuccess(SuccessCode.BOARD_DELETED, true);
     }
 
+    //--------------------------------------------------------------------------------------------------------
+    // 1. scrollPosition: 스크롤이 이동한 위치를 나타내는 매개변수
+    // 2. fetchSize: 한 번에 가져올 데이터의 개수를 나타내는 매개변수
+    @Operation(summary = "전체 게시판 목록 정보 조회 메서드", description = "type, way에 따라 게시판 목록을 조회하는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2004", description = "게시판 목록 조회가 완료되었습니다.")
+    })
+    @Parameters({
+            @Parameter(name = "type", description = "조회하고 싶은 게시물 타입, EMOTION: 감정, ACTIVITY: 봉사, CHAT: 잡담, ALL: 전체"),
+            @Parameter(name = "way", description = "정렬 방식,  like: 좋아요순, time: 최신순"),
+            @Parameter(name = "scrollPosition", description = "데이터 가져올 시작 위치. 0부터 시작. scrollPosition * fetchSize가 첫 데이터 주소"),
+            @Parameter(name = "fetchSize", description = "가져올 데이터 크기(게시물 개수)")
+    })
+    @GetMapping("/list")
+    public ApiResponse<BoardListResDto> getListBoards(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam(name = "type") String type,
+            @RequestParam(name = "way") String way,
+            @RequestParam(name = "scrollPosition", defaultValue = "0") int scrollPosition,
+            @RequestParam(name = "fetchSize", defaultValue = "10") int fetchSize
+    ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        BoardType boardType = BoardType.valueOf(type);
+        List<Board> boards = boardService.getBoardList(boardType, way, scrollPosition, fetchSize);
+        return ApiResponse.onSuccess(SuccessCode.BOARD_LIST_VIEW_SUCCESS, BoardConverter.boardListResDto(boards));
+    }
+
+    @Operation(summary = "북마크 한 전체 게시판 목록 정보 조회 메서드", description = "북마크 한 게시판 중 type, way에 따라 목록을 조회하는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2005", description = "게시판 목록 조회가 완료되었습니다.")
+    })
+    @Parameters({
+            @Parameter(name = "type", description = "조회하고 싶은 게시물 타입, EMOTION: 감정, ACTIVITY: 봉사, CHAT: 잡담, ALL: 전체"),
+            @Parameter(name = "way", description = "정렬 방식,  like: 좋아요순, time: 최신순"),
+            @Parameter(name = "scrollPosition", description = "데이터 가져올 시작 위치. 0부터 시작. scrollPosition * fetchSize가 첫 데이터 주소"),
+            @Parameter(name = "fetchSize", description = "가져올 데이터 크기(게시물 개수)")
+    })
+    @GetMapping("/list/bookmark")
+    public ApiResponse<BoardListResDto> getBookmarkBoards(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam(name = "type") String type,
+            @RequestParam(name = "way") String way,
+            @RequestParam(name = "scrollPosition", defaultValue = "0") int scrollPosition,
+            @RequestParam(name = "fetchSize", defaultValue = "10") int fetchSize
+    ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        BoardType boardType = BoardType.valueOf(type);
+        List<Board> bookmarkBoards = boardService.getBookmarkBoardList(user, boardType, way, scrollPosition, fetchSize);
+        return ApiResponse.onSuccess(SuccessCode.BOARD_LIST_VIEW_SUCCESS, BoardConverter.boardListResDto(bookmarkBoards));
+    }
+
+    @Operation(summary = "내가 작성한 전체 게시판 목록 정보 조회 메서드", description = "내가 작성한 게시판 중 type, way에 따라 목록을 조회하는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2005", description = "게시판 목록 조회가 완료되었습니다.")
+    })
+    @Parameters({
+            @Parameter(name = "type", description = "조회하고 싶은 게시물 타입, EMOTION: 감정, ACTIVITY: 봉사, CHAT: 잡담, ALL: 전체"),
+            @Parameter(name = "way", description = "정렬 방식,  like: 좋아요순, time: 최신순"),
+            @Parameter(name = "scrollPosition", description = "데이터 가져올 시작 위치. 0부터 시작. scrollPosition * fetchSize가 첫 데이터 주소"),
+            @Parameter(name = "fetchSize", description = "가져올 데이터 크기(게시물 개수)")
+    })
+    @GetMapping("/list/my")
+    public ApiResponse<BoardListResDto> getMyBoards(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam(name = "type") String type,
+            @RequestParam(name = "way") String way,
+            @RequestParam(name = "scrollPosition", defaultValue = "0") int scrollPosition,
+            @RequestParam(name = "fetchSize", defaultValue = "10") int fetchSize
+    ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        BoardType boardType = BoardType.valueOf(type);
+        List<Board> myBoards = boardService.getMyBoardList(user, boardType, way, scrollPosition, fetchSize);
+        return ApiResponse.onSuccess(SuccessCode.BOARD_LIST_VIEW_SUCCESS, BoardConverter.boardListResDto(myBoards));
+    }
+
+/*  정렬 기존 로직
     @Operation(summary = "전체 게시판 목록 정보 조회 메서드", description = "type, way에 따라 게시판 목록을 조회하는 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2004", description = "게시판 목록 조회가 완료되었습니다.")
@@ -166,6 +246,8 @@ public class BoardController {
 
         return ApiResponse.onSuccess(SuccessCode.BOARD_LIST_VIEW_SUCCESS, BoardConverter.boardListResDto(sortedBoards));
     }
+ */
+    //--------------------------------------------------------------------------------------------------------
 
     @Operation(summary = "게시물 좋아요 확인 메서드", description = "사용자가 게시물 좋아요 누른 여부 확인하는 메서드입니다.")
     @ApiResponses(value = {
