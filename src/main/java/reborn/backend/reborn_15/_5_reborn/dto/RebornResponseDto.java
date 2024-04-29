@@ -32,6 +32,12 @@ public class RebornResponseDto {
 
         @Schema(description = "반려동물 종류(CAT, DOG)")
         private String petType;
+
+        @Schema(description = "사용자 닉네임")
+        private String userNickName;
+
+        @Schema(description = "반려동물 이름")
+        private String petName;
     }
 
     @Schema(description = "DetailRebornDto")

@@ -3,7 +3,7 @@ package reborn.backend.pet.domain;
 public enum PetColor {
     BLACK,
     BROWN,
-    LIGHTBROWN,
+    YELLOW,
     GRAY,
     WHITE
 }

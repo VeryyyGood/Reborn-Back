@@ -9,7 +9,6 @@ import reborn.backend.global.exception.GeneralException;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._2_remind.converter.RemindConverter;
 import reborn.backend.reborn_15._2_remind.domain.Remind;
-import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.DetailRemindReqDto;
 import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.RemindReqDto;
 import reborn.backend.reborn_15._2_remind.repository.RemindRepository;
 
@@ -24,12 +23,12 @@ public class RemindService {
     private final RemindRepository remindRepository;
 
     @Transactional
-    public Remind createRemind(RemindReqDto remindReqDto, Pet pet) {
+    public Remind createRemind(Pet pet) {
         Optional<Remind> latestRemind = remindRepository.findTopByPetOrderByDateDesc(pet);
 
         Integer newDate = latestRemind.map(r -> r.getDate() + 1).orElse(2);
 
-        Remind remind = RemindConverter.toRemind(remindReqDto, pet, newDate);
+        Remind remind = RemindConverter.toRemind(pet, newDate);
 
         remindRepository.save(remind);
 
@@ -82,10 +81,10 @@ public class RemindService {
     }
 
     @Transactional
-    public Remind writeRemind(Long id, DetailRemindReqDto detailRemindReqDto) {
+    public Remind writeRemind(Long id, RemindReqDto remindReqDto) {
         Remind remind = remindRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
-        remind.setAnswer(detailRemindReqDto.getAnswer());
+        remind.setAnswer(remindReqDto.getAnswer());
 
         remindRepository.save(remind);
 

@@ -6,6 +6,7 @@ import reborn.backend.pet.domain.PetColor;
 import reborn.backend.pet.domain.PetType;
 import reborn.backend.pet.dto.PetRequestDto.PetReqDto;
 import reborn.backend.pet.dto.PetResponseDto.DetailPetDto;
+import reborn.backend.pet.dto.PetResponseDto.SimplePetDto;
 import reborn.backend.user.domain.User;
 
 @NoArgsConstructor
@@ -23,11 +24,17 @@ public class PetConverter {
                 .build();
     }
 
-    public static DetailPetDto toDetailPetDto(Pet pet) {
-        return DetailPetDto.builder()
+    public static SimplePetDto toSimplePetDto(Pet pet) {
+        return SimplePetDto.builder()
                 .petId(pet.getId())
                 .petName(pet.getPetName())
-                .rebornDate(pet.getRebornDate())
+                .anniversary(pet.getAnniversary())
+                .build();
+    }
+
+    public static DetailPetDto toDetailPetDto(Pet pet) {
+        return DetailPetDto.builder()
+                .petName(pet.getPetName())
                 .anniversary(pet.getAnniversary())
                 .petType(String.valueOf(pet.getPetType()))
                 .detailPetType(pet.getDetailPetType())

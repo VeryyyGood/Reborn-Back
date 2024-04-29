@@ -4,21 +4,24 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.global.api_payload.ApiResponse;
 import reborn.backend.global.api_payload.SuccessCode;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.pet.service.PetService;
 import reborn.backend.reborn_15._4_remember.converter.RememberConverter;
 import reborn.backend.reborn_15._4_remember.domain.Remember;
-import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.DetailRememberReqDto;
-import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.RememberReqDto;
+import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.SimpleRememberReqDto;
 import reborn.backend.reborn_15._4_remember.dto.RememberResponseDto.DetailRememberDto;
 import reborn.backend.reborn_15._4_remember.service.RememberService;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.service.UserService;
+
+import java.io.IOException;
 
 @Tag(name = "remember", description = "remember 관련 api 입니다.")
 @RestController
@@ -36,13 +39,12 @@ public class RememberController {
     })
     @PostMapping("/create")
     public ApiResponse<Boolean> create(
-            @RequestBody RememberReqDto rememberReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
 
-        Remember remember = rememberService.createRemember(rememberReqDto, pet);
+        rememberService.createRemember(pet);
 
         petService.updateDate(user.getContentPetId());
 
@@ -67,13 +69,14 @@ public class RememberController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2003", description = "그림일기 작성이 완료되었습니다.")
     })
-    @PostMapping("/write/{id}")
+    @PostMapping(value = "/write/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<Boolean> write(
-            @PathVariable(name = "id") Long id,
-            @RequestBody DetailRememberReqDto detailRememberReqDto,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
-    ){
-        Remember remember = rememberService.writeRemember(id, detailRememberReqDto);
+            @RequestPart(value = "remember") MultipartFile file,
+            @RequestPart("data") SimpleRememberReqDto simpleRememberReqDto,
+            @PathVariable(name = "id") Long id
+    ) throws IOException {
+        String dirName = "remember/";
+        rememberService.writeRemember(id, simpleRememberReqDto, dirName, file);
 
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_WRITE_COMPLETED, true);
     }

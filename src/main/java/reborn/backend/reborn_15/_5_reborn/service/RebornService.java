@@ -10,7 +10,6 @@ import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._5_reborn.converter.RebornConverter;
 import reborn.backend.reborn_15._5_reborn.domain.Reborn;
 import reborn.backend.reborn_15._5_reborn.domain.RebornType;
-import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.DetailRebornReqDto;
 import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornReqDto;
 import reborn.backend.reborn_15._5_reborn.repository.RebornRepository;
 
@@ -25,12 +24,12 @@ public class RebornService {
     private final RebornRepository rebornRepository;
 
     @Transactional
-    public Reborn createReborn(RebornReqDto rebornReqDto, Pet pet) {
+    public Reborn createReborn(Pet pet) {
         Optional<Reborn> latestReborn = rebornRepository.findTopByPetOrderByDateDesc(pet);
 
         Integer newDate = latestReborn.map(r -> r.getDate() + 1).orElse(15);
 
-        Reborn reborn = RebornConverter.toReborn(rebornReqDto, pet, newDate);
+        Reborn reborn = RebornConverter.toReborn(pet, newDate);
 
         rebornRepository.save(reborn);
 
@@ -83,12 +82,12 @@ public class RebornService {
     }
 
     @Transactional
-    public void writeReborn(Long id, DetailRebornReqDto detailRebornReqDto) {
+    public void writeReborn(Long id, RebornReqDto rebornReqDto) {
         Reborn reborn = rebornRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
-        reborn.setRebornContent(detailRebornReqDto.getRebornContent());
-        reborn.setRebornType(RebornType.valueOf(detailRebornReqDto.getRebornType()));
+        reborn.setRebornContent(rebornReqDto.getRebornContent());
+        reborn.setRebornType(RebornType.valueOf(rebornReqDto.getRebornType()));
 
         rebornRepository.save(reborn);
     }
