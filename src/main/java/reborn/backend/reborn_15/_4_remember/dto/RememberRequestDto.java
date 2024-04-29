@@ -102,4 +102,16 @@ public class RememberRequestDto {
         @Schema(description = "청소 여부_6")
         private Boolean clean_6;
     }
+
+    @Schema(description = "SimpleRememberReqDto")
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SimpleRememberReqDto {
+
+        @Schema(description = "일기 내용")
+        private String content;
+
+    }
 }
