@@ -19,7 +19,23 @@ public class PetResponseDto {
     @AllArgsConstructor
     public static class PetListDto{
         @Schema(description = "반려동물 리스트")
-        private List<DetailPetDto> petList;
+        private List<SimplePetDto> petList;
+    }
+
+    @Schema(description = "SimplePetDto")
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SimplePetDto{
+        @Schema(description = "반려동물 id")
+        private Long petId;
+
+        @Schema(description = "반려동물 이름")
+        private String petName;
+
+        @Schema(description = "반려동물 기일")
+        private LocalDate anniversary;
     }
 
 
@@ -29,17 +45,11 @@ public class PetResponseDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class DetailPetDto{
-        @Schema(description = "반려동물 id")
-        private Long petId;
-
         @Schema(description = "반려동물 이름")
         private String petName;
 
         @Schema(description = "반려동물 기일")
         private LocalDate anniversary;
-
-        @Schema(description = "컨텐츠 상 진행중인 날짜")
-        private Integer rebornDate;
 
         @Schema(description = "반려동물 종류(DOG, CAT)")
         private String petType;
@@ -47,10 +57,7 @@ public class PetResponseDto {
         @Schema(description = "반료동물 종")
         private String detailPetType;
 
-        @Schema(description = "반려동물 색깔(BLACK, BROWN, LIGHTBROWN, GRAY, WHITE")
+        @Schema(description = "반려동물 색깔(BLACK, BROWN, YELLOW, GRAY, WHITE")
         private String petColor;
-
-        @Schema(description = "반려동물 사진 url?")
-        private String petImage;
     }
 }
