@@ -12,7 +12,6 @@ import reborn.backend.pet.domain.Pet;
 import reborn.backend.pet.service.PetService;
 import reborn.backend.reborn_15._3_reveal.converter.RevealConverter;
 import reborn.backend.reborn_15._3_reveal.domain.Reveal;
-import reborn.backend.reborn_15._3_reveal.dto.RevealRequestDto.DetailRevealReqDto;
 import reborn.backend.reborn_15._3_reveal.dto.RevealRequestDto.RevealReqDto;
 import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto.DetailRevealDto;
 import reborn.backend.reborn_15._3_reveal.service.RevealService;
@@ -38,13 +37,12 @@ public class RevealController {
     })
     @PostMapping("/create")
     public ApiResponse<Boolean> create(
-            @RequestBody RevealReqDto revealReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
 
-        Reveal reveal = revealService.createReveal(revealReqDto, pet);
+        revealService.createReveal(pet);
 
         petService.updateDate(user.getContentPetId());
 
@@ -72,10 +70,9 @@ public class RevealController {
     @PostMapping("/write/{id}")
     public ApiResponse<Double> write(
             @PathVariable(name = "id") Long id,
-            @RequestBody DetailRevealReqDto detailRevealReqDto,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
+            @RequestBody RevealReqDto revealReqDto
     ){
-        Reveal reveal = revealService.writeReveal(id, detailRevealReqDto);
+        Reveal reveal = revealService.writeReveal(id, revealReqDto);
 
         double emotionPercentage = revealService.calculateEmotionPercentage(reveal.getId());
 

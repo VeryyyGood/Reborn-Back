@@ -12,6 +12,7 @@ import reborn.backend.pet.converter.PetConverter;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.pet.domain.PetType;
 import reborn.backend.pet.dto.PetResponseDto.DetailPetDto;
+import reborn.backend.pet.dto.PetResponseDto.SimplePetDto;
 import reborn.backend.pet.service.PetService;
 import reborn.backend.reborn_15._2_remind.converter.RemindConverter;
 import reborn.backend.reborn_15._2_remind.domain.Remind;
@@ -55,15 +56,15 @@ public class MypageController {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PET_2001", description = "반려동물 정보 목록 조회가 완료되었습니다.")
     })
     @GetMapping("/list")
-    public ApiResponse<List<DetailPetDto>> getAllPet(
+    public ApiResponse<List<SimplePetDto>> getAllPet(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
 
         List<Pet> pets = petService.findAllByUserSortedByCreatedAt(user);
 
-        List<DetailPetDto> petDtos = pets.stream()
-                .map(PetConverter::toDetailPetDto)
+        List<SimplePetDto> petDtos = pets.stream()
+                .map(PetConverter::toSimplePetDto)
                 .collect(Collectors.toList());
 
         return ApiResponse.onSuccess(SuccessCode.PET_LIST_VIEW_SUCCESS, petDtos);
