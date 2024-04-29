@@ -85,13 +85,13 @@ public class RevealService {
     }
 
     @Transactional
-    public Reveal writeReveal(Long id, DetailRevealReqDto detailRevealReqDto) {
+    public Reveal writeReveal(Long id, RevealReqDto revealReqDto) {
         Reveal reveal = revealRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
-        reveal.setDiaryContent(detailRevealReqDto.getDiaryContent());
-        reveal.setPickEmotion(PickEmotion.valueOf(detailRevealReqDto.getPickEmotion()));
-        reveal.setResultEmotion(ResultEmotion.valueOf(detailRevealReqDto.getResultEmotion()));
+        reveal.setDiaryContent(revealReqDto.getDiaryContent());
+        reveal.setPickEmotion(PickEmotion.valueOf(revealReqDto.getPickEmotion()));
+        reveal.setResultEmotion(ResultEmotion.valueOf(revealReqDto.getResultEmotion()));
 
         revealRepository.save(reveal);
 
