@@ -27,12 +27,12 @@ public class RevealService {
     private final RevealRepository revealRepository;
 
     @Transactional
-    public Reveal createReveal(RevealReqDto revealReqDto, Pet pet) {
+    public Reveal createReveal(Pet pet) {
         Optional<Reveal> latestReveal = revealRepository.findTopByPetOrderByDateDesc(pet);
 
         Integer newDate = latestReveal.map(r -> r.getDate() + 1).orElse(7);
 
-        Reveal reveal = RevealConverter.toReveal(revealReqDto, pet, newDate);
+        Reveal reveal = RevealConverter.toReveal(pet, newDate);
 
         revealRepository.save(reveal);
 

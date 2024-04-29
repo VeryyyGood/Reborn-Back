@@ -3,14 +3,13 @@ package reborn.backend.reborn_15._2_remind.converter;
 import lombok.NoArgsConstructor;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._2_remind.domain.Remind;
-import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.RemindReqDto;
 import reborn.backend.reborn_15._2_remind.dto.RemindResponseDto.DetailRemindDto;
 import reborn.backend.reborn_15._2_remind.dto.RemindResponseDto.SimpleRemindDto;
 
 @NoArgsConstructor
 public class RemindConverter {
 
-    public static Remind toRemind(RemindReqDto remind, Pet pet, Integer date) {
+    public static Remind toRemind(Pet pet, Integer date) {
         return Remind.builder()
                 .pet(pet)
                 .date(date)

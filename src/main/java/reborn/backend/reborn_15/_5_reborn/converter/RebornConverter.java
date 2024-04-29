@@ -3,14 +3,13 @@ package reborn.backend.reborn_15._5_reborn.converter;
 import lombok.NoArgsConstructor;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._5_reborn.domain.Reborn;
-import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornReqDto;
 import reborn.backend.reborn_15._5_reborn.dto.RebornResponseDto.DetailRebornDto;
 import reborn.backend.reborn_15._5_reborn.dto.RebornResponseDto.SimpleRebornDto;
 
 @NoArgsConstructor
 public class RebornConverter {
 
-    public static Reborn toReborn(RebornReqDto reborn, Pet pet, Integer date) {
+    public static Reborn toReborn(Pet pet, Integer date) {
         return Reborn.builder()
                 .pet(pet)
                 .date(date)

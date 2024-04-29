@@ -13,7 +13,6 @@ import reborn.backend.pet.service.PetService;
 import reborn.backend.reborn_15._4_remember.converter.RememberConverter;
 import reborn.backend.reborn_15._4_remember.domain.Remember;
 import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.DetailRememberReqDto;
-import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.RememberReqDto;
 import reborn.backend.reborn_15._4_remember.dto.RememberResponseDto.DetailRememberDto;
 import reborn.backend.reborn_15._4_remember.service.RememberService;
 import reborn.backend.user.domain.User;
@@ -36,13 +35,12 @@ public class RememberController {
     })
     @PostMapping("/create")
     public ApiResponse<Boolean> create(
-            @RequestBody RememberReqDto rememberReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
 
-        Remember remember = rememberService.createRemember(rememberReqDto, pet);
+        rememberService.createRemember(pet);
 
         petService.updateDate(user.getContentPetId());
 
@@ -70,10 +68,9 @@ public class RememberController {
     @PostMapping("/write/{id}")
     public ApiResponse<Boolean> write(
             @PathVariable(name = "id") Long id,
-            @RequestBody DetailRememberReqDto detailRememberReqDto,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
+            @RequestBody DetailRememberReqDto detailRememberReqDto
     ){
-        Remember remember = rememberService.writeRemember(id, detailRememberReqDto);
+        rememberService.writeRemember(id, detailRememberReqDto);
 
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_WRITE_COMPLETED, true);
     }

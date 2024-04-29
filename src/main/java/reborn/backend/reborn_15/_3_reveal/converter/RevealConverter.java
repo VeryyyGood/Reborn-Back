@@ -3,14 +3,13 @@ package reborn.backend.reborn_15._3_reveal.converter;
 import lombok.NoArgsConstructor;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._3_reveal.domain.Reveal;
-import reborn.backend.reborn_15._3_reveal.dto.RevealRequestDto.RevealReqDto;
 import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto.DetailRevealDto;
 import reborn.backend.reborn_15._3_reveal.dto.RevealResponseDto.SimpleRevealDto;
 
 @NoArgsConstructor
 public class RevealConverter {
 
-    public static Reveal toReveal(RevealReqDto reveal, Pet pet, Integer date) {
+    public static Reveal toReveal(Pet pet, Integer date) {
         return Reveal.builder()
                 .pet(pet)
                 .date(date)

@@ -13,7 +13,6 @@ import reborn.backend.pet.service.PetService;
 import reborn.backend.reborn_15._2_remind.converter.RemindConverter;
 import reborn.backend.reborn_15._2_remind.domain.Remind;
 import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.DetailRemindReqDto;
-import reborn.backend.reborn_15._2_remind.dto.RemindRequestDto.RemindReqDto;
 import reborn.backend.reborn_15._2_remind.dto.RemindResponseDto.DetailRemindDto;
 import reborn.backend.reborn_15._2_remind.service.RemindService;
 import reborn.backend.user.domain.User;
@@ -36,13 +35,12 @@ public class RemindController {
     })
     @PostMapping("/create")
     public ApiResponse<Boolean> create(
-            @RequestBody RemindReqDto remindReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
 
-        Remind remind = remindService.createRemind(remindReqDto, pet);
+        remindService.createRemind(pet);
 
         petService.updateDate(user.getContentPetId());
 
@@ -70,10 +68,9 @@ public class RemindController {
     @PostMapping("/write/{id}")
     public ApiResponse<Boolean> write(
             @PathVariable(name = "id") Long id,
-            @RequestBody DetailRemindReqDto detailRemindReqDto,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
+            @RequestBody DetailRemindReqDto detailRemindReqDto
     ){
-        Remind remind = remindService.writeRemind(id, detailRemindReqDto);
+        remindService.writeRemind(id, detailRemindReqDto);
 
         return ApiResponse.onSuccess(SuccessCode.REMIND_WRITE_COMPLETED, true);
     }

@@ -13,7 +13,6 @@ import reborn.backend.pet.service.PetService;
 import reborn.backend.reborn_15._5_reborn.converter.RebornConverter;
 import reborn.backend.reborn_15._5_reborn.domain.Reborn;
 import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.DetailRebornReqDto;
-import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornReqDto;
 import reborn.backend.reborn_15._5_reborn.dto.RebornResponseDto.DetailRebornDto;
 import reborn.backend.reborn_15._5_reborn.service.RebornService;
 import reborn.backend.user.domain.User;
@@ -36,13 +35,12 @@ public class RebornController {
     })
     @PostMapping("/create")
     public ApiResponse<Boolean> create(
-            @RequestBody RebornReqDto rebornReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
 
-        Reborn reborn= rebornService.createReborn(rebornReqDto, pet);
+        rebornService.createReborn(pet);
 
         petService.updateDate(user.getContentPetId());
 
@@ -70,8 +68,7 @@ public class RebornController {
     @PostMapping("/write/{id}")
     public ApiResponse<Boolean> write(
             @PathVariable(name = "id") Long id,
-            @RequestBody DetailRebornReqDto detailRebornReqDto,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
+            @RequestBody DetailRebornReqDto detailRebornReqDto
     ){
         rebornService.writeReborn(id, detailRebornReqDto);
 

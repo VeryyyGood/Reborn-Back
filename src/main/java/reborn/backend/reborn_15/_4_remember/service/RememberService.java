@@ -10,7 +10,6 @@ import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._4_remember.converter.RememberConverter;
 import reborn.backend.reborn_15._4_remember.domain.Remember;
 import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.DetailRememberReqDto;
-import reborn.backend.reborn_15._4_remember.dto.RememberRequestDto.RememberReqDto;
 import reborn.backend.reborn_15._4_remember.repository.RememberRepository;
 
 import java.util.List;
@@ -24,12 +23,12 @@ public class RememberService {
     private final RememberRepository rememberRepository;
 
     @Transactional
-    public Remember createRemember(RememberReqDto remberReqDto, Pet pet) {
+    public Remember createRemember(Pet pet) {
         Optional<Remember> latestRemember = rememberRepository.findTopByPetOrderByDateDesc(pet);
 
         Integer newDate = latestRemember.map(r -> r.getDate() + 1).orElse(12);
 
-        Remember remember = RememberConverter.toRemember(remberReqDto, pet, newDate);
+        Remember remember = RememberConverter.toRemember(pet, newDate);
 
         rememberRepository.save(remember);
 

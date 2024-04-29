@@ -24,12 +24,12 @@ public class RemindService {
     private final RemindRepository remindRepository;
 
     @Transactional
-    public Remind createRemind(RemindReqDto remindReqDto, Pet pet) {
+    public Remind createRemind(Pet pet) {
         Optional<Remind> latestRemind = remindRepository.findTopByPetOrderByDateDesc(pet);
 
         Integer newDate = latestRemind.map(r -> r.getDate() + 1).orElse(2);
 
-        Remind remind = RemindConverter.toRemind(remindReqDto, pet, newDate);
+        Remind remind = RemindConverter.toRemind(pet, newDate);
 
         remindRepository.save(remind);
 

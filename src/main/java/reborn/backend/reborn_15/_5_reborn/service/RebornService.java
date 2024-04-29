@@ -25,12 +25,12 @@ public class RebornService {
     private final RebornRepository rebornRepository;
 
     @Transactional
-    public Reborn createReborn(RebornReqDto rebornReqDto, Pet pet) {
+    public Reborn createReborn(Pet pet) {
         Optional<Reborn> latestReborn = rebornRepository.findTopByPetOrderByDateDesc(pet);
 
         Integer newDate = latestReborn.map(r -> r.getDate() + 1).orElse(15);
 
-        Reborn reborn = RebornConverter.toReborn(rebornReqDto, pet, newDate);
+        Reborn reborn = RebornConverter.toReborn(pet, newDate);
 
         rebornRepository.save(reborn);
 
