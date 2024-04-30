@@ -30,14 +30,14 @@ public class BoardLikeController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "LIKE_2001", description = "게시물 좋아요 성공")
     })
-    @PostMapping("/create")// ok
+    @PostMapping("/create")
     public ApiResponse<Long> toggleLike(
             @PathVariable(name = "board-id") Long boardId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-
         Board updatedBoard = boardLikeService.toggleLikeAndRetrieveCount(boardId, user);
+
         return ApiResponse.onSuccess(SuccessCode.BOARD_LIKE_SUCCESS, updatedBoard.getLikeCount());
     }
 
@@ -45,12 +45,11 @@ public class BoardLikeController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "LIKE_2002", description = "게시물 좋아요 취소 성공")
     })
-    @DeleteMapping("/delete")// ok
+    @DeleteMapping("/delete")
     public ApiResponse<Long> cancelLike(@PathVariable(name = "board-id") Long boardId,
-                                        @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+                                        @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-
-        // 좋아요 취소, 좋아요 수 조회
         Board updatedBoard = boardLikeService.cancelLikeAndRetrieveCount(boardId, user);
 
         return ApiResponse.onSuccess(SuccessCode.BOARD_UNLIKE_SUCCESS, updatedBoard.getLikeCount());
@@ -60,10 +59,9 @@ public class BoardLikeController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "LIKE_2003", description = "게시물 좋아요 개수 조회 성공")
     })
-    @GetMapping("/count") //ok
-    public ApiResponse<Long> getLikeCount(@PathVariable(name = "board-id") Long boardId) {
-
-        // 좋아요 수 조회
+    @GetMapping("/count")
+    public ApiResponse<Long> getLikeCount(@PathVariable(name = "board-id") Long boardId
+    ) {
         Long likeCount = boardLikeService.getLikeCount(boardId);
 
         return ApiResponse.onSuccess(SuccessCode.BOARD_LIKE_COUNT_SUCCESS, likeCount);

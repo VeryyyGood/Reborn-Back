@@ -20,51 +20,54 @@ import reborn.backend.user.repository.UserRepository;
 public class BoardBookmarkService {
     private final BoardBookmarkRepository boardBookmarkRepository;
     private final BoardRepository boardRepository;
-    private final UserRepository userRepository;
 
     // 북마크 생성
     @Transactional
-    public Integer createBookmark(Board board, User user) {
+    public String createBookmark(Long boardId, User user) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
+
         BoardBookmark existingBookmark = boardBookmarkRepository.findByUserAndBoard(user, board);
 
         if (existingBookmark != null) {
-            // 이미 북마크를 눌렀다면 좋아요 취소
-            boardBookmarkRepository.delete(existingBookmark);
-            boardRepository.save(board);
-            return 0;
+            // 이미 북마크를 눌렀다면 에러 반환
+            throw new GeneralException(ErrorCode.ALREADY_BOOKMARKED_BOARD);
         } else {
-            // 북마크 누르기
+            // 북마크 누르지 않았다면, 북마크 생성
             boardBookmarkRepository.save(BoardBookmark.builder().user(user).board(board).build());
         }
-        return 1;
+        return "bookmark created";
     }
 
     // 북마크 취소
     @Transactional
-    public Integer cancelBookmark(Board board, User user) {
+    public String cancelBookmark(Long boardId, User user) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
+
         BoardBookmark existingBookmark = boardBookmarkRepository.findByUserAndBoard(user, board);
 
         if (existingBookmark != null) {
-            // 이미 북마크를 눌렀다면 좋아요 취소
+            // 이미 북마크를 눌렀다면 북마크 취소
             boardBookmarkRepository.delete(existingBookmark);
             boardRepository.save(board);
-            return 0;
+            return "bookmark canceled";
 
-        } else { // 취소할 북마크가 없으면 그대로 반환
-            return 0;
+        } else { // 취소할 북마크가 없으면 에러 반환
+            throw new GeneralException(ErrorCode.BOOKMARKED_BOARD_NOT_FOUND);
         }
     }
 
-    public Boolean checkBookmark(Long boardId, User user){
+    public String checkBookmark(Long boardId, User user){
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
         Long userId = user.getId();
         for (BoardBookmark boardBookmark : board.getBookmarkList()) {
             if (boardBookmark.getUser().getId().equals(userId)) {
-                return true; // 사용자가 북마크를 누른 상태
+                return "bookmarked";
             }
         }
-        return false; // 사용자가 북마크를 누르지 않은 상태
+        return "not bookmarked";
     }
 
 }

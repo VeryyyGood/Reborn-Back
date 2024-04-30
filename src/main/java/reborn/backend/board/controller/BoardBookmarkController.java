@@ -19,7 +19,7 @@ import reborn.backend.user.service.UserService;
 
 @Tag(name = "게시판 북마크", description = "게시판 북마크 관련 api 입니다.")
 @RestController
-@RequestMapping("/board/{board-id}/bookmark") // ok
+@RequestMapping("/board/{board-id}/bookmark")
 @RequiredArgsConstructor
 public class BoardBookmarkController {
     private final UserService userService;
@@ -30,18 +30,14 @@ public class BoardBookmarkController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOOKMARK_2001", description = "게시판 북마크 성공")
     })
-    @PostMapping("/create") // ok
-    public ApiResponse<Integer> createBookmark(@PathVariable(name = "board-id") Long boardId,
-                                        @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    @PostMapping("/create")
+    public ApiResponse<String> createBookmark(@PathVariable(name = "board-id") Long boardId,
+                                        @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        Board board = boardService.findById(boardId);
-
-        if (board == null) {
-            throw GeneralException.of(ErrorCode.BOARD_NOT_FOUND);
-        }
 
         // 북마크 생성
-        Integer is_bookmarked = boardBookmarkService.createBookmark(board, user);
+        String is_bookmarked = boardBookmarkService.createBookmark(boardId, user);
         return ApiResponse.onSuccess(SuccessCode.BOARD_BOOKMARK_SUCCESS, is_bookmarked);
     }
 
@@ -49,18 +45,14 @@ public class BoardBookmarkController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOOKMARK_2002", description = "게시판 북마크 취소 성공")
     })
-    @DeleteMapping("/delete") // ok
-    public ApiResponse<Integer> cancelBookmark(@PathVariable(name = "board-id") Long boardId,
-                                        @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    @DeleteMapping("/delete")
+    public ApiResponse<String> cancelBookmark(@PathVariable(name = "board-id") Long boardId,
+                                        @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-        Board board = boardService.findById(boardId);
-
-        if (board == null) {
-            throw GeneralException.of(ErrorCode.BOARD_NOT_FOUND);
-        }
 
         // 북마크 취소
-        Integer is_bookmarked = boardBookmarkService.cancelBookmark(board, user);
+        String is_bookmarked = boardBookmarkService.cancelBookmark(boardId, user);
         return ApiResponse.onSuccess(SuccessCode.BOARD_UNBOOKMARK_SUCCESS, is_bookmarked);
     }
 

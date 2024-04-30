@@ -254,13 +254,13 @@ public class BoardController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2006", description = "게시물 좋아요 눌렀는지 확인 완료되었습니다")
     })
     @GetMapping("/{board-id}/check-like")// ok
-    public ApiResponse<Boolean> checkLike(
+    public ApiResponse<String> checkLike(
             @PathVariable(name = "board-id") Long boardId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
 
-        Boolean check = boardLikeService.checkLike(boardId, user);
+        String check = boardLikeService.checkLike(boardId, user);
         return ApiResponse.onSuccess(SuccessCode.BOARD_LIKE_CHECK_SUCCESS, check);
     }
 
@@ -269,13 +269,13 @@ public class BoardController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2007", description = "게시물 북마크 눌렀는지 확인 완료되었습니다")
     })
     @GetMapping("/{board-id}/check-bookmark")// ok
-    public ApiResponse<Boolean> checkBookmark(
+    public ApiResponse<String> checkBookmark(
             @PathVariable(name = "board-id") Long boardId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
 
-        Boolean check = boardBookmarkService.checkBookmark(boardId, user);
+        String check = boardBookmarkService.checkBookmark(boardId, user);
         return ApiResponse.onSuccess(SuccessCode.BOARD_BOOKMARK_CHECK_SUCCESS, check);
     }
 }

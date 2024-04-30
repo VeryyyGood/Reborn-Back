@@ -28,7 +28,7 @@ public class CommentService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Boolean createComment(Long boardId, CommentDto commentReqDto, User user) {
+    public Long createComment(Long boardId, CommentDto commentReqDto, User user) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
@@ -38,7 +38,7 @@ public class CommentService {
         updateCommentCount(board);
         boardRepository.save(board);
 
-        return true;
+        return comment.getId();
     }
 
     @Transactional
