@@ -11,7 +11,6 @@ import reborn.backend.global.exception.GeneralException;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._3_reveal.converter.RevealConverter;
 import reborn.backend.reborn_15._3_reveal.domain.Reveal;
-import reborn.backend.reborn_15._3_reveal.dto.RevealRequestDto.DetailRevealReqDto;
 import reborn.backend.reborn_15._3_reveal.dto.RevealRequestDto.RevealReqDto;
 import reborn.backend.reborn_15._3_reveal.repository.RevealRepository;
 
