@@ -32,10 +32,6 @@ public class RemindConverter {
                 .id(remind.getId())
                 .answer(remind.getAnswer())
                 .date(remind.getDate())
-                .pat(remind.getPat())
-                .feed(remind.getFeed())
-                .walk(remind.getWalk())
-                .snack(remind.getSnack())
                 .build();
     }
 }

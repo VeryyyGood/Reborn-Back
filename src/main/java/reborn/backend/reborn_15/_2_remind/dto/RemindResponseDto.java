@@ -48,17 +48,5 @@ public class RemindResponseDto {
 
         @Schema(description = "충분한 대화 나누기 작성일")
         private Integer date;
-
-        @Schema(description = "쓰다듬기 상태")
-        private Boolean pat;
-
-        @Schema(description = "밥주기 상태")
-        private Boolean feed;
-
-        @Schema(description = "산책하기 상태")
-        private Boolean walk;
-
-        @Schema(description = "간식주기 상태")
-        private Boolean snack;
     }
 }
