@@ -47,6 +47,9 @@ public class Pet extends BaseEntity {
     @Column(nullable = false)
     private PetColor petColor;
 
+    @Column(nullable = false)
+    private String progressState;
+
     @Column
     private Integer rebornDate;
 
