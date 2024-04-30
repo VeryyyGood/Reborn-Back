@@ -11,10 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.board.domain.*;
 import reborn.backend.board.repository.BoardBookmarkRepository;
 import reborn.backend.board.repository.BoardLikeRepository;
+import reborn.backend.comment.domain.Comment;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.board.converter.BoardConverter;
 import reborn.backend.board.repository.BoardRepository;
-import reborn.backend.board.repository.CommentRepository;
+import reborn.backend.comment.repository.CommentRepository;
 import reborn.backend.board.dto.BoardRequestDto.BoardReqDto;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.global.s3.AmazonS3Manager;
@@ -176,7 +177,7 @@ public class BoardService {
             throw GeneralException.of(ErrorCode.BOARD_WRONG_SORTING_WAY);
         }
     }
-
  */
+    //---------------------------------------------------------
 
 }

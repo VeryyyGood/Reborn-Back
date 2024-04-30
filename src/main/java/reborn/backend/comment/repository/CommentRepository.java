@@ -1,9 +1,9 @@
-package reborn.backend.board.repository;
+package reborn.backend.comment.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import reborn.backend.board.domain.Board;
-import reborn.backend.board.domain.Comment;
+import reborn.backend.comment.domain.Comment;
 
 import java.util.List;
 

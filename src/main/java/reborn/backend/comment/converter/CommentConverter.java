@@ -1,10 +1,10 @@
-package reborn.backend.board.converter;
+package reborn.backend.comment.converter;
 
 import lombok.NoArgsConstructor;
 import reborn.backend.board.domain.Board;
-import reborn.backend.board.domain.Comment;
-import reborn.backend.board.dto.CommentRequestDto;
-import reborn.backend.board.dto.CommentResponseDto;
+import reborn.backend.comment.domain.Comment;
+import reborn.backend.comment.dto.CommentRequestDto;
+import reborn.backend.comment.dto.CommentResponseDto;
 import reborn.backend.user.domain.User;
 
 import java.util.List;
