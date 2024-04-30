@@ -57,17 +57,5 @@ public class RevealResponseDto {
 
         @Schema(description = "결과로 나온 감정 상태(RED, YELLOW, BLUE)")
         private String resultEmotion;
-
-        @Schema(description = "쓰다듬기 상태")
-        private Boolean pat;
-
-        @Schema(description = "밥주기 상태")
-        private Boolean feed;
-
-        @Schema(description = "산책하기 상태")
-        private Boolean walk;
-
-        @Schema(description = "간식주기 상태")
-        private Boolean snack;
     }
 }
