@@ -17,6 +17,7 @@ import reborn.backend.board.converter.BoardConverter;
 import reborn.backend.board.repository.BoardRepository;
 import reborn.backend.comment.repository.CommentRepository;
 import reborn.backend.board.dto.BoardRequestDto.BoardReqDto;
+import reborn.backend.global.entity.BoardType;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.global.s3.AmazonS3Manager;
 import reborn.backend.user.domain.User;

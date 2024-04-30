@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import reborn.backend.board.domain.Board;
-import reborn.backend.board.domain.BoardType;
+import reborn.backend.global.entity.BoardType;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {

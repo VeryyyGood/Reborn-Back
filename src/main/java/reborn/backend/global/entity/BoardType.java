@@ -1,4 +1,4 @@
-package reborn.backend.board.domain;
+package reborn.backend.global.entity;
 
 public enum BoardType {
     EMOTION,
