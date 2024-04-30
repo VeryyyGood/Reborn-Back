@@ -38,7 +38,6 @@ public class PetResponseDto {
         private LocalDate anniversary;
     }
 
-
     @Schema(description = "DetailPetDto")
     @Getter
     @Builder
@@ -59,5 +58,22 @@ public class PetResponseDto {
 
         @Schema(description = "반려동물 색깔(BLACK, BROWN, YELLOW, GRAY, WHITE")
         private String petColor;
+    }
+
+
+    @Schema(description = "ByePetDto")
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ByePetDto{
+        @Schema(description = "반려동물 종류(DOG, CAT)")
+        private String petType;
+
+        @Schema(description = "컨텐츠 상 진행중인 날짜")
+        private Integer rebornDate;
+
+        @Schema(description = "컨텐츠 진행 상태")
+        private String progressState;
     }
 }
