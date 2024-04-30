@@ -50,8 +50,8 @@ public class CommentService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.COMMENT_NOT_FOUND));
 
         log.info("CommmentWriter: " + comment.getCommentWriter());
-        log.info("Username: " + user.getUsername());
-        if(Objects.equals(comment.getCommentWriter(), user.getUsername())){
+        log.info("Nickname: " + user.getNickname());
+        if(Objects.equals(comment.getCommentWriter(), user.getNickname())){
             commentRepository.delete(comment);
         }
 

@@ -105,7 +105,7 @@ public class BoardService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
         log.info("BoardWriter: " + board.getBoardWriter());
-        log.info("Username: " + user.getNickname());
+        log.info("Nickname: " + user.getNickname());
 
         if(Objects.equals(board.getBoardWriter(), user.getNickname())){
 
