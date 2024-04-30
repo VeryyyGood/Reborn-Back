@@ -10,7 +10,7 @@ import reborn.backend.global.api_payload.ApiResponse;
 import reborn.backend.global.api_payload.SuccessCode;
 import reborn.backend.pet.converter.PetConverter;
 import reborn.backend.pet.domain.Pet;
-import reborn.backend.pet.domain.PetType;
+import reborn.backend.global.entity.PetType;
 import reborn.backend.pet.dto.PetResponseDto.DetailPetDto;
 import reborn.backend.pet.dto.PetResponseDto.SimplePetDto;
 import reborn.backend.pet.service.PetService;

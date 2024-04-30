@@ -1,4 +1,4 @@
-package reborn.backend.pet.domain;
+package reborn.backend.global.entity;
 
 public enum PetType {
     DOG,

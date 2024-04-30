@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import reborn.backend.comment.domain.Comment;
 import reborn.backend.global.entity.BaseEntity;
+import reborn.backend.global.entity.BoardType;
 import reborn.backend.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;

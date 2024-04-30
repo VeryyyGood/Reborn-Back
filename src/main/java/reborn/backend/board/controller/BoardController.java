@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reborn.backend.board.domain.Board;
-import reborn.backend.board.domain.BoardType;
+import reborn.backend.global.entity.BoardType;
 import reborn.backend.board.service.BoardBookmarkService;
 import reborn.backend.board.service.BoardLikeService;
 import reborn.backend.board.service.BoardService;

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import reborn.backend.board.domain.BoardType;
+import reborn.backend.global.entity.BoardType;
 import java.time.LocalDateTime;
 import java.util.List;
 
