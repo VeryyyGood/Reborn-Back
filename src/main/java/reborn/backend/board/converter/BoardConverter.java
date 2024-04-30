@@ -22,7 +22,7 @@ public class BoardConverter {
                 .likeCount(0L)
                 .commentCount(0L)
                 .boardContent(board.getBoardContent())
-                .boardImage("0")
+                .boardImage("null")
                 .build();
     }
 

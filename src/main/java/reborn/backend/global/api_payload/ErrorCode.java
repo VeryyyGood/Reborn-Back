@@ -32,11 +32,15 @@ public enum ErrorCode implements BaseCode {
 
     // Board
     BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "BOARD_4041", "존재하지 않는 게시물입니다."),
-    BOARD_WRONG_TYPE(HttpStatus.BAD_REQUEST, "BOARD_4001", "존재하지 않는 게시물 종류 입니다."),
-    BOARD_WRONG_SORTING_WAY(HttpStatus.BAD_REQUEST, "BOARD_4002", "존재하지 않는 게시물 정렬 방법 입니다."),
-    INVALID_FILE_CONTENT_TYPE(HttpStatus.BAD_REQUEST, "BOARD_4003", "잘못된 파일 유형입니다."),
+    BOOKMARKED_BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "BOARD_4042", "존재하지 않는 북마크입니다."),
+    LIKED_BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "BOARD_4043", "존재하지 않는 좋아요입니다."),
 
-    FILE_UPLOAD_FAILED(HttpStatus.BAD_REQUEST, "BOARD_4001", "파일을 첨부하는 과정에서 문제가 발생했습니다."),
+    BOARD_WRONG_TYPE(HttpStatus.BAD_REQUEST, "BOARD_4001", "존재하지 않는 게시물 종류 입니다."),
+    ALREADY_BOOKMARKED_BOARD(HttpStatus.BAD_REQUEST, "BOARD_4002", "이미 북마크된 게시물입니다."),
+    ALREADY_LIKED_BOARD(HttpStatus.BAD_REQUEST, "BOARD_4003", "이미 좋아요된 게시물입니다."),
+    BOARD_WRONG_SORTING_WAY(HttpStatus.BAD_REQUEST, "BOARD_4004", "존재하지 않는 게시물 정렬 방법 입니다."),
+    INVALID_FILE_CONTENT_TYPE(HttpStatus.BAD_REQUEST, "BOARD_4005", "잘못된 파일 유형입니다."),
+    FILE_UPLOAD_FAILED(HttpStatus.BAD_REQUEST, "BOARD_4006", "파일을 첨부하는 과정에서 문제가 발생했습니다."),
 
     // Comment
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "COMMENT_4041", "존재하지 않는 댓글입니다."),
