@@ -32,6 +32,8 @@ public class RemindService {
 
         remindRepository.save(remind);
 
+        pet.setProgressState("PAT");
+
         return remind;
     }
 
@@ -47,6 +49,8 @@ public class RemindService {
 
         remind.setPat(true);
 
+        remind.getPet().setProgressState("FEED");
+
         remindRepository.save(remind);
     }
 
@@ -56,6 +60,8 @@ public class RemindService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
         remind.setFeed(true);
+
+        remind.getPet().setProgressState("WALK");
 
         remindRepository.save(remind);
     }
@@ -67,6 +73,8 @@ public class RemindService {
 
         remind.setWalk(true);
 
+        remind.getPet().setProgressState("SNACK");
+
         remindRepository.save(remind);
     }
 
@@ -76,6 +84,8 @@ public class RemindService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
         remind.setSnack(true);
+
+        remind.getPet().setProgressState("DIARY");
 
         remindRepository.save(remind);
     }

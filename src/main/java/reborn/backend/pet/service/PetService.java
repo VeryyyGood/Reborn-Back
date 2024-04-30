@@ -39,6 +39,8 @@ public class PetService {
 
         Pet pet = PetConverter.toPet(petReqDto, user, newDate);
 
+        pet.setProgressState("RECONNECT");
+
         petRepository.save(pet);
         return pet;
     }
@@ -83,5 +85,4 @@ public class PetService {
         return petRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.PET_NOT_FOUND));
     }
-
 }

@@ -36,6 +36,8 @@ public class RevealService {
 
         revealRepository.save(reveal);
 
+        pet.setProgressState("PAT");
+
         return reveal;
     }
 
@@ -51,6 +53,8 @@ public class RevealService {
 
         reveal.setPat(true);
 
+        reveal.getPet().setProgressState("FEED");
+
         revealRepository.save(reveal);
     }
 
@@ -60,6 +64,8 @@ public class RevealService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setFeed(true);
+
+        reveal.getPet().setProgressState("WALK");
 
         revealRepository.save(reveal);
     }
@@ -71,6 +77,8 @@ public class RevealService {
 
         reveal.setWalk(true);
 
+        reveal.getPet().setProgressState("SNACK");
+
         revealRepository.save(reveal);
         }
 
@@ -80,6 +88,8 @@ public class RevealService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setSnack(true);
+
+        reveal.getPet().setProgressState("EMOTION");
 
         revealRepository.save(reveal);
     }

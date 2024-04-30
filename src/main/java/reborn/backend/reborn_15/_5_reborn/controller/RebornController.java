@@ -135,6 +135,7 @@ public class RebornController {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
 
         petService.updateDate(user.getContentPetId());
+        petService.findById(user.getContentPetId()).setProgressState("FINISH");
         userService.resetContentPetId(user);
 
         return ApiResponse.onSuccess(SuccessCode.REBORN_FINISH_COMPLETED, true);
