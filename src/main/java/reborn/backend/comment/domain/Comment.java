@@ -1,10 +1,11 @@
-package reborn.backend.board.domain;
+package reborn.backend.comment.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import reborn.backend.board.domain.Board;
 import reborn.backend.global.entity.BaseEntity;
 
 @Entity

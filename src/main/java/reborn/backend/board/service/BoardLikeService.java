@@ -33,15 +33,15 @@ public class BoardLikeService {
         BoardLike existingLike = boardLikeRepository.findByUserAndBoard(user, board);
 
         if (existingLike != null) {
-            // 이미 좋아요를 눌렀다면 좋아요 취소
-            boardLikeRepository.delete(existingLike);
+            // 이미 좋아요를 눌렀다면 에러 반환
+            throw new GeneralException(ErrorCode.ALREADY_LIKED_BOARD);
         } else {
-            // 좋아요 누르기
+            // 좋아요를 누르지 않았다면, 좋아요 누르기
             boardLikeRepository.save(BoardLike.builder().user(user).board(board).build());
+            // 좋아요 수 업데이트
+            updateLikeCount(board);
         }
 
-        // 좋아요 수 업데이트
-        updateLikeCount(board);
         return boardRepository.save(board);
     }
 
@@ -60,21 +60,21 @@ public class BoardLikeService {
             updateLikeCount(board);
             return boardRepository.save(board);
 
-        } else { // 취소할 좋아요가 없으면 그대로 반환
-            return board;
+        } else { // 취소할 좋아요가 없으면 에러 반환
+            throw new GeneralException(ErrorCode.LIKED_BOARD_NOT_FOUND);
         }
     }
 
-    public Boolean checkLike(Long boardId, User user){
+    public String checkLike(Long boardId, User user){
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
         Long userId = user.getId();
         for (BoardLike like : board.getLikeList()) {
             if (like.getUser().getId().equals(userId)) {
-                return true; // 사용자가 좋아요를 누른 상태
+                return "liked"; // 사용자가 좋아요를 누른 상태
             }
         }
-        return false; // 사용자가 좋아요를 누르지 않은 상태
+        return "not liked"; // 사용자가 좋아요를 누르지 않은 상태
     }
 
     // 좋아요 수 조회

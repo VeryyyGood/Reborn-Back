@@ -3,17 +3,21 @@ package reborn.backend.board.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.board.domain.*;
 import reborn.backend.board.repository.BoardBookmarkRepository;
 import reborn.backend.board.repository.BoardLikeRepository;
+import reborn.backend.comment.domain.Comment;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.board.converter.BoardConverter;
 import reborn.backend.board.repository.BoardRepository;
-import reborn.backend.board.repository.CommentRepository;
+import reborn.backend.comment.repository.CommentRepository;
 import reborn.backend.board.dto.BoardRequestDto.BoardReqDto;
+import reborn.backend.global.entity.BoardType;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.global.s3.AmazonS3Manager;
 import reborn.backend.user.domain.User;
@@ -82,13 +86,11 @@ public class BoardService {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
-        if(Objects.equals(board.getBoardWriter(), user.getUsername())){
+        if(Objects.equals(board.getBoardWriter(), user.getNickname())){
             // 업데이트할 내용 설정
             board.setBoardType(boardReqDto.getBoardType());
-            board.setBoardWriter(user.getUsername());
-            board.setLikeCount(board.getLikeCount());
             board.setBoardContent(boardReqDto.getBoardContent());
-             boardRepository.save(board);
+            boardRepository.save(board);
 
             return board;
         }
@@ -101,9 +103,9 @@ public class BoardService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
         log.info("BoardWriter: " + board.getBoardWriter());
-        log.info("Username: " + user.getUsername());
+        log.info("Nickname: " + user.getNickname());
 
-        if(Objects.equals(board.getBoardWriter(), user.getUsername())){
+        if(Objects.equals(board.getBoardWriter(), user.getNickname())){
 
             // 연관된 댓글 엔티티들 삭제
             List<Comment> comments = board.getCommentList();
@@ -121,6 +123,25 @@ public class BoardService {
         else throw new GeneralException(ErrorCode.BAD_REQUEST);
     }
 
+    //---------------------------------------------------------
+    public List<Board> getBoardList(BoardType boardType, String way, int scrollPosition, int fetchSize) {
+        Slice<Board> boardSlice = boardRepository.findByBoardTypeAndWay(boardType, way, PageRequest.of(scrollPosition, fetchSize));
+        return boardSlice.getContent();
+    }
+
+    public List<Board> getBookmarkBoardList(User user, BoardType boardType, String way, int scrollPosition, int fetchSize) {
+        Long userId = user.getId();
+        Slice<Board> boardSlice = boardRepository.findBookmarkByUserIdAndBoardTypeAndWay(userId, boardType, way, PageRequest.of(scrollPosition, fetchSize));
+        return boardSlice.getContent();
+    }
+
+    public List<Board> getMyBoardList(User user, BoardType boardType, String way, int scrollPosition, int fetchSize) {
+        Long userId = user.getId();
+        Slice<Board> boardSlice = boardRepository.findMyByUserIdAndBoardTypeAndWay(userId, boardType, way, PageRequest.of(scrollPosition, fetchSize));
+        return boardSlice.getContent();
+    }
+
+/*  정렬 기존 로직
     public List<Board> filterBoardsByType(List<Board> boards, String boardType) {
 
         if (boardType.equals("ALL")) {
@@ -155,5 +176,7 @@ public class BoardService {
             throw GeneralException.of(ErrorCode.BOARD_WRONG_SORTING_WAY);
         }
     }
+ */
+    //---------------------------------------------------------
 
 }

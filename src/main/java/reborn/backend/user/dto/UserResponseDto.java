@@ -26,4 +26,18 @@ public class UserResponseDto {
         @Schema(description = "닉네임")
         private String nickname;
     }
+
+    @Schema(description = "MainInfoResDto")
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class MainInfoResDto {
+
+        @Schema(description = "프로필 사진")
+        private String profileImage;
+
+        @Schema(description = "닉네임")
+        private String nickname;
+    }
 }

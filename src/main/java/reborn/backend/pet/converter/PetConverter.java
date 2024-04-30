@@ -2,8 +2,8 @@ package reborn.backend.pet.converter;
 
 import lombok.NoArgsConstructor;
 import reborn.backend.pet.domain.Pet;
-import reborn.backend.pet.domain.PetColor;
-import reborn.backend.pet.domain.PetType;
+import reborn.backend.global.entity.PetColor;
+import reborn.backend.global.entity.PetType;
 import reborn.backend.pet.dto.PetRequestDto.PetReqDto;
 import reborn.backend.pet.dto.PetResponseDto.ByePetDto;
 import reborn.backend.pet.dto.PetResponseDto.DetailPetDto;

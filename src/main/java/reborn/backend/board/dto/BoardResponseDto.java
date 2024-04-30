@@ -5,13 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import reborn.backend.board.domain.BoardType;
+import reborn.backend.global.entity.BoardType;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
 public class BoardResponseDto {
-    @Schema(description = "BoardReqDto")
+    @Schema(description = "BoardResDto")
     @Getter
     @Builder
     @AllArgsConstructor
