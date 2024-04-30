@@ -86,10 +86,10 @@ public class BoardService {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
-        if(Objects.equals(board.getBoardWriter(), user.getUsername())){
+        if(Objects.equals(board.getBoardWriter(), user.getNickname())){
             // 업데이트할 내용 설정
             board.setBoardType(boardReqDto.getBoardType());
-            board.setBoardWriter(user.getUsername());
+            board.setBoardWriter(user.getNickname());
             board.setLikeCount(board.getLikeCount());
             board.setBoardContent(boardReqDto.getBoardContent());
              boardRepository.save(board);
