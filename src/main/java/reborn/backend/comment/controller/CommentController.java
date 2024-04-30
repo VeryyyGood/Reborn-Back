@@ -1,4 +1,4 @@
-package reborn.backend.board.controller;
+package reborn.backend.comment.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -6,17 +6,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import reborn.backend.board.converter.CommentConverter;
-import reborn.backend.board.domain.Board;
-import reborn.backend.board.domain.Comment;
-import reborn.backend.board.dto.CommentRequestDto;
-import reborn.backend.board.dto.CommentResponseDto;
+import reborn.backend.comment.converter.CommentConverter;
+import reborn.backend.comment.domain.Comment;
+import reborn.backend.comment.dto.CommentRequestDto;
+import reborn.backend.comment.dto.CommentResponseDto;
 import reborn.backend.board.service.BoardService;
-import reborn.backend.board.service.CommentService;
+import reborn.backend.comment.service.CommentService;
 import reborn.backend.global.api_payload.ApiResponse;
-import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.api_payload.SuccessCode;
-import reborn.backend.global.exception.GeneralException;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.service.UserService;
@@ -81,7 +78,5 @@ public class CommentController {
 
         return ApiResponse.onSuccess(SuccessCode.COMMENT_LIST_VIEW_SUCCESS, CommentConverter.commentListResDto(comments));
     }
-
-    // 대댓글은 추후 추가
 
 }

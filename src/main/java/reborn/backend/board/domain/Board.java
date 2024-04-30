@@ -2,9 +2,9 @@ package reborn.backend.board.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import reborn.backend.comment.domain.Comment;
 import reborn.backend.global.entity.BaseEntity;
 import reborn.backend.user.domain.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,9 +55,9 @@ public class Board extends BaseEntity {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BoardLike> likeList = new ArrayList<>();
+
     public void updateLikeCount(Long likeCount) { this.likeCount = likeCount; }
 
     public void updateCommentCount(Long commentCount) { this.commentCount = commentCount; }
-
 
 }

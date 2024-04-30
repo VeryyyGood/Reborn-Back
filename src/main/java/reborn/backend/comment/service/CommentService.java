@@ -1,15 +1,15 @@
-package reborn.backend.board.service;
+package reborn.backend.comment.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reborn.backend.board.domain.Board;
-import reborn.backend.board.domain.Comment;
-import reborn.backend.board.converter.CommentConverter;
+import reborn.backend.comment.domain.Comment;
+import reborn.backend.comment.converter.CommentConverter;
 import reborn.backend.board.repository.BoardRepository;
-import reborn.backend.board.repository.CommentRepository;
-import reborn.backend.board.dto.CommentRequestDto.CommentDto;
+import reborn.backend.comment.repository.CommentRepository;
+import reborn.backend.comment.dto.CommentRequestDto.CommentDto;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.user.domain.User;
