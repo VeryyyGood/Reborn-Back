@@ -46,7 +46,7 @@ public class BoardController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "BOARD_2011", description = "게시판 생성이 완료되었습니다.")
     })
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse<Boolean> create(
+    public ApiResponse<Long> create(
             @RequestPart(value = "board", required = false) MultipartFile file,
             @RequestPart("data") BoardReqDto boardReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
@@ -55,7 +55,7 @@ public class BoardController {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Board board = boardService.createBoard(boardReqDto, dirName, file, user);
 
-        return ApiResponse.onSuccess(SuccessCode.BOARD_CREATED, true);
+        return ApiResponse.onSuccess(SuccessCode.BOARD_CREATED, board.getId());
     }
 
     @Operation(summary = "게시물 상세 조회 메서드", description = "게시물 상세 정보를 조회하는 메서드입니다.")

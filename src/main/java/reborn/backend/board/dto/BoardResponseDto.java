@@ -11,7 +11,7 @@ import java.util.List;
 
 @NoArgsConstructor
 public class BoardResponseDto {
-    @Schema(description = "BoardReqDto")
+    @Schema(description = "BoardResDto")
     @Getter
     @Builder
     @AllArgsConstructor
