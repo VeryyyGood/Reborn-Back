@@ -89,10 +89,8 @@ public class BoardService {
         if(Objects.equals(board.getBoardWriter(), user.getNickname())){
             // 업데이트할 내용 설정
             board.setBoardType(boardReqDto.getBoardType());
-            board.setBoardWriter(user.getNickname());
-            board.setLikeCount(board.getLikeCount());
             board.setBoardContent(boardReqDto.getBoardContent());
-             boardRepository.save(board);
+            boardRepository.save(board);
 
             return board;
         }
