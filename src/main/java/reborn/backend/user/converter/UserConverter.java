@@ -39,4 +39,11 @@ public class UserConverter {
                 .nickname(user.getNickname())
                 .build();
     }
+
+    public static UserResponseDto.MainInfoResDto mainDto(User user) {
+        return UserResponseDto.MainInfoResDto.builder()
+                .profileImage(user.getProfileImage())
+                .nickname(user.getNickname())
+                .build();
+    }
 }
