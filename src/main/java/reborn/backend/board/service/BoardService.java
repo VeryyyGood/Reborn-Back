@@ -105,9 +105,9 @@ public class BoardService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
         log.info("BoardWriter: " + board.getBoardWriter());
-        log.info("Username: " + user.getUsername());
+        log.info("Username: " + user.getNickname());
 
-        if(Objects.equals(board.getBoardWriter(), user.getUsername())){
+        if(Objects.equals(board.getBoardWriter(), user.getNickname())){
 
             // 연관된 댓글 엔티티들 삭제
             List<Comment> comments = board.getCommentList();
