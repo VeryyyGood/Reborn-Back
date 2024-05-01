@@ -35,10 +35,6 @@ public class RevealConverter {
                 .date(reveal.getDate())
                 .pickEmotion(String.valueOf(reveal.getPickEmotion()))
                 .resultEmotion(String.valueOf(reveal.getResultEmotion()))
-                .pat(reveal.getPat())
-                .feed(reveal.getFeed())
-                .walk(reveal.getWalk())
-                .snack(reveal.getSnack())
                 .build();
     }
 

@@ -35,10 +35,6 @@ public class RebornConverter {
                 .rebornContent(reborn.getRebornContent())
                 .date(reborn.getDate())
                 .rebornType(String.valueOf(reborn.getRebornType()))
-                .pat(reborn.getPat())
-                .feed(reborn.getFeed())
-                .wash(reborn.getWash())
-                .brush(reborn.getBrush())
                 .build();
     }
 }

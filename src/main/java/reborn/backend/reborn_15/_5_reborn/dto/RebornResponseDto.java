@@ -57,17 +57,5 @@ public class RebornResponseDto {
 
         @Schema(description = "리본 타입(YELLOW, BLACK)")
         private String rebornType;
-
-        @Schema(description = "쓰다듬기 상태")
-        private Boolean pat;
-
-        @Schema(description = "밥주기 상태")
-        private Boolean feed;
-
-        @Schema(description = "씻겨주기 상태")
-        private Boolean wash;
-
-        @Schema(description = "털 빗겨주기 상태")
-        private Boolean brush;
     }
 }
