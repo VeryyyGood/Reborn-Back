@@ -22,6 +22,9 @@ public class CommentResponseDto {
         @Schema(description = "글 작성자")
         private String commentWriter;
 
+        @Schema(description = "글 작성자 프로필")
+        private String writerProfileImage;
+
         @Schema(description = "글 내용")
         private String commentContent;
 

@@ -31,6 +31,7 @@ public class BoardConverter {
                 .id(board.getId())
                 .boardType(board.getBoardType())
                 .boardWriter(board.getBoardWriter()) // nickname으로 저장
+                .writerProfileImage(board.getUser().getProfileImage())
                 .likeCount(board.getLikeCount())
                 .commentCount(board.getCommentCount())
                 .boardContent(board.getBoardContent())

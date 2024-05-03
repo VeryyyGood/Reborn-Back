@@ -23,6 +23,7 @@ public class CommentConverter {
         return CommentResponseDto.CommentResDto.builder()
                 .id(comment.getId())
                 .commentWriter(comment.getCommentWriter())
+                .writerProfileImage(comment.getBoard().getUser().getProfileImage())
                 .commentContent(comment.getCommentContent())
                 .commentCreatedAt(comment.getCreatedAt())
                 .build();
