@@ -182,10 +182,10 @@ public class UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND));
 
-        // 연관된 펫 엔티티들 삭제
+        // 연관된 펫 엔티티들 삭제 -> 15일 컨텐츠 함께 삭제됨
         List<Pet> pets = user.getPetList();
         petRepository.deleteAll(pets);
-        // 연관된 게시물 엔티티들 삭제 -> 관련 댓글, 좋아요, 북마크 테이블도 함께 삭제됨 -> (?)
+        // 연관된 게시물 엔티티들 삭제 -> 관련 댓글, 좋아요, 북마크 테이블도 함께 삭제됨
         List<Board> boards = user.getBoardList();
         boardRepository.deleteAll(boards);
 

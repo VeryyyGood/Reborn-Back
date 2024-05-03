@@ -6,6 +6,7 @@ import reborn.backend.board.domain.Board;
 import reborn.backend.board.domain.BoardBookmark;
 import reborn.backend.global.entity.BaseEntity;
 import reborn.backend.pet.domain.Pet;
+import reborn.backend.rediary.domain.Rediary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,4 +61,7 @@ public class User extends BaseEntity{
     // 내가 북마크한 게시물 따로 열람해야 하기에
     @OneToMany(mappedBy = "user")
     private List<BoardBookmark> boardBookmarkList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Rediary> rediaryList = new ArrayList<>();
 }

@@ -59,7 +59,7 @@ public class RediaryService {
 
     @Transactional
     public List<Rediary> findAllByUserSortedByCreatedAt(User user) {
-        return rediaryRepository.findAllByRediaryWriterOrderByCreatedAtDesc(user.getUsername());
+        return rediaryRepository.findAllByUserOrderByCreatedAtDesc(user);
     }
 
     @Transactional
@@ -101,7 +101,7 @@ public class RediaryService {
 
     @Transactional
     public Boolean findByToday(User user) {
-        List<Rediary> todayRediaries = rediaryRepository.findAllByRediaryWriterOrderByCreatedAtDesc(user.getUsername());
+        List<Rediary> todayRediaries = rediaryRepository.findAllByUserOrderByCreatedAtDesc(user);
         LocalDate today = LocalDate.now();
 
         long count = todayRediaries.stream()
