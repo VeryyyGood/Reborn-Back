@@ -39,7 +39,7 @@ public class PetService {
 
         Pet pet = PetConverter.toPet(petReqDto, user, newDate);
 
-        pet.setProgressState("RECONNECT");
+        pet.setProgressState("INTRO");
 
         petRepository.save(pet);
         return pet;
