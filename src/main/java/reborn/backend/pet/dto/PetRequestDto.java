@@ -33,8 +33,5 @@ public class PetRequestDto {
 
         @Schema(description = "반려동물 색깔(BLACK, BROWN, LIGHTBROWN, GRAY, WHITE")
         private String petColor;
-
-        @Schema(description = "반려동물 사진 url")
-        private String petImage;
     }
 }
