@@ -5,6 +5,7 @@ import lombok.*;
 import reborn.backend.global.entity.BaseEntity;
 import reborn.backend.global.entity.PickEmotion;
 import reborn.backend.global.entity.ResultEmotion;
+import reborn.backend.user.domain.User;
 
 import java.time.LocalDate;
 
@@ -22,6 +23,10 @@ public class Rediary extends BaseEntity {
     @Column(length = 20, nullable = false)
     private String rediaryWriter;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Column(nullable = false)
     private String rediaryTitle;
 
@@ -38,4 +43,5 @@ public class Rediary extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ResultEmotion resultEmotion;
+
 }
