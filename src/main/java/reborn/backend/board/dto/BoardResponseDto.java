@@ -27,6 +27,9 @@ public class BoardResponseDto {
         @Schema(description = "게시판 작성자") // nickname
         private String boardWriter;
 
+        @Schema(description = "게시판 작성자 프로필")
+        private String writerProfileImage;
+
         @Schema(description = "좋아요 수")
         private Long likeCount;
 
