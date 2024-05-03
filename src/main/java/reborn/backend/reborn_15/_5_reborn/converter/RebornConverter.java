@@ -16,7 +16,7 @@ public class RebornConverter {
                 .pat(false)
                 .feed(false)
                 .wash(false)
-                .brush(false)
+                .clothe(false)
                 .build();
     }
 

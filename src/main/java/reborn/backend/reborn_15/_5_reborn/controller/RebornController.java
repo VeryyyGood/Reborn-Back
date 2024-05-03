@@ -75,6 +75,20 @@ public class RebornController {
         return ApiResponse.onSuccess(SuccessCode.REBORN_WRITE_COMPLETED, true);
     }
 
+    @Operation(summary = "리본 선택 메서드", description = "리본을 선택하는 메서드입니다.")
+    @ApiResponses(value =  {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2009", description = "리본 선택이 완료되었습니다.")
+    })
+    @PostMapping("/set/{id}")
+    public ApiResponse<Boolean> setReborn(
+            @PathVariable(name = "id") Long id,
+            @RequestBody RebornReqDto rebornReqDto
+    ){
+        rebornService.setReborn(id, rebornReqDto);
+
+        return ApiResponse.onSuccess(SuccessCode.REBORN_SET_REBORN_COMPLETED, true);
+    }
+
     @Operation(summary = "쓰다듬기 메서드", description = "쓰다듬기 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2004", description = "쓰다듬기가 완료되었습니다.")
@@ -112,16 +126,16 @@ public class RebornController {
         return ApiResponse.onSuccess(SuccessCode.REBORN_WASH_COMPLETED, true);
     }
 
-    @Operation(summary = "털 빗겨주기 메서드", description = "털 빗겨주기 메서드입니다.")
+    @Operation(summary = "옷 입혀주기 메서드", description = "옷 입혀주기 메서드입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2007", description = "털 빗겨주기가 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2007", description = "옷 입혀주기가 완료되었습니다.")
     })
-    @PostMapping("/brush/{id}")
-    public ApiResponse<Boolean> brush(
+    @PostMapping("/clothe/{id}")
+    public ApiResponse<Boolean> clothe(
             @PathVariable(name = "id") Long id
     ){
-        rebornService.brushReborn(id);
-        return ApiResponse.onSuccess(SuccessCode.REBORN_BRUSH_COMPLETED, true);
+        rebornService.clotheReborn(id);
+        return ApiResponse.onSuccess(SuccessCode.REBORN_CLOTHE_COMPLETED, true);
     }
 
     @Operation(summary = "15일 컨텐츠 종료 메서드", description = "15일 컨텐츠 종료하는 메서드입니다.")
@@ -135,9 +149,24 @@ public class RebornController {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
 
         petService.updateDate(user.getContentPetId());
-        petService.findById(user.getContentPetId()).setProgressState("FINISH");
+        petService.findById(user.getContentPetId()).setProgressState("END");
         userService.resetContentPetId(user);
 
         return ApiResponse.onSuccess(SuccessCode.REBORN_FINISH_COMPLETED, true);
     }
+
+
+    @Operation(summary = "인트로 메서드", description = "쓰다듬기로 넘어가는 메서드입니다..")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2010", description = "쓰다듬기로 넘어가기가 완료되었습니다.")
+    })
+    @PostMapping("/intro/{id}")
+    public ApiResponse<Boolean> intro(
+            @PathVariable(name = "id") Long id
+    ){
+        rebornService.introReborn(id);
+
+        return ApiResponse.onSuccess(SuccessCode.REBORN_INTRO_COMPLETED, true);
+    }
+
 }
