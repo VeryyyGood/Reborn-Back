@@ -35,7 +35,7 @@ public class RevealService {
 
         revealRepository.save(reveal);
 
-        pet.setProgressState("PAT");
+        pet.setProgressState("INTRO");
 
         return reveal;
     }
@@ -43,6 +43,14 @@ public class RevealService {
     @Transactional
     public List<Reveal> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
         return revealRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
+    }
+
+    @Transactional
+    public void introReveal(Long id) {
+        Reveal reveal = revealRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
+
+        reveal.getPet().setProgressState("PAT");
     }
 
     @Transactional
@@ -103,6 +111,8 @@ public class RevealService {
         reveal.setResultEmotion(ResultEmotion.valueOf(revealReqDto.getResultEmotion()));
 
         revealRepository.save(reveal);
+
+        reveal.getPet().setProgressState("FINISH");
 
         return reveal;
     }
