@@ -54,23 +54,5 @@ public class RememberResponseDto {
 
         @Schema(description = "이미지 url")
         private String rememberImage;
-
-        @Schema(description = "청소 여부_1")
-        private Boolean clean_1;
-
-        @Schema(description = "청소 여부_2")
-        private Boolean clean_2;
-
-        @Schema(description = "청소 여부_3")
-        private Boolean clean_3;
-
-        @Schema(description = "청소 여부_4")
-        private Boolean clean_4;
-
-        @Schema(description = "청소 여부_5")
-        private Boolean clean_5;
-
-        @Schema(description = "청소 여부_6")
-        private Boolean clean_6;
     }
 }

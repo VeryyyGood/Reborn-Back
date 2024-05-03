@@ -133,82 +133,30 @@ public class RememberController {
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_SNACK_COMPLETED, true);
     }
 
-    @Operation(summary = "정리1 메서드", description = "정리1 메서드입니다.")
+    @Operation(summary = "정리 메서드", description = "정리1 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2008", description = "정리1가 완료되었습니다.")
     })
-    @PostMapping("/clean1/{id}")
-    public ApiResponse<Boolean> clean1(
+    @PostMapping("/clean/{id}")
+    public ApiResponse<Boolean> clean(
             @PathVariable(name = "id") Long id
     ){
-        rememberService.clean_Remember1(id);
+        rememberService.clean_Remember(id);
 
-        return ApiResponse.onSuccess(SuccessCode.REMEMBER_CLEAN1_COMPLETED, true);
+        return ApiResponse.onSuccess(SuccessCode.REMEMBER_CLEAN_COMPLETED, true);
     }
 
-    @Operation(summary = "정리2 메서드", description = "정리2 메서드입니다.")
+    @Operation(summary = "인트로 메서드", description = "쓰다듬기로 넘어가는 메서드입니다..")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2009", description = "정리2가 완료되었습니다.")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2009", description = "쓰다듬기로 넘어가기가 완료되었습니다.")
     })
-    @PostMapping("/clean2/{id}")
-    public ApiResponse<Boolean> clean2(
+    @PostMapping("/intro/{id}")
+    public ApiResponse<Boolean> intro(
             @PathVariable(name = "id") Long id
     ){
-        rememberService.clean_Remember2(id);
+        rememberService.introRemember(id);
 
-        return ApiResponse.onSuccess(SuccessCode.REMEMBER_CLEAN2_COMPLETED, true);
-    }
-
-    @Operation(summary = "정리3 메서드", description = "정리3 메서드입니다.")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2010", description = "정리3가 완료되었습니다.")
-    })
-    @PostMapping("/clean3/{id}")
-    public ApiResponse<Boolean> clean3(
-            @PathVariable(name = "id") Long id
-    ){
-        rememberService.clean_Remember3(id);
-
-        return ApiResponse.onSuccess(SuccessCode.REMEMBER_CLEAN3_COMPLETED, true);
-    }
-
-    @Operation(summary = "정리4 메서드", description = "정리4 메서드입니다.")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2011", description = "정리4가 완료되었습니다.")
-    })
-    @PostMapping("/clean4/{id}")
-    public ApiResponse<Boolean> clean4(
-            @PathVariable(name = "id") Long id
-    ){
-        rememberService.clean_Remember4(id);
-
-        return ApiResponse.onSuccess(SuccessCode.REMEMBER_CLEAN4_COMPLETED, true);
-    }
-
-    @Operation(summary = "정리5 메서드", description = "정리5 메서드입니다.")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2012", description = "정리5가 완료되었습니다.")
-    })
-    @PostMapping("/clean5/{id}")
-    public ApiResponse<Boolean> clean5(
-            @PathVariable(name = "id") Long id
-    ){
-        rememberService.clean_Remember5(id);
-
-        return ApiResponse.onSuccess(SuccessCode.REMEMBER_CLEAN5_COMPLETED, true);
-    }
-
-    @Operation(summary = "정리6 메서드", description = "정리6 메서드입니다.")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2013", description = "정리6가 완료되었습니다.")
-    })
-    @PostMapping("/clean6/{id}")
-    public ApiResponse<Boolean> clean6(
-            @PathVariable(name = "id") Long id
-    ){
-        rememberService.clean_Remember6(id);
-
-        return ApiResponse.onSuccess(SuccessCode.REMEMBER_CLEAN6_COMPLETED, true);
+        return ApiResponse.onSuccess(SuccessCode.REMEMBER_INTRO_COMPLETED, true);
     }
 
 }

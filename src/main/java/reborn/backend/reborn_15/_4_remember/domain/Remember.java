@@ -41,21 +41,6 @@ public class Remember {
     private Boolean snack;
 
     @Column
-    private Boolean clean_1;
-
-    @Column
-    private Boolean clean_2;
-
-    @Column
-    private Boolean clean_3;
-
-    @Column
-    private Boolean clean_4;
-
-    @Column
-    private Boolean clean_5;
-
-    @Column
-    private Boolean clean_6;
+    private Boolean clean;
 
 }

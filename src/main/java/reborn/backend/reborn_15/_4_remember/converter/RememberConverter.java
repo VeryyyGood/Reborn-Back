@@ -17,12 +17,7 @@ public class RememberConverter {
                 .feed(false)
                 .walk(false)
                 .snack(false)
-                .clean_1(false)
-                .clean_2(false)
-                .clean_3(false)
-                .clean_4(false)
-                .clean_5(false)
-                .clean_6(false)
+                .clean(false)
                 .build();
     }
 
@@ -40,12 +35,6 @@ public class RememberConverter {
                 .content(remember.getContent())
                 .date(remember.getDate())
                 .rememberImage(remember.getRememberImage())
-                .clean_1(remember.getClean_1())
-                .clean_2(remember.getClean_2())
-                .clean_3(remember.getClean_3())
-                .clean_4(remember.getClean_4())
-                .clean_5(remember.getClean_5())
-                .clean_6(remember.getClean_6())
                 .build();
     }
 }
