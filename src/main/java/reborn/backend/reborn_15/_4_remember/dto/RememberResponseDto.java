@@ -55,18 +55,6 @@ public class RememberResponseDto {
         @Schema(description = "이미지 url")
         private String rememberImage;
 
-        @Schema(description = "쓰다듬기 상태")
-        private Boolean pat;
-
-        @Schema(description = "밥주기 상태")
-        private Boolean feed;
-
-        @Schema(description = "산책하기 상태")
-        private Boolean walk;
-
-        @Schema(description = "간식주기 상태")
-        private Boolean snack;
-
         @Schema(description = "청소 여부_1")
         private Boolean clean_1;
 

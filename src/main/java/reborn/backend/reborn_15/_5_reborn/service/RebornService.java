@@ -33,6 +33,8 @@ public class RebornService {
 
         rebornRepository.save(reborn);
 
+        pet.setProgressState("PAT");
+
         return reborn;
     }
 
@@ -48,6 +50,8 @@ public class RebornService {
 
         reborn.setPat(true);
 
+        reborn.getPet().setProgressState("FEED");
+
         rebornRepository.save(reborn);
     }
 
@@ -57,6 +61,8 @@ public class RebornService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setFeed(true);
+
+        reborn.getPet().setProgressState("WASH");
 
         rebornRepository.save(reborn);
     }
@@ -68,6 +74,8 @@ public class RebornService {
 
         reborn.setWash(true);
 
+        reborn.getPet().setProgressState("BRUSH");
+
         rebornRepository.save(reborn);
     }
 
@@ -77,6 +85,8 @@ public class RebornService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setBrush(true);
+
+        reborn.getPet().setProgressState("QUESTION");
 
         rebornRepository.save(reborn);
     }

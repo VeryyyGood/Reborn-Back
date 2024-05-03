@@ -11,7 +11,6 @@ import reborn.backend.global.exception.GeneralException;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._3_reveal.converter.RevealConverter;
 import reborn.backend.reborn_15._3_reveal.domain.Reveal;
-import reborn.backend.reborn_15._3_reveal.dto.RevealRequestDto.DetailRevealReqDto;
 import reborn.backend.reborn_15._3_reveal.dto.RevealRequestDto.RevealReqDto;
 import reborn.backend.reborn_15._3_reveal.repository.RevealRepository;
 
@@ -36,6 +35,8 @@ public class RevealService {
 
         revealRepository.save(reveal);
 
+        pet.setProgressState("PAT");
+
         return reveal;
     }
 
@@ -51,6 +52,8 @@ public class RevealService {
 
         reveal.setPat(true);
 
+        reveal.getPet().setProgressState("FEED");
+
         revealRepository.save(reveal);
     }
 
@@ -60,6 +63,8 @@ public class RevealService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setFeed(true);
+
+        reveal.getPet().setProgressState("WALK");
 
         revealRepository.save(reveal);
     }
@@ -71,6 +76,8 @@ public class RevealService {
 
         reveal.setWalk(true);
 
+        reveal.getPet().setProgressState("SNACK");
+
         revealRepository.save(reveal);
         }
 
@@ -80,6 +87,8 @@ public class RevealService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setSnack(true);
+
+        reveal.getPet().setProgressState("EMOTION");
 
         revealRepository.save(reveal);
     }

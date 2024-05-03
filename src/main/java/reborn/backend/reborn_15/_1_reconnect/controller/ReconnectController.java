@@ -8,9 +8,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import reborn.backend.global.api_payload.ApiResponse;
 import reborn.backend.global.api_payload.SuccessCode;
+import reborn.backend.pet.converter.PetConverter;
 import reborn.backend.pet.domain.Pet;
-import reborn.backend.pet.dto.PetRequestDto.DetailPetReqDto;
 import reborn.backend.pet.dto.PetRequestDto.PetReqDto;
+import reborn.backend.pet.dto.PetResponseDto.ByePetDto;
 import reborn.backend.pet.service.PetService;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.jwt.CustomUserDetails;
@@ -42,5 +43,29 @@ public class ReconnectController {
 
         return ApiResponse.onSuccess(SuccessCode.RECONNECT_CREATED, true);
     }
+
+    // 작별하러 가기
+    @Operation(summary = "작별하러 가기 메서드", description = "작별하러 가기 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "RECONNECT_2012", description = "반려동물이 없습니다."),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "RECONNECT_2013", description = "작별하러 가기가 완료되었습니다."),
+    })
+    @GetMapping("/goodbye")
+    public ApiResponse<ByePetDto> goodbye(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+
+        if( user.getContentPetId() == null ) return ApiResponse.onSuccess(SuccessCode.RECONNECT_TO_BE_CREATED, null);
+        else {
+            Pet pet = petService.findById(user.getContentPetId());
+
+            ByePetDto detailPetDto = PetConverter.toByePetDto(pet);
+
+            return ApiResponse.onSuccess(SuccessCode.RECONNECT_GOODBYE, detailPetDto);
+        }
+    }
+
+
 
 }

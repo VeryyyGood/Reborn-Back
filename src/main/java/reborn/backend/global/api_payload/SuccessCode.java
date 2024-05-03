@@ -32,6 +32,8 @@ public enum SuccessCode implements BaseCode {
 
     // Reconnect
     RECONNECT_CREATED(HttpStatus.CREATED, "RECONNECT_2011", "나의 반려동물과 만나기 생성이 완료되었습니다."),
+    RECONNECT_TO_BE_CREATED(HttpStatus.CREATED, "RECONNECT_2012", "반려동물이 없습니다."),
+    RECONNECT_GOODBYE(HttpStatus.CREATED, "RECONNECT_2013", "작별하러 가기가 완료되었습니다."),
 
     // Mypage_Pet_about
     PET_LIST_VIEW_SUCCESS(HttpStatus.OK, "PET_2001", "반려동물 정보 목록 조회가 완료되었습니다."),

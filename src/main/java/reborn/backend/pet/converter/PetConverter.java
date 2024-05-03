@@ -5,6 +5,7 @@ import reborn.backend.pet.domain.Pet;
 import reborn.backend.global.entity.PetColor;
 import reborn.backend.global.entity.PetType;
 import reborn.backend.pet.dto.PetRequestDto.PetReqDto;
+import reborn.backend.pet.dto.PetResponseDto.ByePetDto;
 import reborn.backend.pet.dto.PetResponseDto.DetailPetDto;
 import reborn.backend.pet.dto.PetResponseDto.SimplePetDto;
 import reborn.backend.user.domain.User;
@@ -39,6 +40,14 @@ public class PetConverter {
                 .petType(String.valueOf(pet.getPetType()))
                 .detailPetType(pet.getDetailPetType())
                 .petColor(String.valueOf(pet.getPetColor()))
+                .build();
+    }
+
+    public static ByePetDto toByePetDto(Pet pet) {
+        return ByePetDto.builder()
+                .petType(String.valueOf(pet.getPetType()))
+                .rebornDate(pet.getRebornDate())
+                .progressState(pet.getProgressState())
                 .build();
     }
 }

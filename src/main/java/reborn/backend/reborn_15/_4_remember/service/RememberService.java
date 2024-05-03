@@ -37,6 +37,8 @@ public class RememberService {
 
         rememberRepository.save(remember);
 
+        pet.setProgressState("PAT");
+
         return remember;
     }
 
@@ -52,6 +54,8 @@ public class RememberService {
 
         remember.setPat(true);
 
+        remember.getPet().setProgressState("FEED");
+
         rememberRepository.save(remember);
     }
 
@@ -61,6 +65,8 @@ public class RememberService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setFeed(true);
+
+        remember.getPet().setProgressState("WALK");
 
         rememberRepository.save(remember);
     }
@@ -72,6 +78,8 @@ public class RememberService {
 
         remember.setWalk(true);
 
+        remember.getPet().setProgressState("SNACK");
+
         rememberRepository.save(remember);
     }
 
@@ -81,6 +89,8 @@ public class RememberService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setSnack(true);
+
+        remember.getPet().setProgressState("IMAGE");
 
         rememberRepository.save(remember);
     }
@@ -168,6 +178,8 @@ public class RememberService {
         remember.setRememberImage(uploadFileUrl);
 
         rememberRepository.save(remember);
+
+        remember.getPet().setProgressState("CLEAN");
 
         return remember;
     }
