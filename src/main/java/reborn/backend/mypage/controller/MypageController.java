@@ -95,7 +95,7 @@ public class MypageController {
             @PathVariable(name = "pet-id") Long id
     ){
         petService.deletePet(id);
-        return ApiResponse.onSuccess(SuccessCode.PET_DETAIL_VIEW_SUCCESS, true);
+        return ApiResponse.onSuccess(SuccessCode.PET_DELETED, true);
     }
 
 
