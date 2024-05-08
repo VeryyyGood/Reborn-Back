@@ -39,5 +39,5 @@ public class Reborn {
     private Boolean wash;
 
     @Column
-    private Boolean brush;
+    private Boolean clothe;
 }

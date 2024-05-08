@@ -33,9 +33,17 @@ public class RebornService {
 
         rebornRepository.save(reborn);
 
-        pet.setProgressState("PAT");
+        pet.setProgressState("INTRO");
 
         return reborn;
+    }
+
+    @Transactional
+    public void introReborn(Long id) {
+        Reborn reborn = rebornRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
+
+        reborn.getPet().setProgressState("PAT");
     }
 
     @Transactional
@@ -74,19 +82,19 @@ public class RebornService {
 
         reborn.setWash(true);
 
-        reborn.getPet().setProgressState("BRUSH");
+        reborn.getPet().setProgressState("CLOTHES");
 
         rebornRepository.save(reborn);
     }
 
     @Transactional
-    public void brushReborn(Long id) {
+    public void clotheReborn(Long id) {
         Reborn reborn = rebornRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
-        reborn.setBrush(true);
+        reborn.setClothe(true);
 
-        reborn.getPet().setProgressState("QUESTION");
+        reborn.getPet().setProgressState("LETTER");
 
         rebornRepository.save(reborn);
     }
@@ -97,6 +105,17 @@ public class RebornService {
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setRebornContent(rebornReqDto.getRebornContent());
+
+        reborn.getPet().setProgressState("SETREBORN");
+
+        rebornRepository.save(reborn);
+    }
+
+    @Transactional
+    public void setReborn(Long id, RebornReqDto rebornReqDto) {
+        Reborn reborn = rebornRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
+
         reborn.setRebornType(RebornType.valueOf(rebornReqDto.getRebornType()));
 
         rebornRepository.save(reborn);

@@ -32,7 +32,7 @@ public class RemindService {
 
         remindRepository.save(remind);
 
-        pet.setProgressState("PAT");
+        pet.setProgressState("INTRO");
 
         return remind;
     }
@@ -40,6 +40,14 @@ public class RemindService {
     @Transactional
     public List<Remind> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
         return remindRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
+    }
+
+    @Transactional
+    public void introRemind(Long id) {
+        Remind remind = remindRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
+
+        remind.getPet().setProgressState("PAT");
     }
 
     @Transactional
@@ -98,6 +106,7 @@ public class RemindService {
 
         remindRepository.save(remind);
 
+        remind.getPet().setProgressState("FINISH");
         return remind;
     }
 

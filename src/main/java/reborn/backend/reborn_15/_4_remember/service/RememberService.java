@@ -37,10 +37,20 @@ public class RememberService {
 
         rememberRepository.save(remember);
 
-        pet.setProgressState("PAT");
+        pet.setProgressState("INTRO");
 
         return remember;
     }
+
+
+    @Transactional
+    public void introRemember(Long id) {
+        Remember remember = rememberRepository.findById(id)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
+
+        remember.getPet().setProgressState("PAT");
+    }
+
 
     @Transactional
     public List<Remember> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
@@ -96,67 +106,19 @@ public class RememberService {
     }
 
     @Transactional
-    public void clean_Remember1(Long id) {
+    public void clean_Remember(Long id) {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
-        remember.setClean_1(true);
+        remember.setClean(true);
+
+        remember.getPet().setProgressState("FINISH");
 
         rememberRepository.save(remember);
     }
 
     @Transactional
-    public void clean_Remember2(Long id) {
-        Remember remember = rememberRepository.findById(id)
-                .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
-
-        remember.setClean_2(true);
-
-        rememberRepository.save(remember);
-    }
-
-    @Transactional
-    public void clean_Remember3(Long id) {
-        Remember remember = rememberRepository.findById(id)
-                .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
-
-        remember.setClean_3(true);
-
-        rememberRepository.save(remember);
-    }
-
-    @Transactional
-    public void clean_Remember4(Long id) {
-        Remember remember = rememberRepository.findById(id)
-                .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
-
-        remember.setClean_4(true);
-
-        rememberRepository.save(remember);
-    }
-
-    @Transactional
-    public void clean_Remember5(Long id) {
-        Remember remember = rememberRepository.findById(id)
-                .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
-
-        remember.setClean_5(true);
-
-        rememberRepository.save(remember);
-    }
-
-    @Transactional
-    public void clean_Remember6(Long id) {
-        Remember remember = rememberRepository.findById(id)
-                .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
-
-        remember.setClean_6(true);
-
-        rememberRepository.save(remember);
-    }
-
-    @Transactional
-    public Remember writeRemember(Long id, SimpleRememberReqDto simpleRememberReqDto, String dirName, MultipartFile file) throws IOException {
+    public void writeRemember(Long id, SimpleRememberReqDto simpleRememberReqDto, String dirName, MultipartFile file) throws IOException {
         Remember remember = rememberRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
@@ -180,8 +142,6 @@ public class RememberService {
         rememberRepository.save(remember);
 
         remember.getPet().setProgressState("CLEAN");
-
-        return remember;
     }
 
     @Transactional

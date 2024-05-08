@@ -126,4 +126,17 @@ public class RemindController {
 
         return ApiResponse.onSuccess(SuccessCode.REMIND_SNACK_COMPLETED, true);
     }
+
+    @Operation(summary = "인트로 메서드", description = "쓰다듬기로 넘어가는 메서드입니다..")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2008", description = "쓰다듬기로 넘어가기가 완료되었습니다.")
+    })
+    @PostMapping("/intro/{id}")
+    public ApiResponse<Boolean> intro(
+            @PathVariable(name = "id") Long id
+    ){
+        remindService.introRemind(id);
+
+        return ApiResponse.onSuccess(SuccessCode.REMIND_INTRO_COMPLETED, true);
+    }
 }
