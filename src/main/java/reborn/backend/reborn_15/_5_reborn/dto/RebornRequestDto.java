@@ -14,10 +14,17 @@ public class RebornRequestDto {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class RebornReqDto {
+    public static class ContentRebornReqDto {
         @Schema(description = "반려동물에게 하는 작별인사")
         private String rebornContent;
+    }
 
+    @Schema(description = "RebornRebornReqDto")
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RebornRebornReqDto {
         @Schema(description = "리본 타입(YELLOW, BLACK)")
         private String rebornType;
     }
