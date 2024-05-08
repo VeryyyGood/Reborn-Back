@@ -35,6 +35,7 @@ import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.service.UserService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Tag(name = "마이페이지", description = "마이페이지 관련 api 입니다.")
@@ -92,8 +93,12 @@ public class MypageController {
     })
     @DeleteMapping("/delete/{pet-id}")
     public ApiResponse<Boolean> deletePet(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable(name = "pet-id") Long id
     ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        if (Objects.equals(user.getContentPetId(),id) ) userService.resetContentPetId(user);
+
         petService.deletePet(id);
         return ApiResponse.onSuccess(SuccessCode.PET_DELETED, true);
     }
