@@ -10,7 +10,8 @@ import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._5_reborn.converter.RebornConverter;
 import reborn.backend.reborn_15._5_reborn.domain.Reborn;
 import reborn.backend.reborn_15._5_reborn.domain.RebornType;
-import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornReqDto;
+import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.ContentRebornReqDto;
+import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornRebornReqDto;
 import reborn.backend.reborn_15._5_reborn.repository.RebornRepository;
 
 import java.util.List;
@@ -100,7 +101,7 @@ public class RebornService {
     }
 
     @Transactional
-    public void writeReborn(Long id, RebornReqDto rebornReqDto) {
+    public void writeReborn(Long id, ContentRebornReqDto rebornReqDto) {
         Reborn reborn = rebornRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
@@ -112,7 +113,7 @@ public class RebornService {
     }
 
     @Transactional
-    public void setReborn(Long id, RebornReqDto rebornReqDto) {
+    public void setReborn(Long id, RebornRebornReqDto rebornReqDto) {
         Reborn reborn = rebornRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 

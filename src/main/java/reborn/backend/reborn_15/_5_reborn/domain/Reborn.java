@@ -27,7 +27,7 @@ public class Reborn {
 
     @Enumerated(EnumType.STRING)
     @Column
-    private RebornType rebornType;
+    private RebornType rebornType = RebornType.BLACK;
 
     @Column
     private Boolean pat;

@@ -12,7 +12,8 @@ import reborn.backend.pet.domain.Pet;
 import reborn.backend.pet.service.PetService;
 import reborn.backend.reborn_15._5_reborn.converter.RebornConverter;
 import reborn.backend.reborn_15._5_reborn.domain.Reborn;
-import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornReqDto;
+import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.ContentRebornReqDto;
+import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornRebornReqDto;
 import reborn.backend.reborn_15._5_reborn.dto.RebornResponseDto.DetailRebornDto;
 import reborn.backend.reborn_15._5_reborn.service.RebornService;
 import reborn.backend.user.domain.User;
@@ -68,7 +69,7 @@ public class RebornController {
     @PostMapping("/write/{id}")
     public ApiResponse<Boolean> write(
             @PathVariable(name = "id") Long id,
-            @RequestBody RebornReqDto rebornReqDto
+            @RequestBody ContentRebornReqDto rebornReqDto
     ){
         rebornService.writeReborn(id, rebornReqDto);
 
@@ -82,7 +83,7 @@ public class RebornController {
     @PostMapping("/set/{id}")
     public ApiResponse<Boolean> setReborn(
             @PathVariable(name = "id") Long id,
-            @RequestBody RebornReqDto rebornReqDto
+            @RequestBody RebornRebornReqDto rebornReqDto
     ){
         rebornService.setReborn(id, rebornReqDto);
 
