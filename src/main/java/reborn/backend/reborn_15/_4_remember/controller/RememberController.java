@@ -69,14 +69,16 @@ public class RememberController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2003", description = "그림일기 작성이 완료되었습니다.")
     })
-    @PostMapping(value = "/write/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/write", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<Boolean> write(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestPart(value = "remember") MultipartFile file,
-            @RequestPart("data") SimpleRememberReqDto simpleRememberReqDto,
-            @PathVariable(name = "id") Long id
+            @RequestPart("data") SimpleRememberReqDto simpleRememberReqDto
     ) throws IOException {
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
         String dirName = "remember/";
-        rememberService.writeRemember(id, simpleRememberReqDto, dirName, file);
+        rememberService.writeRemember(pet.getRebornDate(), simpleRememberReqDto, dirName, file, pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_WRITE_COMPLETED, true);
     }
@@ -85,11 +87,13 @@ public class RememberController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2004", description = "쓰다듬기가 완료되었습니다.")
     })
-    @PostMapping("/pat/{id}")
+    @PostMapping("/pat")
     public ApiResponse<Boolean> pat(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        rememberService.patRemember(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rememberService.patRemember(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_PAT_COMPLETED, true);
     }
@@ -98,11 +102,13 @@ public class RememberController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2005", description = "밥주기가 완료되었습니다.")
     })
-    @PostMapping("/feed/{id}")
+    @PostMapping("/feed")
     public ApiResponse<Boolean> feed(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        rememberService.feedRemember(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rememberService.feedRemember(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_FEED_COMPLETED, true);
     }
@@ -111,11 +117,13 @@ public class RememberController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2006", description = "산책하기가 완료되었습니다.")
     })
-    @PostMapping("/walk/{id}")
+    @PostMapping("/walk")
     public ApiResponse<Boolean> walk(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        rememberService.walkRemember(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rememberService.walkRemember(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_WALK_COMPLETED, true);
     }
@@ -124,11 +132,13 @@ public class RememberController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2007", description = "간식주기가 완료되었습니다.")
     })
-    @PostMapping("/snack/{id}")
+    @PostMapping("/snack")
     public ApiResponse<Boolean> snack(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        rememberService.snackRemember(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rememberService.snackRemember(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_SNACK_COMPLETED, true);
     }
@@ -137,11 +147,13 @@ public class RememberController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2008", description = "정리1가 완료되었습니다.")
     })
-    @PostMapping("/clean/{id}")
+    @PostMapping("/clean")
     public ApiResponse<Boolean> clean(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        rememberService.clean_Remember(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rememberService.clean_Remember(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_CLEAN_COMPLETED, true);
     }
@@ -150,11 +162,13 @@ public class RememberController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2009", description = "쓰다듬기로 넘어가기가 완료되었습니다.")
     })
-    @PostMapping("/intro/{id}")
+    @PostMapping("/intro")
     public ApiResponse<Boolean> intro(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        rememberService.introRemember(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rememberService.introRemember(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_INTRO_COMPLETED, true);
     }
