@@ -43,16 +43,16 @@ public class RemindService {
     }
 
     @Transactional
-    public void introRemind(Long id) {
-        Remind remind = remindRepository.findById(id)
+    public void introRemind(Integer date, Pet pet) {
+        Remind remind = remindRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
         remind.getPet().setProgressState("PAT");
     }
 
     @Transactional
-    public void patRemind(Long id) {
-        Remind remind = remindRepository.findById(id)
+    public void patRemind(Integer date, Pet pet) {
+        Remind remind = remindRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
         remind.setPat(true);
@@ -63,8 +63,8 @@ public class RemindService {
     }
 
     @Transactional
-    public void feedRemind(Long id) {
-        Remind remind = remindRepository.findById(id)
+    public void feedRemind(Integer date, Pet pet) {
+        Remind remind = remindRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
         remind.setFeed(true);
@@ -75,8 +75,8 @@ public class RemindService {
     }
 
     @Transactional
-    public void walkRemind(Long id) {
-        Remind remind = remindRepository.findById(id)
+    public void walkRemind(Integer date, Pet pet) {
+        Remind remind = remindRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
         remind.setWalk(true);
@@ -87,8 +87,8 @@ public class RemindService {
     }
 
     @Transactional
-    public void snackRemind(Long id) {
-        Remind remind = remindRepository.findById(id)
+    public void snackRemind(Integer date, Pet pet) {
+        Remind remind = remindRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
         remind.setSnack(true);
@@ -99,14 +99,15 @@ public class RemindService {
     }
 
     @Transactional
-    public Remind writeRemind(Long id, RemindReqDto remindReqDto) {
-        Remind remind = remindRepository.findById(id)
+    public Remind writeRemind(Integer date, RemindReqDto remindReqDto, Pet pet) {
+        Remind remind = remindRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
         remind.setAnswer(remindReqDto.getAnswer());
 
         remindRepository.save(remind);
 
         remind.getPet().setProgressState("FINISH");
+
         return remind;
     }
 

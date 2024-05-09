@@ -46,16 +46,16 @@ public class RevealService {
     }
 
     @Transactional
-    public void introReveal(Long id) {
-        Reveal reveal = revealRepository.findById(id)
+    public void introReveal(Integer date, Pet pet) {
+        Reveal reveal = revealRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.getPet().setProgressState("PAT");
     }
 
     @Transactional
-    public void patReveal(Long id) {
-        Reveal reveal = revealRepository.findById(id)
+    public void patReveal(Integer date, Pet pet) {
+        Reveal reveal = revealRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setPat(true);
@@ -66,8 +66,8 @@ public class RevealService {
     }
 
     @Transactional
-    public void feedReveal(Long id) {
-        Reveal reveal = revealRepository.findById(id)
+    public void feedReveal(Integer date, Pet pet) {
+        Reveal reveal = revealRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setFeed(true);
@@ -78,8 +78,8 @@ public class RevealService {
     }
 
     @Transactional
-    public void walkReveal(Long id) {
-        Reveal reveal = revealRepository.findById(id)
+    public void walkReveal(Integer date, Pet pet) {
+        Reveal reveal = revealRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setWalk(true);
@@ -90,8 +90,8 @@ public class RevealService {
         }
 
     @Transactional
-    public void snackReveal(Long id) {
-        Reveal reveal = revealRepository.findById(id)
+    public void snackReveal(Integer date, Pet pet) {
+        Reveal reveal = revealRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setSnack(true);
@@ -102,8 +102,8 @@ public class RevealService {
     }
 
     @Transactional
-    public Reveal writeReveal(Long id, RevealReqDto revealReqDto) {
-        Reveal reveal = revealRepository.findById(id)
+    public Reveal writeReveal(Integer date, RevealReqDto revealReqDto, Pet pet) {
+        Reveal reveal = revealRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         reveal.setDiaryContent(revealReqDto.getDiaryContent());
@@ -124,8 +124,8 @@ public class RevealService {
     }
 
     @Transactional
-    public Double calculateEmotionPercentage(Long id) {
-        Reveal reveal = revealRepository.findById(id)
+    public Double calculateEmotionPercentage(Integer date, Pet pet) {
+        Reveal reveal = revealRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
         List<Reveal> allRevealsByDate = revealRepository.findAllByDate(reveal.getDate());
