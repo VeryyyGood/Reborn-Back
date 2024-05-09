@@ -55,7 +55,8 @@ public class RevealController {
     })
     @GetMapping("view/{id}")
     public ApiResponse<DetailRevealDto> getDetailReveal(
-            @PathVariable(name = "id") Long id
+            @PathVariable(name = "id") Long id,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         Reveal reveal = revealService.findById(id);
         DetailRevealDto detailRevealDto = RevealConverter.toDetailRevealDto(reveal);
@@ -67,14 +68,16 @@ public class RevealController {
     @ApiResponses(value =  {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2003", description = "일기 작성이 완료되었습니다.")
     })
-    @PostMapping("/write/{id}")
+    @PostMapping("/write")
     public ApiResponse<Double> write(
-            @PathVariable(name = "id") Long id,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody RevealReqDto revealReqDto
     ){
-        Reveal reveal = revealService.writeReveal(id, revealReqDto);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        Reveal reveal = revealService.writeReveal(pet.getRebornDate(), revealReqDto, pet);
 
-        double emotionPercentage = revealService.calculateEmotionPercentage(reveal.getId());
+        double emotionPercentage = revealService.calculateEmotionPercentage(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REVEAL_WRITE_COMPLETED, emotionPercentage);
     }
@@ -83,11 +86,13 @@ public class RevealController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2004", description = "쓰다듬기가 완료되었습니다.")
     })
-    @PostMapping("/pat/{id}")
+    @PostMapping("/pat")
     public ApiResponse<Boolean> pat(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        revealService.patReveal(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        revealService.patReveal(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REVEAL_PAT_COMPLETED, true);
     }
@@ -96,11 +101,13 @@ public class RevealController {
     @ApiResponses(value =  {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2005", description = "밥주기가 완료되었습니다.")
     })
-    @PostMapping("/feed/{id}")
+    @PostMapping("/feed")
     public ApiResponse<Boolean> feed(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        revealService.feedReveal(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        revealService.feedReveal(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REVEAL_FEED_COMPLETED, true);
     }
@@ -109,11 +116,13 @@ public class RevealController {
     @ApiResponses(value =  {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2006", description = "산책하기가 완료되었습니다.")
     })
-    @PostMapping("/walk/{id}")
+    @PostMapping("/walk")
     public ApiResponse<Boolean> walk(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        revealService.walkReveal(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        revealService.walkReveal(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REVEAL_WALK_COMPLETED, true);
     }
@@ -122,11 +131,13 @@ public class RevealController {
     @ApiResponses(value =  {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2007", description = "간식주기가 완료되었습니다.")
     })
-    @PostMapping("/snack/{id}")
+    @PostMapping("/snack")
     public ApiResponse<Boolean> snack(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        revealService.snackReveal(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        revealService.snackReveal(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REVEAL_SNACK_COMPLETED, true);
     }
@@ -135,11 +146,13 @@ public class RevealController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2008", description = "쓰다듬기로 넘어가기가 완료되었습니다.")
     })
-    @PostMapping("/intro/{id}")
+    @PostMapping("/intro")
     public ApiResponse<Boolean> intro(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        revealService.introReveal(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        revealService.introReveal(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REVEAL_INTRO_COMPLETED, true);
     }
