@@ -56,7 +56,7 @@ public class PetResponseDto {
         @Schema(description = "반료동물 종")
         private String detailPetType;
 
-        @Schema(description = "반려동물 색깔(BLACK, BROWN, YELLOW, GRAY, WHITE")
+        @Schema(description = "반려동물 색깔(BLACK, BROWN, YELLOWDARK, GRAY, WHITE")
         private String petColor;
     }
 
