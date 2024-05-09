@@ -44,8 +44,8 @@ public class RememberService {
 
 
     @Transactional
-    public void introRemember(Long id) {
-        Remember remember = rememberRepository.findById(id)
+    public void introRemember(Integer date, Pet pet) {
+        Remember remember = rememberRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.getPet().setProgressState("PAT");
@@ -58,8 +58,8 @@ public class RememberService {
     }
 
     @Transactional
-    public void patRemember(Long id) {
-        Remember remember = rememberRepository.findById(id)
+    public void patRemember(Integer date, Pet pet) {
+        Remember remember = rememberRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setPat(true);
@@ -70,8 +70,8 @@ public class RememberService {
     }
 
     @Transactional
-    public void feedRemember(Long id) {
-        Remember remember = rememberRepository.findById(id)
+    public void feedRemember(Integer date, Pet pet) {
+        Remember remember = rememberRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setFeed(true);
@@ -82,8 +82,8 @@ public class RememberService {
     }
 
     @Transactional
-    public void walkRemember(Long id) {
-        Remember remember = rememberRepository.findById(id)
+    public void walkRemember(Integer date, Pet pet) {
+        Remember remember = rememberRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setWalk(true);
@@ -94,8 +94,8 @@ public class RememberService {
     }
 
     @Transactional
-    public void snackRemember(Long id) {
-        Remember remember = rememberRepository.findById(id)
+    public void snackRemember(Integer date, Pet pet) {
+        Remember remember = rememberRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setSnack(true);
@@ -106,8 +106,8 @@ public class RememberService {
     }
 
     @Transactional
-    public void clean_Remember(Long id) {
-        Remember remember = rememberRepository.findById(id)
+    public void clean_Remember(Integer date, Pet pet) {
+        Remember remember = rememberRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         remember.setClean(true);
@@ -118,8 +118,8 @@ public class RememberService {
     }
 
     @Transactional
-    public void writeRemember(Long id, SimpleRememberReqDto simpleRememberReqDto, String dirName, MultipartFile file) throws IOException {
-        Remember remember = rememberRepository.findById(id)
+    public void writeRemember(Integer date, SimpleRememberReqDto simpleRememberReqDto, String dirName, MultipartFile file, Pet pet) throws IOException {
+        Remember remember = rememberRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
         String uploadFileUrl = null;
