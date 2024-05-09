@@ -40,21 +40,21 @@ public class RebornService {
     }
 
     @Transactional
-    public void introReborn(Long id) {
-        Reborn reborn = rebornRepository.findById(id)
+    public List<Reborn> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
+        return rebornRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
+    }
+
+    @Transactional
+    public void introReborn(Integer date, Pet pet) {
+        Reborn reborn = rebornRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.getPet().setProgressState("PAT");
     }
 
     @Transactional
-    public List<Reborn> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
-        return rebornRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
-    }
-
-    @Transactional
-    public void patReborn(Long id) {
-        Reborn reborn = rebornRepository.findById(id)
+    public void patReborn(Integer date, Pet pet) {
+        Reborn reborn = rebornRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setPat(true);
@@ -65,8 +65,8 @@ public class RebornService {
     }
 
     @Transactional
-    public void feedReborn(Long id) {
-        Reborn reborn = rebornRepository.findById(id)
+    public void feedReborn(Integer date, Pet pet) {
+        Reborn reborn = rebornRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setFeed(true);
@@ -77,8 +77,8 @@ public class RebornService {
     }
 
     @Transactional
-    public void washReborn(Long id) {
-        Reborn reborn = rebornRepository.findById(id)
+    public void washReborn(Integer date, Pet pet) {
+        Reborn reborn = rebornRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setWash(true);
@@ -89,8 +89,8 @@ public class RebornService {
     }
 
     @Transactional
-    public void clotheReborn(Long id) {
-        Reborn reborn = rebornRepository.findById(id)
+    public void clotheReborn(Integer date, Pet pet) {
+        Reborn reborn = rebornRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setClothe(true);
@@ -101,8 +101,8 @@ public class RebornService {
     }
 
     @Transactional
-    public void writeReborn(Long id, ContentRebornReqDto rebornReqDto) {
-        Reborn reborn = rebornRepository.findById(id)
+    public void writeReborn(Integer date, ContentRebornReqDto rebornReqDto, Pet pet) {
+        Reborn reborn = rebornRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setRebornContent(rebornReqDto.getRebornContent());
@@ -113,8 +113,8 @@ public class RebornService {
     }
 
     @Transactional
-    public void setReborn(Long id, RebornRebornReqDto rebornReqDto) {
-        Reborn reborn = rebornRepository.findById(id)
+    public void setReborn(Integer date, RebornRebornReqDto rebornReqDto, Pet pet) {
+        Reborn reborn = rebornRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
         reborn.setRebornType(RebornType.valueOf(rebornReqDto.getRebornType()));
