@@ -13,5 +13,7 @@ import java.util.Optional;
 public interface RebornRepository extends JpaRepository<Reborn, Long>, JpaSpecificationExecutor<Reborn> {
     Optional<Reborn> findTopByPetOrderByDateDesc(Pet pet);
 
+    Optional<Reborn> findByPetAndDate(Pet pet, Integer date);
+
     List<Reborn> findAllByPetAndDateLessThanOrderByDateDesc(Pet pet, Integer date);
 }
