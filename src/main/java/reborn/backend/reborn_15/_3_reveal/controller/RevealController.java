@@ -36,17 +36,17 @@ public class RevealController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVEAL_2011", description = "나의 감정 들여다보기 생성이 완료되었습니다.")
     })
     @PostMapping("/create")
-    public ApiResponse<Boolean> create(
+    public ApiResponse<Integer> create(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
 
-        revealService.createReveal(pet);
+        Reveal reveal = revealService.createReveal(pet);
 
         petService.updateDate(user.getContentPetId());
 
-        return ApiResponse.onSuccess(SuccessCode.REVEAL_CREATED, true);
+        return ApiResponse.onSuccess(SuccessCode.REVEAL_CREATED, reveal.getDate());
     }
 
     @Operation(summary = "특정 나의 감정 들여다보기 조회 메서드", description = "특정 나의 감정 들여다보기를 조회하는 메서드입니다.")
@@ -55,8 +55,7 @@ public class RevealController {
     })
     @GetMapping("view/{id}")
     public ApiResponse<DetailRevealDto> getDetailReveal(
-            @PathVariable(name = "id") Long id,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
+            @PathVariable(name = "id") Long id
     ){
         Reveal reveal = revealService.findById(id);
         DetailRevealDto detailRevealDto = RevealConverter.toDetailRevealDto(reveal);
@@ -75,7 +74,7 @@ public class RevealController {
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
-        Reveal reveal = revealService.writeReveal(pet.getRebornDate(), revealReqDto, pet);
+        revealService.writeReveal(pet.getRebornDate(), revealReqDto, pet);
 
         double emotionPercentage = revealService.calculateEmotionPercentage(pet.getRebornDate(), pet);
 

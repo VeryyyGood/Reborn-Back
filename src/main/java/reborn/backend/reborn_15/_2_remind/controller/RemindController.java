@@ -34,17 +34,17 @@ public class RemindController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2011", description = "충분한 대화 나누기 생성이 완료되었습니다.")
     })
     @PostMapping("/create")
-    public ApiResponse<Boolean> create(
+    public ApiResponse<Integer> create(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
 
-        remindService.createRemind(pet);
+        Remind remind = remindService.createRemind(pet);
 
         petService.updateDate(user.getContentPetId());
 
-        return ApiResponse.onSuccess(SuccessCode.REMIND_CREATED, true);
+        return ApiResponse.onSuccess(SuccessCode.REMIND_CREATED, remind.getDate());
     }
 
     @Operation(summary = "특정 충분한 대화 나누기 조회 메서드", description = "특정 충분한 대화 나누기를 조회하는 메서드입니다.")

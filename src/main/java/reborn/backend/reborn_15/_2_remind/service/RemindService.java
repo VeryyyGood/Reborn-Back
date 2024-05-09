@@ -99,7 +99,7 @@ public class RemindService {
     }
 
     @Transactional
-    public Remind writeRemind(Integer date, RemindReqDto remindReqDto, Pet pet) {
+    public void writeRemind(Integer date, RemindReqDto remindReqDto, Pet pet) {
         Remind remind = remindRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
         remind.setAnswer(remindReqDto.getAnswer());
@@ -107,8 +107,6 @@ public class RemindService {
         remindRepository.save(remind);
 
         remind.getPet().setProgressState("FINISH");
-
-        return remind;
     }
 
     @Transactional

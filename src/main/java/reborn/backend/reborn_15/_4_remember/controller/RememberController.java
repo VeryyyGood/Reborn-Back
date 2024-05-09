@@ -38,17 +38,17 @@ public class RememberController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2011", description = "건강한 작별 준비하기 생성이 완료되었습니다.")
     })
     @PostMapping("/create")
-    public ApiResponse<Boolean> create(
+    public ApiResponse<Integer> create(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
 
-        rememberService.createRemember(pet);
+        Remember remember = rememberService.createRemember(pet);
 
         petService.updateDate(user.getContentPetId());
 
-        return ApiResponse.onSuccess(SuccessCode.REMEMBER_CREATED, true);
+        return ApiResponse.onSuccess(SuccessCode.REMEMBER_CREATED, remember.getDate());
     }
 
     @Operation(summary = "특정 건강한 작별 준비하기 조회 메서드", description = "특정 건강한 작별 준비하기를 조회하는 메서드입니다.")

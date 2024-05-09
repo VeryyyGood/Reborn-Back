@@ -35,17 +35,17 @@ public class RebornController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2011", description = "건강한 작별하기 생성이 완료되었습니다.")
     })
     @PostMapping("/create")
-    public ApiResponse<Boolean> create(
+    public ApiResponse<Integer> create(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
 
-        rebornService.createReborn(pet);
+        Reborn reborn = rebornService.createReborn(pet);
 
         petService.updateDate(user.getContentPetId());
 
-        return ApiResponse.onSuccess(SuccessCode.REBORN_CREATED, true);
+        return ApiResponse.onSuccess(SuccessCode.REBORN_CREATED, reborn.getDate());
     }
 
     @Operation(summary = "특정 건강한 작별하기 조회 메서드", description = "특정 건강한 작별하기를 조회하는 메서드입니다.")
