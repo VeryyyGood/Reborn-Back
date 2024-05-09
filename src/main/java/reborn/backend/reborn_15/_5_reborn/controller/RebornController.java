@@ -35,17 +35,17 @@ public class RebornController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2011", description = "건강한 작별하기 생성이 완료되었습니다.")
     })
     @PostMapping("/create")
-    public ApiResponse<Boolean> create(
+    public ApiResponse<Integer> create(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
 
-        rebornService.createReborn(pet);
+        Reborn reborn = rebornService.createReborn(pet);
 
         petService.updateDate(user.getContentPetId());
 
-        return ApiResponse.onSuccess(SuccessCode.REBORN_CREATED, true);
+        return ApiResponse.onSuccess(SuccessCode.REBORN_CREATED, reborn.getDate());
     }
 
     @Operation(summary = "특정 건강한 작별하기 조회 메서드", description = "특정 건강한 작별하기를 조회하는 메서드입니다.")
@@ -66,12 +66,14 @@ public class RebornController {
     @ApiResponses(value =  {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2003", description = "작별인사 작성이 완료되었습니다.")
     })
-    @PostMapping("/write/{id}")
+    @PostMapping("/write")
     public ApiResponse<Boolean> write(
-            @PathVariable(name = "id") Long id,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody ContentRebornReqDto rebornReqDto
     ){
-        rebornService.writeReborn(id, rebornReqDto);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rebornService.writeReborn(pet.getRebornDate(), rebornReqDto, pet);
 
         return ApiResponse.onSuccess(SuccessCode.REBORN_WRITE_COMPLETED, true);
     }
@@ -80,12 +82,14 @@ public class RebornController {
     @ApiResponses(value =  {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2009", description = "리본 선택이 완료되었습니다.")
     })
-    @PostMapping("/set/{id}")
+    @PostMapping("/set")
     public ApiResponse<Boolean> setReborn(
-            @PathVariable(name = "id") Long id,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody RebornRebornReqDto rebornReqDto
     ){
-        rebornService.setReborn(id, rebornReqDto);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rebornService.setReborn(pet.getRebornDate(), rebornReqDto, pet);
 
         return ApiResponse.onSuccess(SuccessCode.REBORN_SET_REBORN_COMPLETED, true);
     }
@@ -94,11 +98,14 @@ public class RebornController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2004", description = "쓰다듬기가 완료되었습니다.")
     })
-    @PostMapping("/pat/{id}")
+    @PostMapping("/pat")
     public ApiResponse<Boolean> pat(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        rebornService.patReborn(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rebornService.patReborn(pet.getRebornDate(), pet);
+
         return ApiResponse.onSuccess(SuccessCode.REBORN_PAT_COMPLETED, true);
     }
 
@@ -106,11 +113,13 @@ public class RebornController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2005", description = "밥주기가 완료되었습니다.")
     })
-    @PostMapping("/feed/{id}")
+    @PostMapping("/feed")
     public ApiResponse<Boolean> feed(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        rebornService.feedReborn(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rebornService.feedReborn(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REBORN_FEED_COMPLETED, true);
     }
@@ -119,11 +128,14 @@ public class RebornController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2006", description = "씻겨주기가 완료되었습니다.")
     })
-    @PostMapping("/wash/{id}")
+    @PostMapping("/wash")
     public ApiResponse<Boolean> wash(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        rebornService.washReborn(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rebornService.washReborn(pet.getRebornDate(), pet);
+
         return ApiResponse.onSuccess(SuccessCode.REBORN_WASH_COMPLETED, true);
     }
 
@@ -131,11 +143,14 @@ public class RebornController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2007", description = "옷 입혀주기가 완료되었습니다.")
     })
-    @PostMapping("/clothe/{id}")
+    @PostMapping("/clothe")
     public ApiResponse<Boolean> clothe(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        rebornService.clotheReborn(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rebornService.clotheReborn(pet.getRebornDate(), pet);
+
         return ApiResponse.onSuccess(SuccessCode.REBORN_CLOTHE_COMPLETED, true);
     }
 
@@ -143,7 +158,7 @@ public class RebornController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2008", description = "15일 콘텐츠가 완료되었습니다.")
     })
-    @PostMapping("finish/{id}")
+    @PostMapping("finish")
     public ApiResponse<Boolean> finish(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
@@ -161,11 +176,13 @@ public class RebornController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2010", description = "쓰다듬기로 넘어가기가 완료되었습니다.")
     })
-    @PostMapping("/intro/{id}")
+    @PostMapping("/intro")
     public ApiResponse<Boolean> intro(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        rebornService.introReborn(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rebornService.introReborn(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REBORN_INTRO_COMPLETED, true);
     }

@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface RememberRepository extends JpaRepository<Remember, Long>, JpaSpecificationExecutor<Remember> {
     Optional<Remember> findTopByPetOrderByDateDesc(Pet pet);
 
+    Optional<Remember> findByPetAndDate(Pet pet, Integer date);
+
     List<Remember> findAllByPetAndDateLessThanOrderByDateDesc(Pet pet, Integer date);
 
 }

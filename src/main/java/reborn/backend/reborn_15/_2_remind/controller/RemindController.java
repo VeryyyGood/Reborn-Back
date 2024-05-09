@@ -34,17 +34,17 @@ public class RemindController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2011", description = "충분한 대화 나누기 생성이 완료되었습니다.")
     })
     @PostMapping("/create")
-    public ApiResponse<Boolean> create(
+    public ApiResponse<Integer> create(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         Pet pet = petService.findById(user.getContentPetId());
 
-        remindService.createRemind(pet);
+        Remind remind = remindService.createRemind(pet);
 
         petService.updateDate(user.getContentPetId());
 
-        return ApiResponse.onSuccess(SuccessCode.REMIND_CREATED, true);
+        return ApiResponse.onSuccess(SuccessCode.REMIND_CREATED, remind.getDate());
     }
 
     @Operation(summary = "특정 충분한 대화 나누기 조회 메서드", description = "특정 충분한 대화 나누기를 조회하는 메서드입니다.")
@@ -65,12 +65,14 @@ public class RemindController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2003", description = "답변 작성이 완료되었습니다.")
     })
-    @PostMapping("/write/{id}")
+    @PostMapping("/write")
     public ApiResponse<Boolean> write(
-            @PathVariable(name = "id") Long id,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody RemindReqDto remindReqDto
     ){
-        remindService.writeRemind(id, remindReqDto);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        remindService.writeRemind(pet.getRebornDate(), remindReqDto, pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMIND_WRITE_COMPLETED, true);
     }
@@ -79,11 +81,13 @@ public class RemindController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2004", description = "쓰다듬기가 완료되었습니다.")
     })
-    @PostMapping("/pat/{id}")
+    @PostMapping("/pat")
     public ApiResponse<Boolean> pat(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        remindService.patRemind(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        remindService.patRemind(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMIND_PAT_COMPLETED, true);
     }
@@ -92,11 +96,13 @@ public class RemindController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2005", description = "밥주기가 완료되었습니다.")
     })
-    @PostMapping("/feed/{id}")
+    @PostMapping("/feed")
     public ApiResponse<Boolean> feed(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        remindService.feedRemind(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        remindService.feedRemind(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMIND_FEED_COMPLETED, true);
     }
@@ -105,11 +111,13 @@ public class RemindController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2006", description = "산책하기가 완료되었습니다.")
     })
-    @PostMapping("/walk/{id}")
+    @PostMapping("/walk")
     public ApiResponse<Boolean> walk(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        remindService.walkRemind(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        remindService.walkRemind(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMIND_WALK_COMPLETED, true);
     }
@@ -118,11 +126,13 @@ public class RemindController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2007", description = "간식주기가 완료되었습니다.")
     })
-    @PostMapping("/snack/{id}")
+    @PostMapping("/snack")
     public ApiResponse<Boolean> snack(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        remindService.snackRemind(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        remindService.snackRemind(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMIND_SNACK_COMPLETED, true);
     }
@@ -131,11 +141,13 @@ public class RemindController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2008", description = "쓰다듬기로 넘어가기가 완료되었습니다.")
     })
-    @PostMapping("/intro/{id}")
+    @PostMapping("/intro")
     public ApiResponse<Boolean> intro(
-            @PathVariable(name = "id") Long id
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        remindService.introRemind(id);
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        remindService.introRemind(pet.getRebornDate(), pet);
 
         return ApiResponse.onSuccess(SuccessCode.REMIND_INTRO_COMPLETED, true);
     }
