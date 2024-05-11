@@ -7,6 +7,7 @@ import reborn.backend.global.entity.PetType;
 import reborn.backend.pet.dto.PetRequestDto.PetReqDto;
 import reborn.backend.pet.dto.PetResponseDto.ByePetDto;
 import reborn.backend.pet.dto.PetResponseDto.DetailPetDto;
+import reborn.backend.pet.dto.PetResponseDto.PetNameDto;
 import reborn.backend.pet.dto.PetResponseDto.SimplePetDto;
 import reborn.backend.user.domain.User;
 
@@ -48,6 +49,12 @@ public class PetConverter {
                 .petType(String.valueOf(pet.getPetType()))
                 .rebornDate(pet.getRebornDate())
                 .progressState(pet.getProgressState())
+                .build();
+    }
+
+    public static PetNameDto toPetNameDto(Pet pet) {
+        return PetNameDto.builder()
+                .petName(pet.getPetName())
                 .build();
     }
 }

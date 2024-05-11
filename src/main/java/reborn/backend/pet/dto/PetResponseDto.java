@@ -76,4 +76,14 @@ public class PetResponseDto {
         @Schema(description = "컨텐츠 진행 상태")
         private String progressState;
     }
+
+    @Schema(description = "PetNameDto")
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PetNameDto{
+        @Schema(description = "반려동물 이름")
+        private String petName;
+    }
 }
