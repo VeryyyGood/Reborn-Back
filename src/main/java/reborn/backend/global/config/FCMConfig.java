@@ -1,5 +1,5 @@
 package reborn.backend.global.config;
-
+/*
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -10,7 +10,6 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 
-/*
 @Configuration
 public class FCMConfig {
     private final ClassPathResource firebaseResource = new ClassPathResource("firebase/firebase_service_key.json");
