@@ -1,8 +1,6 @@
 package reborn.backend.fcm.dto;
 
-import com.google.firebase.messaging.Notification;
-import lombok.Builder;
-
+//import com.google.firebase.messaging.Notification;
 import lombok.Getter;
 import lombok.Setter;
 
