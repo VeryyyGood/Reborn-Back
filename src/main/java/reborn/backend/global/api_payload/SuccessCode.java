@@ -47,6 +47,10 @@ public enum SuccessCode implements BaseCode {
     REVIEW_REVEAL_VIEW_SUCCESS(HttpStatus.OK, "REVIEW_2003", "나의 감정 들여다보기 내용 조회가 완료되었습니다."),
     REVIEW_REMEMBER_VIEW_SUCCESS(HttpStatus.OK, "REVIEW_2004", "건강한 작별 준비하기 내용 조회가 완료되었습니다."),
     REVIEW_REBORN_VIEW_SUCCESS(HttpStatus.OK, "REVIEW_2005", "건강한 작별하기 내용 조회가 완료되었습니다."),
+    REVIEW_REMIND_CHECK_SUCCESS(HttpStatus.OK, "REVIEW_2006", "충분한 대화 나누기 존재 확인이 완료되었습니다."),
+    REVIEW_REVEAL_CHECK_SUCCESS(HttpStatus.OK, "REVIEW_2007", "나의 감정 들여다보기 존재 확인이 완료되었습니다."),
+    REVIEW_REMEMBER_CHECK_SUCCESS(HttpStatus.OK, "REVIEW_2008", "건강한 작별 준비하기 존재 확인이 완료되었습니다."),
+    REVIEW_REBORN_CHECK_SUCCESS(HttpStatus.OK, "REVIEW_2009", "건강한 작별하기 존재 확인이 완료되었습니다."),
 
 
     // Board
