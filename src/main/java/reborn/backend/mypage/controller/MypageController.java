@@ -200,7 +200,72 @@ public class MypageController {
         return ApiResponse.onSuccess(SuccessCode.REVIEW_REBORN_VIEW_SUCCESS, rebornDtos);
     }
 
+    // REMIND에 대한 CHECK
+    @Operation(summary = "충분한 대화 나누기 존재 확인", description = "충분한 대화 나누기 존재 확인 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVIEW_2006", description = "충분한 대화 나누기 존재 확인이 완료되었습니다.")
+    })
+    @GetMapping("/remind/check/{pet-id}")
+    public ApiResponse<Boolean> checkRemind(
+            @PathVariable(name = "pet-id") Long id
+    ){
+        Pet pet = petService.findById(id);
 
+        List<Remind> reminds = remindService.findAllByPetAndDateLessThanSortedByDate(pet, pet.getRebornDate());
 
+        if( reminds.isEmpty() ) return ApiResponse.onSuccess(SuccessCode.REVIEW_REMIND_CHECK_SUCCESS, false);
+        else return ApiResponse.onSuccess(SuccessCode.REVIEW_REMIND_CHECK_SUCCESS, true);
+    }
+
+    // REVEAL에 대한 CHECK
+    @Operation(summary = "나의 감정 들여다보기 존재 확인", description = "나의 감정 들여다보기 존재 확인 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVIEW_2007", description = "나의 감정 들여다보기 존재 확인이 완료되었습니다.")
+    })
+    @GetMapping("/reveal/check/{pet-id}")
+    public ApiResponse<Boolean> checkReveal(
+            @PathVariable(name = "pet-id") Long id
+    ){
+        Pet pet = petService.findById(id);
+
+        List<Reveal> reveals = revealService.findAllByPetAndDateLessThanSortedByDate(pet, pet.getRebornDate());
+
+        if( reveals.isEmpty() ) return ApiResponse.onSuccess(SuccessCode.REVIEW_REVEAL_CHECK_SUCCESS, false);
+        else return ApiResponse.onSuccess(SuccessCode.REVIEW_REVEAL_CHECK_SUCCESS, true);
+    }
+
+    // REMEMBER에 대한 CHECK
+    @Operation(summary = "건강한 작별 준비하기 존재 확인", description = "건강한 작별 준비하기 존재 확인 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVIEW_2008", description = "건강한 작별 준비하기 존재 확인이 완료되었습니다.")
+    })
+    @GetMapping("/remember/check/{pet-id}")
+    public ApiResponse<Boolean> checkRemember(
+            @PathVariable(name = "pet-id") Long id
+    ){
+        Pet pet = petService.findById(id);
+
+        List<Remember> remembers = rememberService.findAllByPetAndDateLessThanSortedByDate(pet, pet.getRebornDate());
+
+        if( remembers.isEmpty() ) return ApiResponse.onSuccess(SuccessCode.REVIEW_REMEMBER_CHECK_SUCCESS, false);
+        else return ApiResponse.onSuccess(SuccessCode.REVIEW_REMEMBER_CHECK_SUCCESS, true);
+    }
+
+    // REBORN에 대한 CHECK
+    @Operation(summary = "건강한 작별하기 존재 확인", description = "건강한 작별하기 존재 확인 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVIEW_2009", description = "건강한 작별하기 존재 확인이 완료되었습니다.")
+    })
+    @GetMapping("/reborn/check/{pet-id}")
+    public ApiResponse<Boolean> checkReborn(
+            @PathVariable(name = "pet-id") Long id
+    ){
+        Pet pet = petService.findById(id);
+
+        List<Reborn> reborns = rebornService.findAllByPetAndDateLessThanSortedByDate(pet, pet.getRebornDate());
+
+        if( reborns.isEmpty() ) return ApiResponse.onSuccess(SuccessCode.REVIEW_REBORN_CHECK_SUCCESS, false);
+        else return ApiResponse.onSuccess(SuccessCode.REVIEW_REBORN_CHECK_SUCCESS, true);
+    }
 
 }

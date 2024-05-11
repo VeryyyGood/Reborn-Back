@@ -43,14 +43,6 @@ public class RemindService {
     }
 
     @Transactional
-    public boolean reviewCheckRemind(Pet pet, Integer date) {
-        List<Remind> remindList = remindRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
-
-        if( remindList.isEmpty() ) return false;
-        else return true;
-    }
-
-    @Transactional
     public void introRemind(Integer date, Pet pet) {
         Remind remind = remindRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
