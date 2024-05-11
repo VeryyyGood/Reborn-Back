@@ -24,7 +24,6 @@ public class RebornConverter {
         return SimpleRebornDto.builder()
                 .petType(String.valueOf(reborn.getPet().getPetType()))
                 .rebornType(String.valueOf(reborn.getRebornType()))
-                .userNickName(reborn.getPet().getUser().getNickname())
                 .petName(reborn.getPet().getPetName())
                 .build();
     }
