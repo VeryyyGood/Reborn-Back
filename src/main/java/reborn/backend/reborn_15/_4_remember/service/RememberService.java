@@ -136,7 +136,9 @@ public class RememberService {
             uploadFileUrl = amazonS3Manager.putS3(uploadFile, fileName);
         }
 
+        remember.setTitle(simpleRememberReqDto.getTitle());
         remember.setContent(simpleRememberReqDto.getContent());
+        remember.setImageDate(simpleRememberReqDto.getImageDate());
         remember.setRememberImage(uploadFileUrl);
 
         rememberRepository.save(remember);

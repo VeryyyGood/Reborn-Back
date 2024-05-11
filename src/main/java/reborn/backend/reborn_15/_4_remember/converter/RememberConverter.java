@@ -23,7 +23,9 @@ public class RememberConverter {
 
     public static SimpleRememberDto toSimpleRememberDto(Remember remember) {
         return SimpleRememberDto.builder()
+                .title(remember.getTitle())
                 .content(remember.getContent())
+                .imageDate(remember.getImageDate())
                 .rememberImage(remember.getRememberImage())
                 .date(remember.getDate())
                 .build();
@@ -32,7 +34,9 @@ public class RememberConverter {
     public static DetailRememberDto toDetailRememberDto(Remember remember) {
         return DetailRememberDto.builder()
                 .id(remember.getId())
+                .title(remember.getTitle())
                 .content(remember.getContent())
+                .imageDate(remember.getImageDate())
                 .date(remember.getDate())
                 .rememberImage(remember.getRememberImage())
                 .build();

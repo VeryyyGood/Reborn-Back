@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
@@ -27,6 +28,9 @@ public class RememberResponseDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class SimpleRememberDto {
+        @Schema(description = "일기 제목")
+        private String title;
+
         @Schema(description = "일기 내용")
         private String content;
 
@@ -35,6 +39,9 @@ public class RememberResponseDto {
 
         @Schema(description = "건강한 작별 준비하기 작성일")
         private Integer date;
+
+        @Schema(description = "사진 날짜")
+        private LocalDate imageDate;
     }
 
     @Schema(description = "DetailRememberDto")
@@ -46,8 +53,14 @@ public class RememberResponseDto {
         @Schema(description = "건강한 작별 준비하기 id")
         private Long id;
 
+        @Schema(description = "일기 제목")
+        private String title;
+
         @Schema(description = "일기 내용")
         private String content;
+
+        @Schema(description = "사진 날짜")
+        private LocalDate imageDate;
 
         @Schema(description = "건강한 작별 준비하기 작성일")
         private Integer date;
