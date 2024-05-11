@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
@@ -41,7 +40,7 @@ public class RememberResponseDto {
         private Integer date;
 
         @Schema(description = "사진 날짜")
-        private LocalDate imageDate;
+        private String imageDate;
     }
 
     @Schema(description = "DetailRememberDto")
@@ -60,7 +59,7 @@ public class RememberResponseDto {
         private String content;
 
         @Schema(description = "사진 날짜")
-        private LocalDate imageDate;
+        private String imageDate;
 
         @Schema(description = "건강한 작별 준비하기 작성일")
         private Integer date;

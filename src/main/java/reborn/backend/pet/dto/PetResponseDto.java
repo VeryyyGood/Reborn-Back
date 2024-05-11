@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
@@ -35,7 +34,7 @@ public class PetResponseDto {
         private String petName;
 
         @Schema(description = "반려동물 기일")
-        private LocalDate anniversary;
+        private String anniversary;
     }
 
     @Schema(description = "DetailPetDto")
@@ -48,7 +47,7 @@ public class PetResponseDto {
         private String petName;
 
         @Schema(description = "반려동물 기일")
-        private LocalDate anniversary;
+        private String anniversary;
 
         @Schema(description = "반려동물 종류(DOG, CAT)")
         private String petType;
