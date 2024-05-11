@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -35,6 +36,7 @@ public class PetResponseDto {
         private String petName;
 
         @Schema(description = "반려동물 기일")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate anniversary;
     }
 
@@ -48,6 +50,7 @@ public class PetResponseDto {
         private String petName;
 
         @Schema(description = "반려동물 기일")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate anniversary;
 
         @Schema(description = "반려동물 종류(DOG, CAT)")
