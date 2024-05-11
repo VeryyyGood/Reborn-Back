@@ -11,13 +11,13 @@ import lombok.Setter;
 title과 body가
 */
 
-@Getter
+/*@Getter
 @Setter
 public class FcmRequestDto {
     private String deviceToken;
     private String title;
     private String body;
-}
+}*/
 
 /*
 @Builder

@@ -1,5 +1,5 @@
 package reborn.backend.fcm.controller;
-
+/*
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,3 +31,4 @@ public class FcmController {
         return ResponseEntity.ok().build();
     }
 }
+*/

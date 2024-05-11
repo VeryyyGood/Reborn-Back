@@ -10,6 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 
+/*
 @Configuration
 public class FCMConfig {
     private final ClassPathResource firebaseResource = new ClassPathResource("firebase/firebase_service_key.json");
@@ -29,3 +30,4 @@ public class FCMConfig {
         return FirebaseMessaging.getInstance(firebaseApp());
     }
 }
+*/
