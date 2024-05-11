@@ -46,6 +46,14 @@ public class RevealService {
     }
 
     @Transactional
+    public boolean reviewCheckReveal(Pet pet, Integer date) {
+        List<Reveal> revealList = revealRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
+
+        if( revealList.isEmpty() ) return false;
+        return true;
+    }
+
+    @Transactional
     public void introReveal(Integer date, Pet pet) {
         Reveal reveal = revealRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));

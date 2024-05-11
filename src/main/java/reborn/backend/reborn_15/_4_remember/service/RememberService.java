@@ -58,6 +58,14 @@ public class RememberService {
     }
 
     @Transactional
+    public boolean reviewCheckRemember(Pet pet, Integer date) {
+        List<Remember> rememberList = rememberRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
+
+        if( rememberList.isEmpty() ) return false;
+        else return true;
+    }
+
+    @Transactional
     public void patRemember(Integer date, Pet pet) {
         Remember remember = rememberRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));

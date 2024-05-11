@@ -2,10 +2,7 @@ package reborn.backend.reborn_15._4_remember.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 import reborn.backend.pet.domain.Pet;
-
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -35,8 +32,7 @@ public class Remember {
     private String content;
 
     @Column
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate imageDate;
+    private String imageDate;
 
     @Column
     private Boolean pat;

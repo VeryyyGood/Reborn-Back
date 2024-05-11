@@ -45,6 +45,14 @@ public class RebornService {
     }
 
     @Transactional
+    public boolean reviewCheckReborn(Pet pet, Integer date) {
+        List<Reborn> rebornList = rebornRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
+
+        if( rebornList.isEmpty() ) return false;
+        else return true;
+    }
+
+    @Transactional
     public void introReborn(Integer date, Pet pet) {
         Reborn reborn = rebornRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));

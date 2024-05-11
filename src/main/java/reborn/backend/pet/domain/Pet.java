@@ -2,7 +2,6 @@ package reborn.backend.pet.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 import reborn.backend.global.entity.BaseEntity;
 import reborn.backend.global.entity.PetColor;
 import reborn.backend.global.entity.PetType;
@@ -13,7 +12,6 @@ import reborn.backend.reborn_15._4_remember.domain.Remember;
 import reborn.backend.reborn_15._5_reborn.domain.Reborn;
 import reborn.backend.user.domain.User;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +34,7 @@ public class Pet extends BaseEntity {
     private String petName;
 
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate anniversary;
+    private String anniversary;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
