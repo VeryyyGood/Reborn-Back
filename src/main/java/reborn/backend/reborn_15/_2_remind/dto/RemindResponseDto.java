@@ -32,6 +32,9 @@ public class RemindResponseDto {
 
         @Schema(description = "충분한 대화 나누기 작성일")
         private Integer date;
+
+        @Schema(description = "반려동물 이름")
+        private String petName;
     }
 
     @Schema(description = "DetailRemindDto")
