@@ -24,6 +24,7 @@ public class RemindConverter {
         return SimpleRemindDto.builder()
                 .answer(remind.getAnswer())
                 .date(remind.getDate())
+                .petName(remind.getPet().getPetName())
                 .build();
     }
 
