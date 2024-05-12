@@ -49,6 +49,7 @@ public class PetConverter {
                 .petType(String.valueOf(pet.getPetType()))
                 .rebornDate(pet.getRebornDate())
                 .progressState(pet.getProgressState())
+                .petName(String.valueOf(pet.getPetName()))
                 .build();
     }
 
