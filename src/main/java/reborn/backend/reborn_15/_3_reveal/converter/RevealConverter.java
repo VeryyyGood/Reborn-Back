@@ -23,6 +23,7 @@ public class RevealConverter {
     public static SimpleRevealDto toSimpleRevealDto(Reveal reveal) {
         return SimpleRevealDto.builder()
                 .pickEmotion(String.valueOf(reveal.getPickEmotion()))
+                .resultEmotion(String.valueOf(reveal.getResultEmotion()))
                 .diaryContent(reveal.getDiaryContent())
                 .date(reveal.getDate())
                 .build();
