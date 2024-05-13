@@ -14,7 +14,6 @@ import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.ContentRebornReqD
 import reborn.backend.reborn_15._5_reborn.dto.RebornRequestDto.RebornRebornReqDto;
 import reborn.backend.reborn_15._5_reborn.repository.RebornRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -40,16 +39,9 @@ public class RebornService {
     }
 
     @Transactional
-    public List<Reborn> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
-        return rebornRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
-    }
-
-    @Transactional
-    public boolean reviewCheckReborn(Pet pet, Integer date) {
-        List<Reborn> rebornList = rebornRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
-
-        if( rebornList.isEmpty() ) return false;
-        else return true;
+    public Reborn findByPetAndDateLessThanSorted(Pet pet, Integer date) {
+        return rebornRepository.findByPetAndDateLessThan(pet, date)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
     }
 
     @Transactional

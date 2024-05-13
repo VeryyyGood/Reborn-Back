@@ -10,15 +10,6 @@ import java.util.List;
 
 @NoArgsConstructor
 public class RebornResponseDto {
-    @Schema(description = "RebornListDto")
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class RebornListResDto {
-        @Schema(description = "나의 반려동물과 건강한 작별하기 리스트")
-        private List<SimpleRebornDto> rebornList;
-    }
 
     @Schema(description = "SimpleRebornDto")
     @Getter

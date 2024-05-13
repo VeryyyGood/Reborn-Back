@@ -186,18 +186,15 @@ public class MypageController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REVIEW_2005", description = "건강한 작별하기 내용 조회가 완료되었습니다.")
     })
     @GetMapping("/reborn/{pet-id}")
-    public ApiResponse<List<SimpleRebornDto>> getReborn(
+    public ApiResponse<SimpleRebornDto> getReborn(
             @PathVariable(name = "pet-id") Long id
     ){
         Pet pet = petService.findById(id);
 
-        List<Reborn> reborns = rebornService.findAllByPetAndDateLessThanSortedByDate(pet, pet.getRebornDate());
+        Reborn reborn = rebornService.findByPetAndDateLessThanSorted(pet, pet.getRebornDate());
+        SimpleRebornDto rebornDto = RebornConverter.toSimpleRebornDto(reborn);
 
-        List<SimpleRebornDto> rebornDtos = reborns.stream()
-                .map(RebornConverter::toSimpleRebornDto)
-                .collect(Collectors.toList());
-
-        return ApiResponse.onSuccess(SuccessCode.REVIEW_REBORN_VIEW_SUCCESS, rebornDtos);
+        return ApiResponse.onSuccess(SuccessCode.REVIEW_REBORN_VIEW_SUCCESS, rebornDto);
     }
 
     // REMIND에 대한 CHECK
@@ -262,9 +259,9 @@ public class MypageController {
     ){
         Pet pet = petService.findById(id);
 
-        List<Reborn> reborns = rebornService.findAllByPetAndDateLessThanSortedByDate(pet, pet.getRebornDate());
+        Reborn reborn = rebornService.findByPetAndDateLessThanSorted(pet, pet.getRebornDate());
 
-        if( reborns.isEmpty() ) return ApiResponse.onSuccess(SuccessCode.REVIEW_REBORN_CHECK_SUCCESS, false);
+        if( reborn == null ) return ApiResponse.onSuccess(SuccessCode.REVIEW_REBORN_CHECK_SUCCESS, false);
         else return ApiResponse.onSuccess(SuccessCode.REVIEW_REBORN_CHECK_SUCCESS, true);
     }
 
