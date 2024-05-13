@@ -15,6 +15,9 @@ public class RemindRequestDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class RemindReqDto {
+        @Schema(description = "질문 내용")
+        private String question;
+
         @Schema(description = "질문 답변 내용")
         private String answer;
     }

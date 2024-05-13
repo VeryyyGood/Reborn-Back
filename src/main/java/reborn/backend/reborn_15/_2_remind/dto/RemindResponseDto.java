@@ -27,6 +27,9 @@ public class RemindResponseDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class SimpleRemindDto {
+        @Schema(description = "질문 내용")
+        private String question;
+
         @Schema(description = "질문 답변 내용")
         private String answer;
 
@@ -48,6 +51,9 @@ public class RemindResponseDto {
     public static class DetailRemindDto {
         @Schema(description = "충분한 대화 나누기 id")
         private Long id;
+
+        @Schema(description = "질문 내용")
+        private String question;
 
         @Schema(description = "질문 답변 내용")
         private String answer;

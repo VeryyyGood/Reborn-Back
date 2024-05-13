@@ -102,6 +102,7 @@ public class RemindService {
     public void writeRemind(Integer date, RemindReqDto remindReqDto, Pet pet) {
         Remind remind = remindRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
+        remind.setQuestion(remindReqDto.getQuestion());
         remind.setAnswer(remindReqDto.getAnswer());
 
         remindRepository.save(remind);

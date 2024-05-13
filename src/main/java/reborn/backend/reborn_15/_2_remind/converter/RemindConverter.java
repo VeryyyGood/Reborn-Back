@@ -22,6 +22,7 @@ public class RemindConverter {
 
     public static SimpleRemindDto toSimpleRemindDto(Remind remind) {
         return SimpleRemindDto.builder()
+                .question(remind.getQuestion())
                 .answer(remind.getAnswer())
                 .date(remind.getDate())
                 .petName(remind.getPet().getPetName())
@@ -32,6 +33,7 @@ public class RemindConverter {
     public static DetailRemindDto toDetailRemindDto(Remind remind) {
         return DetailRemindDto.builder()
                 .id(remind.getId())
+                .question(remind.getQuestion())
                 .answer(remind.getAnswer())
                 .date(remind.getDate())
                 .build();
