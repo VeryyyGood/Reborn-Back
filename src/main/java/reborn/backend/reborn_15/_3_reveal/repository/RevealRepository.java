@@ -17,5 +17,5 @@ public interface RevealRepository extends JpaRepository<Reveal, Long>, JpaSpecif
 
     Optional<Reveal> findByPetAndDate(Pet pet, Integer date);
 
-    List<Reveal> findAllByPetAndDateLessThanOrderByDateDesc(Pet pet, Integer date);
+    List<Reveal> findAllByPetAndDateLessThanOrderByDateAsc(Pet pet, Integer date);
 }

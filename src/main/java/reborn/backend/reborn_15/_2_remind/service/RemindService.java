@@ -39,7 +39,7 @@ public class RemindService {
 
     @Transactional
     public List<Remind> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
-        return remindRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
+        return remindRepository.findAllByPetAndDateLessThanOrderByDateAsc(pet, date);
     }
 
     @Transactional

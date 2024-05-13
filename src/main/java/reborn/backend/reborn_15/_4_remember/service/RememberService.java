@@ -54,15 +54,7 @@ public class RememberService {
 
     @Transactional
     public List<Remember> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
-        return rememberRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
-    }
-
-    @Transactional
-    public boolean reviewCheckRemember(Pet pet, Integer date) {
-        List<Remember> rememberList = rememberRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
-
-        if( rememberList.isEmpty() ) return false;
-        else return true;
+        return rememberRepository.findAllByPetAndDateLessThanOrderByDateAsc(pet, date);
     }
 
     @Transactional

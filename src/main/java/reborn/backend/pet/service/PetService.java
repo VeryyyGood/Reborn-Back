@@ -77,7 +77,7 @@ public class PetService {
 
     @Transactional
     public List<Pet> findAllByUserSortedByCreatedAt(User user) {
-        return petRepository.findAllByUserOrderByCreatedAtDesc(user);
+        return petRepository.findAllByUserOrderByCreatedAtAsc(user);
     }
 
     @Transactional
