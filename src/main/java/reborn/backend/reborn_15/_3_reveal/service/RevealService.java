@@ -42,15 +42,7 @@ public class RevealService {
 
     @Transactional
     public List<Reveal> findAllByPetAndDateLessThanSortedByDate(Pet pet, Integer date) {
-        return revealRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
-    }
-
-    @Transactional
-    public boolean reviewCheckReveal(Pet pet, Integer date) {
-        List<Reveal> revealList = revealRepository.findAllByPetAndDateLessThanOrderByDateDesc(pet, date);
-
-        if( revealList.isEmpty() ) return false;
-        return true;
+        return revealRepository.findAllByPetAndDateLessThanOrderByDateAsc(pet, date);
     }
 
     @Transactional
