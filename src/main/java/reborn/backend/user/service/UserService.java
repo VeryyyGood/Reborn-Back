@@ -17,10 +17,8 @@ import reborn.backend.global.exception.GeneralException;
 import reborn.backend.global.s3.AmazonS3Manager;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.pet.repository.PetRepository;
-import reborn.backend.reborn_15._2_remind.repository.RemindRepository;
-import reborn.backend.reborn_15._3_reveal.repository.RevealRepository;
-import reborn.backend.reborn_15._4_remember.repository.RememberRepository;
-import reborn.backend.reborn_15._5_reborn.repository.RebornRepository;
+import reborn.backend.rediary.domain.Rediary;
+import reborn.backend.rediary.repository.RediaryRepository;
 import reborn.backend.user.converter.UserConverter;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.dto.UserRequestDto;
@@ -44,6 +42,7 @@ public class UserService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final BoardRepository boardRepository;
     private final PetRepository petRepository;
+    private final RediaryRepository rediaryRepository;
 
     private final JpaUserDetailsManager manager;
     private final AmazonS3Manager amazonS3Manager;
@@ -185,6 +184,11 @@ public class UserService {
         // 연관된 펫 엔티티들 삭제 -> 15일 컨텐츠 함께 삭제됨
         List<Pet> pets = user.getPetList();
         petRepository.deleteAll(pets);
+
+        // 연관된 리다이어리 엔티티들 삭제
+        List<Rediary> rediaries = user.getRediaryList();
+        rediaryRepository.deleteAll(rediaries);
+
         // 연관된 게시물 엔티티들 삭제 -> 관련 댓글, 좋아요, 북마크 테이블도 함께 삭제됨
         List<Board> boards = user.getBoardList();
         boardRepository.deleteAll(boards);

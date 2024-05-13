@@ -13,6 +13,7 @@ public class RediaryConverter {
 
     public static Rediary toRediary(RediaryReqDto rediary, User user) {
         return Rediary.builder()
+                .user(user)
                 .rediaryWriter(user.getUsername()) // 작성자
                 .rediaryTitle(rediary.getRediaryTitle())
                 .rediaryContent(rediary.getRediaryContent())
