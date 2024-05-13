@@ -15,5 +15,5 @@ public interface RebornRepository extends JpaRepository<Reborn, Long>, JpaSpecif
 
     Optional<Reborn> findByPetAndDate(Pet pet, Integer date);
 
-    List<Reborn> findAllByPetAndDateLessThanOrderByDateDesc(Pet pet, Integer date);
+    Optional<Reborn> findByPetAndDateLessThan(Pet pet, Integer date);
 }
