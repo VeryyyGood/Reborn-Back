@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface RediaryRepository extends JpaRepository<Rediary, Long>, JpaSpecificationExecutor<Rediary> {
 
-    List<Rediary> findAllByUserOrderByCreatedAtDesc(User user);
+    List<Rediary> findAllByRediaryWriterOrderByCreatedAtDesc(String userName);
 
     List<Rediary> findAllByRediaryCreatedAt(LocalDate date);
 }

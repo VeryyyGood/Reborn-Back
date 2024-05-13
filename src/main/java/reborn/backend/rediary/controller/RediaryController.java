@@ -72,10 +72,11 @@ public class RediaryController {
     @GetMapping("/list")
     public ApiResponse<List<DetailRediaryDto>> getAllRediary(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
-            ) {
+    ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
 
         List<Rediary> rediaries = rediaryService.findAllByUserSortedByCreatedAt(user);
+
         List<DetailRediaryDto> rediaryDtos = rediaries.stream()
                 .map(RediaryConverter::toDetailRediaryDto)
                 .collect(Collectors.toList());
