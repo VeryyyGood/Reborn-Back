@@ -25,6 +25,7 @@ public class RemindConverter {
                 .answer(remind.getAnswer())
                 .date(remind.getDate())
                 .petName(remind.getPet().getPetName())
+                .petType(String.valueOf(remind.getPet().getPetType()))
                 .build();
     }
 

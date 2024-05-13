@@ -35,6 +35,9 @@ public class RemindResponseDto {
 
         @Schema(description = "반려동물 이름")
         private String petName;
+
+        @Schema(description = "반려동물 종류(DOG, CAT)")
+        private String petType;
     }
 
     @Schema(description = "DetailRemindDto")
