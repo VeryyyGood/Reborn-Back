@@ -15,6 +15,6 @@ public interface RemindRepository extends JpaRepository<Remind, Long>, JpaSpecif
 
     Optional<Remind> findByPetAndDate(Pet pet, Integer date);
 
-    List<Remind> findAllByPetAndDateLessThanOrderByDateDesc(Pet pet, Integer date);
+    List<Remind> findAllByPetAndDateLessThanOrderByDateAsc(Pet pet, Integer date);
 
 }
