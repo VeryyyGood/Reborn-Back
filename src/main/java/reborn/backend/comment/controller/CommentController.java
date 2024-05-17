@@ -57,9 +57,9 @@ public class CommentController {
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
 
-        commentService.deleteComment(commentId, user);
+        Boolean res = commentService.deleteComment(commentId, user);
 
-        return ApiResponse.onSuccess(SuccessCode.COMMENT_DELETED,true);
+        return ApiResponse.onSuccess(SuccessCode.COMMENT_DELETED,res);
     }
 
     @Operation(summary = "댓글 목록 조회 메서드", description = "댓글 목록을 조회하는 메서드입니다.")
