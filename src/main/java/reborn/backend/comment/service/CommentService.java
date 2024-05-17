@@ -54,6 +54,7 @@ public class CommentService {
         if(Objects.equals(comment.getCommentWriter(), user.getNickname())){
             commentRepository.delete(comment);
         }
+        else return false;
 
         updateCommentCount(board);
         boardRepository.save(board);
