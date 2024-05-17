@@ -13,6 +13,7 @@ import java.util.List;
 public class CommentConverter {
     public static Comment saveComment(CommentRequestDto.CommentDto comment, Board board, User user){
         return Comment.builder()
+                .user(user)
                 .commentWriter(user.getNickname())
                 .commentContent(comment.getCommentContent())
                 .board(board)
@@ -23,7 +24,7 @@ public class CommentConverter {
         return CommentResponseDto.CommentResDto.builder()
                 .id(comment.getId())
                 .commentWriter(comment.getCommentWriter())
-                .writerProfileImage(comment.getBoard().getUser().getProfileImage())
+                .writerProfileImage(comment.getUser().getProfileImage())
                 .commentContent(comment.getCommentContent())
                 .commentCreatedAt(comment.getCreatedAt())
                 .build();
