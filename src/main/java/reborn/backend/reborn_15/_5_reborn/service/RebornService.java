@@ -40,8 +40,7 @@ public class RebornService {
 
     @Transactional
     public Reborn findByPetAndDateLessThanSorted(Pet pet, Integer date) {
-        return rebornRepository.findByPetAndDateLessThan(pet, date)
-                .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
+        return rebornRepository.findByPetAndDateLessThan(pet, date);
     }
 
     @Transactional
