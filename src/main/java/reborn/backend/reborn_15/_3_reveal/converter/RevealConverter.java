@@ -24,18 +24,14 @@ public class RevealConverter {
         return SimpleRevealDto.builder()
                 .pickEmotion(String.valueOf(reveal.getPickEmotion()))
                 .resultEmotion(String.valueOf(reveal.getResultEmotion()))
-                .diaryContent(reveal.getDiaryContent())
+                .id(reveal.getId())
                 .date(reveal.getDate())
                 .build();
     }
 
     public static DetailRevealDto toDetailRevealDto(Reveal reveal) {
         return DetailRevealDto.builder()
-                .id(reveal.getId())
                 .diaryContent(reveal.getDiaryContent())
-                .date(reveal.getDate())
-                .pickEmotion(String.valueOf(reveal.getPickEmotion()))
-                .resultEmotion(String.valueOf(reveal.getResultEmotion()))
                 .build();
     }
 
