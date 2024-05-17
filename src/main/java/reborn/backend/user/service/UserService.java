@@ -12,6 +12,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.board.domain.Board;
 import reborn.backend.board.repository.BoardRepository;
+import reborn.backend.comment.domain.Comment;
+import reborn.backend.comment.repository.CommentRepository;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.global.s3.AmazonS3Manager;
@@ -41,6 +43,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final BoardRepository boardRepository;
+    private final CommentRepository commentRepository;
     private final PetRepository petRepository;
     private final RediaryRepository rediaryRepository;
 
@@ -188,6 +191,10 @@ public class UserService {
         // 연관된 리다이어리 엔티티들 삭제
         List<Rediary> rediaries = user.getRediaryList();
         rediaryRepository.deleteAll(rediaries);
+
+        // 연관된 댓글들 삭제
+        List<Comment> comments = user.getCommentList();
+        commentRepository.deleteAll(comments);
 
         // 연관된 게시물 엔티티들 삭제 -> 관련 댓글, 좋아요, 북마크 테이블도 함께 삭제됨
         List<Board> boards = user.getBoardList();
