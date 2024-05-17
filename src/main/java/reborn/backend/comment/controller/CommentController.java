@@ -23,18 +23,17 @@ import java.util.List;
 @Tag(name = "댓글", description = "게시판 댓글 관련 api 입니다.")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/board/{board-id}/comment")
+@RequestMapping("/board/comment")
 public class CommentController {
 
     private final UserService userService;
-    private final BoardService boardService;
     private final CommentService commentService;
 
     @Operation(summary = "댓글 작성 메서드", description = "글을 작성하는 메서드입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMENT_2011", description = "댓글 생성이 완료되었습니다.")
     })
-    @PostMapping("/create") //ok
+    @PostMapping("/{board-id}/create") //ok
     public ApiResponse<Long> create(
             @PathVariable(name = "board-id") Long boardId,
             @RequestBody CommentRequestDto.CommentDto commentDto,
@@ -53,13 +52,12 @@ public class CommentController {
     })
     @DeleteMapping("/delete/{comment-id}") //ok
     public ApiResponse<Boolean> delete(
-            @PathVariable(name = "board-id") Long boardId,
             @PathVariable(name = "comment-id") Long commentId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
 
-        commentService.deleteComment(boardId, commentId, user);
+        commentService.deleteComment(commentId, user);
 
         return ApiResponse.onSuccess(SuccessCode.COMMENT_DELETED,true);
     }
@@ -68,7 +66,7 @@ public class CommentController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMENT_2011", description = "댓글 생성이 완료되었습니다.")
     })
-    @GetMapping("/list") // ok
+    @GetMapping("/{board-id}/list") // ok
     public ApiResponse<CommentResponseDto.CommentListResDto> list(
             @PathVariable(name = "board-id") Long id,
             @AuthenticationPrincipal CustomUserDetails customUserDetails

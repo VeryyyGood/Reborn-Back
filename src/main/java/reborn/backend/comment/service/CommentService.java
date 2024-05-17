@@ -42,12 +42,12 @@ public class CommentService {
     }
 
     @Transactional
-    public Boolean deleteComment(Long boardId, Long commentID, User user){
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
+    public Boolean deleteComment(Long commentID, User user){
 
         Comment comment = commentRepository.findById(commentID)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.COMMENT_NOT_FOUND));
+
+        Board board = comment.getBoard();
 
         log.info("CommmentWriter: " + comment.getCommentWriter());
         log.info("Nickname: " + user.getNickname());
