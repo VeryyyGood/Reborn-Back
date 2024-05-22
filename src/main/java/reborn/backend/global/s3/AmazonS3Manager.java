@@ -28,7 +28,6 @@ import java.util.UUID;
 public class AmazonS3Manager {
 
     private final AmazonS3 amazonS3;
-    private final AmazonConfig amazonConfig;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
