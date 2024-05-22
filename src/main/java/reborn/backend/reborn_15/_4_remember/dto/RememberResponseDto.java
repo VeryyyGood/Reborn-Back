@@ -46,6 +46,9 @@ public class RememberResponseDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class DetailRememberDto {
+        @Schema(description = "일기 제목")
+        private String title;
+
         @Schema(description = "일기 내용")
         private String content;
 
