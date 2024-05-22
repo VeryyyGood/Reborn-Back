@@ -32,6 +32,7 @@ public class RememberConverter {
 
     public static DetailRememberDto toDetailRememberDto(Remember remember) {
         return DetailRememberDto.builder()
+                .title(remember.getTitle())
                 .content(remember.getContent())
                 .imageDate(remember.getImageDate())
                 .rememberImage(remember.getRememberImage())
