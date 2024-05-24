@@ -20,14 +20,11 @@ public class CustomUserDetails implements UserDetails {
     @Getter
     private Long id;
     private String username;
-    private String password;
     @Getter
     private String email;
     private String nickname;
     @Getter
     private String provider;
-    @Getter
-    private String providerId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -40,7 +37,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.password;
+        return "Password";
     }
 
     @Override
@@ -72,22 +69,18 @@ public class CustomUserDetails implements UserDetails {
         return CustomUserDetails.builder()
                 .id(entity.getId())
                 .username(entity.getUsername())
-                .password(entity.getPassword())
                 .email(entity.getEmail())
                 .nickname(entity.getNickname())
                 .provider(entity.getProvider())
-                .providerId(entity.getProviderId())
                 .build();
     }
 
     public User newEntity() {
         User entity = new User();
         entity.setUsername(username);
-        entity.setPassword(password);
         entity.setEmail(email);
         entity.setNickname(nickname);
         entity.setProvider(provider);
-        entity.setProviderId(providerId);
         return entity;
     }
 
