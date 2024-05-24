@@ -23,7 +23,6 @@ import reborn.backend.user.service.UserService;
 @RequiredArgsConstructor
 public class BoardLikeController {
     private final UserService userService;
-    private final BoardService boardService;
     private final BoardLikeService boardLikeService;
 
     @Operation(summary = "게시물 좋아요 메서드", description = "게시물 좋아요하는 메서드입니다.")
