@@ -55,17 +55,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String provider = oAuth2User.getAttribute("provider");
         String username
                 = String.format("{%s}%s", provider, email.split("@")[0]);
-        String providerId = oAuth2User.getAttribute("id").toString();
 
         // 처음으로 소셜 로그인한 사용자를 데이터베이스에 등록
         if (!userDetailsManager.userExists(username)) { //1. 최초 로그인인지 확인
             userDetailsManager.createUser(CustomUserDetails.builder()
                     .username(username)
-                    .password(providerId)
                     .email(email)
                     .nickname(nickname)
                     .provider(provider)
-                    .providerId(providerId)
                     .build());
         }
 

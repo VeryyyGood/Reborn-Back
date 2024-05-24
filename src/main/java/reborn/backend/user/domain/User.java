@@ -41,16 +41,9 @@ public class User extends BaseEntity{
     @Column(nullable = true)
     private String backgroundImage;
 
-    @Column(nullable = true)
-    private String password;
-
     // Naver 로그인 제공자 문자값
     @Column(nullable = false)
     private String provider;
-
-    // Naver에서 사용자를 식별하기 위해 제공한 값
-    @Column(nullable = true)
-    private String providerId;
 
     @OneToMany(mappedBy = "user")
     private List<Pet> petList = new ArrayList<>();

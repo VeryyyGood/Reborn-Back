@@ -19,8 +19,6 @@ public class UserConverter {
                 .contentPetId(null)
                 .profileImage(null)
                 .backgroundImage(null)
-                .password("password")
-                .providerId("providerId")
                 .build();
     }
 
