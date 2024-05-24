@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reborn.backend.global.api_payload.ErrorCode;
+import reborn.backend.global.entity.PetType;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.pet.domain.Pet;
 import reborn.backend.reborn_15._2_remind.converter.RemindConverter;
@@ -47,7 +48,7 @@ public class RemindService {
         Remind remind = remindRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMIND_NOT_FOUND));
 
-        remind.getPet().setProgressState("PAT");
+        pet.setProgressState("PAT");
     }
 
     @Transactional
@@ -57,7 +58,7 @@ public class RemindService {
 
         remind.setPat(true);
 
-        remind.getPet().setProgressState("FEED");
+        pet.setProgressState("FEED");
 
         remindRepository.save(remind);
     }
@@ -69,7 +70,11 @@ public class RemindService {
 
         remind.setFeed(true);
 
-        remind.getPet().setProgressState("WALK");
+        if ( pet.getPetType() == PetType.DOG ) {
+            pet.setProgressState("WALK");
+        } else {
+            pet.setProgressState("PLAY");
+        }
 
         remindRepository.save(remind);
     }
@@ -81,7 +86,7 @@ public class RemindService {
 
         remind.setWalk(true);
 
-        remind.getPet().setProgressState("SNACK");
+        pet.setProgressState("SNACK");
 
         remindRepository.save(remind);
     }
@@ -93,7 +98,7 @@ public class RemindService {
 
         remind.setSnack(true);
 
-        remind.getPet().setProgressState("DIARY");
+        pet.setProgressState("DIARY");
 
         remindRepository.save(remind);
     }
@@ -107,7 +112,7 @@ public class RemindService {
 
         remindRepository.save(remind);
 
-        remind.getPet().setProgressState("FINISH");
+        pet.setProgressState("FINISH");
     }
 
     @Transactional

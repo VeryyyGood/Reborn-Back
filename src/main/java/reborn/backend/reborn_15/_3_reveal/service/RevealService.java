@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reborn.backend.global.api_payload.ErrorCode;
+import reborn.backend.global.entity.PetType;
 import reborn.backend.global.entity.PickEmotion;
 import reborn.backend.global.entity.ResultEmotion;
 import reborn.backend.global.exception.GeneralException;
@@ -50,7 +51,7 @@ public class RevealService {
         Reveal reveal = revealRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REVEAL_NOT_FOUND));
 
-        reveal.getPet().setProgressState("PAT");
+        pet.setProgressState("PAT");
     }
 
     @Transactional
@@ -60,7 +61,7 @@ public class RevealService {
 
         reveal.setPat(true);
 
-        reveal.getPet().setProgressState("FEED");
+        pet.setProgressState("FEED");
 
         revealRepository.save(reveal);
     }
@@ -72,8 +73,11 @@ public class RevealService {
 
         reveal.setFeed(true);
 
-        reveal.getPet().setProgressState("WALK");
-
+        if( pet.getPetType() == PetType.DOG ) {
+            pet.setProgressState("WALK");
+        } else {
+            pet.setProgressState("PLAY");
+        }
         revealRepository.save(reveal);
     }
 
@@ -84,7 +88,7 @@ public class RevealService {
 
         reveal.setWalk(true);
 
-        reveal.getPet().setProgressState("SNACK");
+        pet.setProgressState("SNACK");
 
         revealRepository.save(reveal);
         }
@@ -96,7 +100,7 @@ public class RevealService {
 
         reveal.setSnack(true);
 
-        reveal.getPet().setProgressState("EMOTION");
+        pet.setProgressState("EMOTION");
 
         revealRepository.save(reveal);
     }
@@ -112,7 +116,7 @@ public class RevealService {
 
         revealRepository.save(reveal);
 
-        reveal.getPet().setProgressState("FINISH");
+        pet.setProgressState("FINISH");
 
         return reveal;
     }
