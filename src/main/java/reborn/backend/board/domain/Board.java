@@ -26,7 +26,7 @@ public class Board extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 45, columnDefinition = "varchar(45) default 'ACTIVE'")
+    @Column(length = 45, columnDefinition = "varchar(45) default 'ACTIVE'", nullable = false)
     private BoardType boardType;
 
     @ManyToOne(fetch = FetchType.LAZY)
