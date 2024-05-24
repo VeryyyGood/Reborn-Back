@@ -173,4 +173,18 @@ public class RememberController {
         return ApiResponse.onSuccess(SuccessCode.REMEMBER_INTRO_COMPLETED, true);
     }
 
+    @Operation(summary = "놀아주기 메서드", description = "놀아주기 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMEMBER_2010", description = "놀아주기가 완료되었습니다.")
+    })
+    @PostMapping("/play")
+    public ApiResponse<Boolean> play(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rememberService.walkRemember(pet.getRebornDate(), pet);
+
+        return ApiResponse.onSuccess(SuccessCode.REMEMBER_PLAY_COMPLETED, true);
+    }
 }
