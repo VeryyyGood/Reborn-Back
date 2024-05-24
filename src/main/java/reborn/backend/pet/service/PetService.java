@@ -3,7 +3,9 @@ package reborn.backend.pet.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import reborn.backend.fcm.service.FcmService;
 import reborn.backend.global.api_payload.ErrorCode;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.pet.converter.PetConverter;
@@ -19,7 +21,10 @@ import reborn.backend.reborn_15._4_remember.repository.RememberRepository;
 import reborn.backend.reborn_15._5_reborn.domain.Reborn;
 import reborn.backend.reborn_15._5_reborn.repository.RebornRepository;
 import reborn.backend.user.domain.User;
+import reborn.backend.user.repository.UserRepository;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -32,6 +37,8 @@ public class PetService {
     private final RevealRepository revealRepository;
     private final RememberRepository rememberRepository;
     private final RebornRepository rebornRepository;
+    private final FcmService fcmService;
+    private final UserRepository userRepository;
 
     @Transactional
     public Pet createPet(PetReqDto petReqDto, User user) {
@@ -84,5 +91,28 @@ public class PetService {
     public Pet findById(Long id){
         return petRepository.findById(id)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.PET_NOT_FOUND));
+    }
+
+    // 기념일에 맞는 알림을 보내는 메서드
+    @Scheduled(cron = "0 0 9 * * ?") // 매일 오전 9시에 실행
+    @Transactional
+    public void sendAnniversaryNotifications() {
+        LocalDate today = LocalDate.now();
+        List<Pet> pets = petRepository.findAll();
+
+        for (Pet pet : pets) {
+            if (today.equals(LocalDate.parse(pet.getAnniversary()))) {
+                User user = pet.getUser();
+                String token = user.getDeviceToken();
+                String title = "Anniversary";
+                String body = "오늘은 " + pet.getPetName() + "의 기일 입니다.";
+
+                try {
+                    fcmService.sendMessageTo(token, title, body);
+                } catch (IOException e) {
+                    log.error("Failed to send FCM notification", e);
+                }
+            }
+        }
     }
 }

@@ -47,6 +47,8 @@ public class TokenController {
             // 변수에 저장
             accessToken = jwt.getAccessToken();
             refreshToken = jwt.getRefreshToken();
+            // 토큰 저장
+            userService.saveFcmToken(user, userReqDto.getDeviceToken());
 
         } else{ // 회원 가입 이후 jwt 생성 (db 접근 해야함)
             // db에 정보 넣기(= 회원가입)
@@ -56,6 +58,8 @@ public class TokenController {
             // 변수에 저장
             accessToken = jwt.getAccessToken();
             refreshToken = jwt.getRefreshToken();
+            // 토큰 저장
+            userService.saveFcmToken(user, userReqDto.getDeviceToken());
             // 회원이 됨
             signIn = "newUser";
         }

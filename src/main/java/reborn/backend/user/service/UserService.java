@@ -125,6 +125,11 @@ public class UserService {
         return jwt;
     }
 
+    // fcm 토큰 저장
+    public void saveFcmToken(User user, String deviceToken){
+        user.setDeviceToken(deviceToken);
+    }
+
     // 로그아웃
     public void logout(HttpServletRequest request) {
         // 1. access token 찾아오기

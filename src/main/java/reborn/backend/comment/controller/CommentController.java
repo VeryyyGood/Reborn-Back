@@ -6,18 +6,21 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import reborn.backend.board.domain.Board;
 import reborn.backend.comment.converter.CommentConverter;
 import reborn.backend.comment.domain.Comment;
 import reborn.backend.comment.dto.CommentRequestDto;
 import reborn.backend.comment.dto.CommentResponseDto;
 import reborn.backend.board.service.BoardService;
 import reborn.backend.comment.service.CommentService;
+import reborn.backend.fcm.service.FcmService;
 import reborn.backend.global.api_payload.ApiResponse;
 import reborn.backend.global.api_payload.SuccessCode;
 import reborn.backend.user.domain.User;
 import reborn.backend.user.jwt.CustomUserDetails;
 import reborn.backend.user.service.UserService;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "댓글", description = "게시판 댓글 관련 api 입니다.")
@@ -27,7 +30,9 @@ import java.util.List;
 public class CommentController {
 
     private final UserService userService;
+    private final BoardService boardService;
     private final CommentService commentService;
+    private final FcmService fcmService;
 
     @Operation(summary = "댓글 작성 메서드", description = "글을 작성하는 메서드입니다.")
     @ApiResponses(value = {
@@ -38,11 +43,14 @@ public class CommentController {
             @PathVariable(name = "board-id") Long boardId,
             @RequestBody CommentRequestDto.CommentDto commentDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
-    ){
+    ) throws IOException {
         User user = userService.findUserByUserName(customUserDetails.getUsername());
-
         Long commentId = commentService.createComment(boardId, commentDto, user);
+        Board board = boardService.findById(boardId);
 
+        String title = String.valueOf(board.getBoardType());
+        String body = "새로운 댓글: " + commentDto.getCommentContent();
+        fcmService.sendMessageTo(board.getUser().getDeviceToken(), title, body);
         return ApiResponse.onSuccess(SuccessCode.COMMENT_CREATED,commentId);
     }
 
@@ -76,5 +84,4 @@ public class CommentController {
 
         return ApiResponse.onSuccess(SuccessCode.COMMENT_LIST_VIEW_SUCCESS, CommentConverter.commentListResDto(comments));
     }
-
 }

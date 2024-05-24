@@ -27,6 +27,9 @@ public class UserRequestDto {
         @Schema(description = "social type")
         private String provider;
 
+        @Schema(description = "fcm device token")
+        private String deviceToken;
+
     }
 
     @Schema(description = "UserNicknameReqDto")
