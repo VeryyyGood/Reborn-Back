@@ -30,6 +30,9 @@ public enum SuccessCode implements BaseCode {
     // File
     FILE_DELETE_SUCCESS(HttpStatus.OK, "FILE_2001", "파일 삭제가 완료되었습니다."),
 
+    // Fcm
+    FCM_SEND_SUCCESS(HttpStatus.OK, "FCM_2001", "알림 전송이 완료되었습니다."),
+
     // Reconnect
     RECONNECT_CREATED(HttpStatus.CREATED, "RECONNECT_2011", "나의 반려동물과 만나기 생성이 완료되었습니다."),
     RECONNECT_TO_BE_CREATED(HttpStatus.CREATED, "RECONNECT_2012", "반려동물이 없습니다."),

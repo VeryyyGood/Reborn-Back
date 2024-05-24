@@ -30,6 +30,9 @@ public enum ErrorCode implements BaseCode {
     TOKEN_NO_AUTH(HttpStatus.FORBIDDEN, "JWT_4033", "권한 정보가 없는 토큰입니다."),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "JWT_4011", "토큰 유효기간이 만료되었습니다."),
 
+    // Fcm
+    GOOGLE_REQUEST_TOKEN_ERROR(HttpStatus.FORBIDDEN, "FCM_4031", "구글 토큰 요청 과정에서 문제가 생겼습니다."),
+
     // Board
     BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "BOARD_4041", "존재하지 않는 게시물입니다."),
     BOOKMARKED_BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "BOARD_4042", "존재하지 않는 북마크입니다."),
