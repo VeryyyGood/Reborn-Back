@@ -48,7 +48,7 @@ public class RebornService {
         Reborn reborn = rebornRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
 
-        reborn.getPet().setProgressState("PAT");
+        pet.setProgressState("PAT");
     }
 
     @Transactional
@@ -58,7 +58,7 @@ public class RebornService {
 
         reborn.setPat(true);
 
-        reborn.getPet().setProgressState("FEED");
+        pet.setProgressState("FEED");
 
         rebornRepository.save(reborn);
     }
@@ -70,7 +70,7 @@ public class RebornService {
 
         reborn.setFeed(true);
 
-        reborn.getPet().setProgressState("WASH");
+        pet.setProgressState("WASH");
 
         rebornRepository.save(reborn);
     }
@@ -82,7 +82,7 @@ public class RebornService {
 
         reborn.setWash(true);
 
-        reborn.getPet().setProgressState("CLOTHES");
+        pet.setProgressState("CLOTHES");
 
         rebornRepository.save(reborn);
     }
@@ -94,7 +94,7 @@ public class RebornService {
 
         reborn.setClothe(true);
 
-        reborn.getPet().setProgressState("LETTER");
+        pet.setProgressState("LETTER");
 
         rebornRepository.save(reborn);
     }
@@ -106,7 +106,7 @@ public class RebornService {
 
         reborn.setRebornContent(rebornReqDto.getRebornContent());
 
-        reborn.getPet().setProgressState("SETREBORN");
+        pet.setProgressState("SETREBORN");
 
         rebornRepository.save(reborn);
     }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.global.api_payload.ErrorCode;
+import reborn.backend.global.entity.PetType;
 import reborn.backend.global.exception.GeneralException;
 import reborn.backend.global.s3.AmazonS3Manager;
 import reborn.backend.pet.domain.Pet;
@@ -48,7 +49,7 @@ public class RememberService {
         Remember remember = rememberRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REMEMBER_NOT_FOUND));
 
-        remember.getPet().setProgressState("PAT");
+        pet.setProgressState("PAT");
     }
 
 
@@ -64,7 +65,7 @@ public class RememberService {
 
         remember.setPat(true);
 
-        remember.getPet().setProgressState("FEED");
+        pet.setProgressState("FEED");
 
         rememberRepository.save(remember);
     }
@@ -76,7 +77,11 @@ public class RememberService {
 
         remember.setFeed(true);
 
-        remember.getPet().setProgressState("WALK");
+        if( pet.getPetType() == PetType.DOG ) {
+            pet.setProgressState("WALK");
+        } else {
+            pet.setProgressState("PLAY");
+        }
 
         rememberRepository.save(remember);
     }
@@ -88,7 +93,7 @@ public class RememberService {
 
         remember.setWalk(true);
 
-        remember.getPet().setProgressState("SNACK");
+        pet.setProgressState("SNACK");
 
         rememberRepository.save(remember);
     }
@@ -100,7 +105,7 @@ public class RememberService {
 
         remember.setSnack(true);
 
-        remember.getPet().setProgressState("IMAGE");
+        pet.setProgressState("IMAGE");
 
         rememberRepository.save(remember);
     }
@@ -112,7 +117,7 @@ public class RememberService {
 
         remember.setClean(true);
 
-        remember.getPet().setProgressState("FINISH");
+        pet.setProgressState("FINISH");
 
         rememberRepository.save(remember);
     }
