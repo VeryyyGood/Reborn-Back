@@ -84,5 +84,4 @@ public class CommentController {
 
         return ApiResponse.onSuccess(SuccessCode.COMMENT_LIST_VIEW_SUCCESS, CommentConverter.commentListResDto(comments));
     }
-
 }
