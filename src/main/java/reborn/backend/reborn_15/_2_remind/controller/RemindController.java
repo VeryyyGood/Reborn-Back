@@ -151,4 +151,19 @@ public class RemindController {
 
         return ApiResponse.onSuccess(SuccessCode.REMIND_INTRO_COMPLETED, true);
     }
+
+    @Operation(summary = "놀아주기 메서드", description = "놀아주기 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REMIND_2009", description = "놀아주기가 완료되었습니다.")
+    })
+    @PostMapping("/play")
+    public ApiResponse<Boolean> play(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        remindService.walkRemind(pet.getRebornDate(), pet);
+
+        return ApiResponse.onSuccess(SuccessCode.REMIND_PLAY_COMPLETED, true);
+    }
 }

@@ -94,6 +94,7 @@ public enum SuccessCode implements BaseCode {
     REVEAL_WALK_COMPLETED(HttpStatus.OK, "REVEAL_2006", "산책하기가 완료되었습니다."),
     REVEAL_SNACK_COMPLETED(HttpStatus.OK, "REVEAL_2007", "간식주기가 완료되었습니다."),
     REVEAL_INTRO_COMPLETED(HttpStatus.OK, "REVEAL_2008", "쓰다듬기로 넘어가기가 완료되었습니다."),
+    REVEAL_PLAY_COMPLETED(HttpStatus.OK, "REVEAL_2009", "놀아주기가 완료되었습니다."),
 
     // REMIND
     REMIND_CREATED(HttpStatus.CREATED, "REMIND_2011", "충분한 대화 나누기 생성이 완료되었습니다."),
@@ -104,6 +105,7 @@ public enum SuccessCode implements BaseCode {
     REMIND_WALK_COMPLETED(HttpStatus.OK, "REMIND_2006", "산책하기가 완료되었습니다."),
     REMIND_SNACK_COMPLETED(HttpStatus.OK, "REMIND_2007", "간식주기가 완료되었습니다."),
     REMIND_INTRO_COMPLETED(HttpStatus.OK, "REMIND_2008", "쓰다듬기로 넘어가기가 완료되었습니다."),
+    REMIND_PLAY_COMPLETED(HttpStatus.OK, "REMIND_2009", "놀아주기가 완료되었습니다."),
 
 
     // REMEMBER
@@ -116,6 +118,7 @@ public enum SuccessCode implements BaseCode {
     REMEMBER_SNACK_COMPLETED(HttpStatus.OK, "REMEMBER_2007", "간식주기가 완료되었습니다."),
     REMEMBER_CLEAN_COMPLETED(HttpStatus.OK, "REMEMBER_2008", "정리가 완료되었습니다."),
     REMEMBER_INTRO_COMPLETED(HttpStatus.OK, "REMEMBER_2009", "쓰다듬기로 넘어가기가 완료되었습니다."),
+    REMEMBER_PLAY_COMPLETED(HttpStatus.OK, "REMEMBER_2010", "놀아주기가 완료되었습니다."),
 
     // REBORN
     REBORN_CREATED(HttpStatus.CREATED, "REBORN_2011", "건강한 작별하기 생성이 완료되었습니다."),
