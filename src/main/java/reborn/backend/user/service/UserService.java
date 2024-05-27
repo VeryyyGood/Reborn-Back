@@ -128,6 +128,7 @@ public class UserService {
     // fcm 토큰 저장
     public void saveFcmToken(User user, String deviceToken){
         user.setDeviceToken(deviceToken);
+        userRepository.save(user);
     }
 
     // 로그아웃
