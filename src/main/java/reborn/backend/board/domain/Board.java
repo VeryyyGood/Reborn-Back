@@ -61,4 +61,12 @@ public class Board extends BaseEntity {
 
     public void updateCommentCount(Long commentCount) { this.commentCount = commentCount; }
 
+    @PrePersist
+    @PreUpdate
+    private void validateBoardType() {
+        if (this.boardType == null) {
+            throw new IllegalArgumentException("BoardType을 선택하셔야 게시판이 생성됩니다.");
+        }
+    }
+
 }
