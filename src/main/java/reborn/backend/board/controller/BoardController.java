@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "게시판", description = "게시판 관련 api 입니다.")
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/board")
@@ -51,11 +53,16 @@ public class BoardController {
             @RequestPart("data") BoardReqDto boardReqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) throws IOException {
-        String dirName = "board/";
-        User user = userService.findUserByUserName(customUserDetails.getUsername());
-        Board board = boardService.createBoard(boardReqDto, dirName, file, user);
-
-        return ApiResponse.onSuccess(SuccessCode.BOARD_CREATED, board.getId());
+        try {
+            String dirName = "board/";
+            User user = userService.findUserByUserName(customUserDetails.getUsername());
+            Board board = boardService.createBoard(boardReqDto, dirName, file, user);
+            return ApiResponse.onSuccess(SuccessCode.BOARD_CREATED, board.getId());
+        } catch (Exception e) {
+            // 예외 발생 시 응답 내용 로그
+            log.error("Error during board creation", e);
+            throw e;
+        }
     }
 
     @Operation(summary = "게시물 상세 조회 메서드", description = "게시물 상세 정보를 조회하는 메서드입니다.")
