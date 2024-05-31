@@ -42,9 +42,6 @@ public class User extends BaseEntity{
     private String backgroundImage;
 
     @Column(nullable = true)
-    private String password;
-
-    @Column(nullable = true)
     private String deviceToken;
 
     // Naver 로그인 제공자 문자값
