@@ -134,6 +134,7 @@ public enum SuccessCode implements BaseCode {
     REBORN_FINISH_COMPLETED(HttpStatus.OK, "REBORN_2008", "15일 콘텐츠가 완료되었습니다."),
     REBORN_SET_REBORN_COMPLETED(HttpStatus.OK, "REBORN_2009", "리본 선택이 완료되었습니다."),
     REBORN_INTRO_COMPLETED(HttpStatus.OK, "REBORN_2010", "쓰다듬기로 넘어가기가 완료되었습니다."),
+    REBORN_OUTRO_COMPLETED(HttpStatus.OK, "REBORN_2011", "아웃트로로 넘어가기가 완료되었습니다."),
     ;
 
     private final HttpStatus httpStatus;
