@@ -187,4 +187,19 @@ public class RebornController {
         return ApiResponse.onSuccess(SuccessCode.REBORN_INTRO_COMPLETED, true);
     }
 
+    @Operation(summary = "아웃트로 메서드", description = "아웃트로로 넘어가는 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REBORN_2011", description = "아웃트로로 넘어가기가 완료되었습니다.")
+    })
+    @PostMapping("/outro")
+    public ApiResponse<Boolean> outro(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        User user = userService.findUserByUserName(customUserDetails.getUsername());
+        Pet pet = petService.findById(user.getContentPetId());
+        rebornService.outroReborn(pet.getRebornDate(), pet);
+
+        return ApiResponse.onSuccess(SuccessCode.REBORN_PAT_COMPLETED, true);
+    }
+
 }

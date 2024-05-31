@@ -112,6 +112,14 @@ public class RebornService {
     }
 
     @Transactional
+    public void outroReborn(Integer date, Pet pet) {
+        Reborn reborn = rebornRepository.findByPetAndDate(pet, date)
+                .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
+
+        pet.setProgressState("OUTRO");
+    }
+
+    @Transactional
     public void setReborn(Integer date, RebornRebornReqDto rebornReqDto, Pet pet) {
         Reborn reborn = rebornRepository.findByPetAndDate(pet, date)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.REBORN_NOT_FOUND));
