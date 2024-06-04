@@ -47,6 +47,7 @@ public enum ErrorCode implements BaseCode {
 
     // Comment
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "COMMENT_4041", "존재하지 않는 댓글입니다."),
+    COMMENT_DELETE_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "COMMENT_4001", "댓글 삭제할 권한이 없습니다."),
 
     // Rediary
     REDIARY_NOT_FOUND(HttpStatus.NOT_FOUND, "REDIARY_4041", "존재하지 않는 감정 일기입니다."),

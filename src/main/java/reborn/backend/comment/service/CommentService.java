@@ -54,7 +54,7 @@ public class CommentService {
         if(Objects.equals(comment.getCommentWriter(), user.getNickname())){
             commentRepository.delete(comment);
         }
-        else return false;
+        else throw new GeneralException(ErrorCode.COMMENT_DELETE_NOT_ALLOWED);
 
         updateCommentCount(board);
         boardRepository.save(board);
