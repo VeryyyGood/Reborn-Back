@@ -130,7 +130,7 @@ public class BoardController {
             @RequestParam(name = "type") String type,
             @RequestParam(name = "way") String way,
             @RequestParam(name = "scrollPosition", defaultValue = "0") int scrollPosition,
-            @RequestParam(name = "fetchSize", defaultValue = "10") int fetchSize
+            @RequestParam(name = "fetchSize", defaultValue = "1000") int fetchSize
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         BoardType boardType = BoardType.valueOf(type);
@@ -154,7 +154,7 @@ public class BoardController {
             @RequestParam(name = "type") String type,
             @RequestParam(name = "way") String way,
             @RequestParam(name = "scrollPosition", defaultValue = "0") int scrollPosition,
-            @RequestParam(name = "fetchSize", defaultValue = "10") int fetchSize
+            @RequestParam(name = "fetchSize", defaultValue = "1000") int fetchSize
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         BoardType boardType = BoardType.valueOf(type);
@@ -178,7 +178,7 @@ public class BoardController {
             @RequestParam(name = "type") String type,
             @RequestParam(name = "way") String way,
             @RequestParam(name = "scrollPosition", defaultValue = "0") int scrollPosition,
-            @RequestParam(name = "fetchSize", defaultValue = "10") int fetchSize
+            @RequestParam(name = "fetchSize", defaultValue = "1000") int fetchSize
     ){
         User user = userService.findUserByUserName(customUserDetails.getUsername());
         BoardType boardType = BoardType.valueOf(type);
