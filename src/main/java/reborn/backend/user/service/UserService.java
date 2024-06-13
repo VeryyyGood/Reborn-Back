@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import reborn.backend.board.domain.Board;
+import reborn.backend.board.domain.BoardBookmark;
+import reborn.backend.board.domain.BoardLike;
+import reborn.backend.board.repository.BoardBookmarkRepository;
+import reborn.backend.board.repository.BoardLikeRepository;
 import reborn.backend.board.repository.BoardRepository;
 import reborn.backend.comment.domain.Comment;
 import reborn.backend.comment.repository.CommentRepository;
@@ -46,6 +50,8 @@ public class UserService {
     private final CommentRepository commentRepository;
     private final PetRepository petRepository;
     private final RediaryRepository rediaryRepository;
+    private final BoardBookmarkRepository boardBookmarkRepository;
+    private final BoardLikeRepository boardLikeRepository;
 
     private final JpaUserDetailsManager manager;
     private final AmazonS3Manager amazonS3Manager;
@@ -201,6 +207,12 @@ public class UserService {
         // 연관된 댓글들 삭제
         List<Comment> comments = user.getCommentList();
         commentRepository.deleteAll(comments);
+
+        List<BoardBookmark> boardBookmarks = user.getBoardBookmarkList();
+        boardBookmarkRepository.deleteAll(boardBookmarks);
+
+        List<BoardLike> boardLikes = user.getBoardLikeList();
+        boardLikeRepository.deleteAll(boardLikes);
 
         // 연관된 게시물 엔티티들 삭제 -> 관련 댓글, 좋아요, 북마크 테이블도 함께 삭제됨
         List<Board> boards = user.getBoardList();
