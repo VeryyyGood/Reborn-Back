@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import reborn.backend.board.domain.Board;
 import reborn.backend.board.domain.BoardBookmark;
+import reborn.backend.board.domain.BoardLike;
 import reborn.backend.comment.domain.Comment;
 import reborn.backend.global.entity.BaseEntity;
 import reborn.backend.pet.domain.Pet;
@@ -61,6 +62,9 @@ public class User extends BaseEntity{
     // 내가 북마크한 게시물 따로 열람해야 하기에
     @OneToMany(mappedBy = "user")
     private List<BoardBookmark> boardBookmarkList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<BoardLike> boardLikeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Rediary> rediaryList = new ArrayList<>();
