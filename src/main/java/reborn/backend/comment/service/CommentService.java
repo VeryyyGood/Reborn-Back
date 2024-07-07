@@ -29,7 +29,10 @@ public class CommentService {
 
     @Transactional
     public Long createComment(Long boardId, CommentDto commentReqDto, User user) {
-        Board board = boardRepository.findById(boardId)
+        // 트랜잭션 시작
+
+        // 비관적 락을 사용하여 Board 엔티티를 가져옴
+        Board board = boardRepository.findByIdWithLock(boardId)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
         Comment comment = CommentConverter.saveComment(commentReqDto, board, user);
@@ -38,6 +41,7 @@ public class CommentService {
         updateCommentCount(board);
         boardRepository.save(board);
 
+        // 트랜잭션 커밋 -> 락 해제
         return comment.getId();
     }
 
