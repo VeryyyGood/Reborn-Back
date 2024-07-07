@@ -27,7 +27,7 @@ public class BoardLikeService {
     // 좋아요 토글 및 좋아요 수 조회
     @Transactional
     public Board toggleLikeAndRetrieveCount(Long boardId, User user) {
-        Board board = boardRepository.findById(boardId)
+        Board board = boardRepository.findByIdWithLock(boardId)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
         BoardLike existingLike = boardLikeRepository.findByUserAndBoard(user, board);
@@ -48,7 +48,7 @@ public class BoardLikeService {
     // 좋아요 취소 및 좋아요 수 조회
     @Transactional
     public Board cancelLikeAndRetrieveCount(Long boardId, User user) {
-        Board board = boardRepository.findById(boardId)
+        Board board = boardRepository.findByIdWithLock(boardId)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
         BoardLike existingLike = boardLikeRepository.findByUserAndBoard(user, board);

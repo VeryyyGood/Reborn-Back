@@ -1,16 +1,24 @@
 package reborn.backend.board.repository;
 
+import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import reborn.backend.board.domain.Board;
 import reborn.backend.global.entity.BoardType;
 
+import java.util.Optional;
+
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT b FROM Board b WHERE b.id = :boardId")
+    Optional<Board> findByIdWithLock(@Param("boardId") Long boardId);
 
     @Query("SELECT b FROM Board b WHERE (:boardType = 'ALL' OR b.boardType = :boardType) ORDER BY " + // type이 'ALL'이면 모든 게시판 보이게
             "CASE WHEN :way = 'like' THEN b.likeCount END DESC, " +
