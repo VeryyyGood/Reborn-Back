@@ -27,13 +27,17 @@ public class BoardLikeService {
     // 좋아요 토글 및 좋아요 수 조회
     @Transactional
     public Board toggleLikeAndRetrieveCount(Long boardId, User user) {
+        // 트랜잭션 시작
+
+        // 비관적 락을 사용하여 Board 엔티티를 가져옴
         Board board = boardRepository.findByIdWithLock(boardId)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
-        BoardLike existingLike = boardLikeRepository.findByUserAndBoard(user, board);
+        BoardLike existingLike = boardLikeRepository.findByUserAndBoardWithLock(user, board)
+                .orElse(null);;
 
         if (existingLike != null) {
-            // 이미 좋아요를 눌렀다면 에러 반환
+            // 이미 좋아요를 눌렀다면 에러 반환 -> 트랜잭션 롤백 -> 락 해제
             throw new GeneralException(ErrorCode.ALREADY_LIKED_BOARD);
         } else {
             // 좋아요를 누르지 않았다면, 좋아요 누르기
@@ -42,25 +46,32 @@ public class BoardLikeService {
             updateLikeCount(board);
         }
 
+        // 트랜잭션 커밋 -> 락 해제
         return boardRepository.save(board);
     }
 
     // 좋아요 취소 및 좋아요 수 조회
     @Transactional
     public Board cancelLikeAndRetrieveCount(Long boardId, User user) {
+        // 트랜잭션 시작
+
+        // 비관적 락을 사용하여 Board 엔티티를 가져옴
         Board board = boardRepository.findByIdWithLock(boardId)
                 .orElseThrow(() -> GeneralException.of(ErrorCode.BOARD_NOT_FOUND));
 
-        BoardLike existingLike = boardLikeRepository.findByUserAndBoard(user, board);
+        // 비관적 락을 사용하여 BoardLike 엔티티를 가져옴
+        BoardLike existingLike = boardLikeRepository.findByUserAndBoardWithLock(user, board)
+                .orElse(null);
 
         if (existingLike != null) {
             // 이미 좋아요를 눌렀다면 좋아요 취소
             boardLikeRepository.delete(existingLike);
             // 좋아요 수 업데이트
             updateLikeCount(board);
+            // 트랜잭션 커밋 -> 락 해제
             return boardRepository.save(board);
 
-        } else { // 취소할 좋아요가 없으면 에러 반환
+        } else { // 취소할 좋아요가 없으면 에러 반환 -> 트랜잭션 롤백 -> 락 해제
             throw new GeneralException(ErrorCode.LIKED_BOARD_NOT_FOUND);
         }
     }
