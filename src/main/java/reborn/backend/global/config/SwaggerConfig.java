@@ -1,5 +1,7 @@
 package reborn.backend.global.config;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -11,6 +13,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@OpenAPIDefinition(
+        servers = {
+                @Server(url = "https://reborn.persi0815.site", description = "reborn https 서버입니다."),
+                @Server(url = "http://reborn.persi0815.site", description = "reborn http 서버입니다.")
+        }
+)
 @Configuration
 public class SwaggerConfig {
 
@@ -46,16 +54,5 @@ public class SwaggerConfig {
                 .group("All")
                 .pathsToMatch("/**")
                 .build();
-    }
-
-    // CORS 설정 추가
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
-            }
-        };
     }
 }
