@@ -1,24 +1,26 @@
 package reborn.backend.global.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.List;
+
+/*
 @OpenAPIDefinition(
         servers = {
                 @Server(url = "https://reborn.persi0815.site", description = "reborn https 서버입니다."),
                 @Server(url = "http://reborn.persi0815.site", description = "reborn http 서버입니다.")
         }
 )
+ */
 @Configuration
 public class SwaggerConfig {
 
@@ -42,10 +44,20 @@ public class SwaggerConfig {
                         .scheme("bearer")
                         .bearerFormat("JWT")); // 토큰 형식을 지정하는 임의의 문자(Optional
 
+        // 서버 URL 설정
+        io.swagger.v3.oas.models.servers.Server httpsServer = new io.swagger.v3.oas.models.servers.Server();
+        httpsServer.setUrl("https://reborn.persi0815.site");
+        httpsServer.setDescription("reborn https 서버입니다.");
+
+        io.swagger.v3.oas.models.servers.Server httpServer = new Server();
+        httpServer.setUrl("http://reborn.persi0815.site");
+        httpServer.setDescription("reborn http 서버입니다.");
+
         return new OpenAPI()
                 .info(info)
                 .addSecurityItem(securityRequirement)
-                .components(components);
+                .components(components)
+                .servers(List.of(httpsServer, httpServer));
     }
 
     @Bean
