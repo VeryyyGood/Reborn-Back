@@ -59,4 +59,6 @@
 ### 백엔드 개발팀
 
 - [강민준](https://github.com/MinJunKKang)
-- [양지원](https://github.com/persi0815) ⭐
+- [양지원](https://github.com/persi0815) 
+
+#REBORN #반려동물 #펫로스증후군 #감정일기 #건강한작별
